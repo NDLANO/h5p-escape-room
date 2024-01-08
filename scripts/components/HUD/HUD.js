@@ -1,6 +1,5 @@
 import React from 'react';
 import './HUD.scss';
-
 import { H5PContext } from '../../context/H5PContext';
 import AudioButton from './Buttons/AudioButton';
 import Button from './Buttons/Button/Button';
@@ -246,11 +245,17 @@ export default class HUD extends React.Component {
   }
 
   /**
+   * React componentDidUpdate.
+   */
+  componentDidUpdate() {
+    this.addButtonRefs();
+  }
+
+  /**
    * React render function.
    * @returns {object} JSX element.
    */
   render() {
-    this.addButtonRefs();
     const showScoresButton = this.props.showScoresButton;
     const showHomeButton = this.props.showHomeButton;
     const isThreeSixty =
