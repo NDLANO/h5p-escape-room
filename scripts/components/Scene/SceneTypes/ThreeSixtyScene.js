@@ -468,9 +468,9 @@ export default class ThreeSixtyScene extends React.Component {
     // Prevent click if user also dragged button beyond maximum slack.
     const endPosition = this.props.threeSixty.getCurrentPosition();
     if (
-      Math.abs(endPosition.yaw - this.startPosition.yaw) >
+      Math.abs(endPosition.yaw - this.startPosition?.yaw) >
         ThreeSixtyScene.MAX_YAW_DELTA ||
-      Math.abs(endPosition.pitch - this.startPosition.pitch) >
+      Math.abs(endPosition.pitch - this.startPosition?.pitch) >
         ThreeSixtyScene.MAX_PITCH_DELTA
     ) {
       return; // Dragged button too much for click
