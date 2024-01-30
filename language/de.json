@@ -197,7 +197,8 @@
               {
                 "label": "Tonspuren",
                 "description": "Füge der Wiedergabeliste eine Tonspur hinzu."
-              }
+              },
+              {}
             ]
           }
         }

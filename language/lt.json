@@ -1,8 +1,11 @@
 {
   "semantics": [
     {
+      "label": "Trijų vaizdų rengyklė",
       "fields": [
         {
+          "label": "Vaizdai",
+          "entity": "Vaizdas",
           "field": {
             "fields": [
               {
@@ -48,6 +51,7 @@
                 "description": "Camera position in pitch and yaw"
               },
               {
+                "label": "Sąveikos",
                 "field": {
                   "fields": [
                     {
@@ -138,8 +142,7 @@
                       ]
                     }
                   ]
-                },
-                "label": "Sąveikos"
+                }
               },
               {
                 "label": "Button style",
@@ -177,9 +180,7 @@
                 "label": "Restart audio when scene is reopened"
               }
             ]
-          },
-          "label": "Vaizdai",
-          "entity": "Vaizdas"
+          }
         },
         {},
         {
@@ -196,12 +197,12 @@
               {
                 "label": "Audio Tracks",
                 "description": "Add audio tracks to the playlist."
-              }
+              },
+              {}
             ]
           }
         }
-      ],
-      "label": "Trijų vaizdų rengyklė"
+      ]
     },
     {
       "label": "Playlists",

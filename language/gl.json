@@ -197,7 +197,8 @@
               {
                 "label": "Pistas de son",
                 "description": "Engade pistas de son á lista de reprodución."
-              }
+              },
+              {}
             ]
           }
         }

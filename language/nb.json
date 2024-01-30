@@ -197,7 +197,8 @@
               {
                 "label": "Lydspor",
                 "description": "Legg til ett eller flere lydspor i spillelista."
-              }
+              },
+              {}
             ]
           }
         }

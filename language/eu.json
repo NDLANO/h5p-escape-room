@@ -197,7 +197,8 @@
               {
                 "label": "Audio Tracks",
                 "description": "Add audio tracks to the playlist."
-              }
+              },
+              {}
             ]
           }
         }

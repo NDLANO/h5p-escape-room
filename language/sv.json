@@ -197,7 +197,8 @@
               {
                 "label": "Ljudspår",
                 "description": "Lägg till ljudspår till spellistan."
-              }
+              },
+              {}
             ]
           }
         }

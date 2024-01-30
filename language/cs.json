@@ -197,7 +197,8 @@
               {
                 "label": "Zvukové stopy",
                 "description": "Přidejte zvukové stopy do seznamu stop."
-              }
+              },
+              {}
             ]
           }
         }
