@@ -1,7 +1,7 @@
 H5P.NDLAThreeSixty = (function (EventDispatcher, THREE) {
   /**
    * Convert deg to rad
-   * @returns {number}
+   * @return {number}
    */
   var toRad = function (value) {
     return value * (Math.PI / 180);
@@ -77,7 +77,7 @@ H5P.NDLAThreeSixty = (function (EventDispatcher, THREE) {
      * Get the container of all the added 3D elements.
      * Useful when rendering via React.
      *
-     * @returns {HTMLElement}
+     * @return {HTMLElement}
      */
     self.getRenderers = function () {
       return [css2dRenderer.domElement, css3dRenderer.domElement];
@@ -192,8 +192,8 @@ H5P.NDLAThreeSixty = (function (EventDispatcher, THREE) {
     const css2dRenderer = add(new THREE.CSS2DRenderer);
     const css3dRenderer = add(new THREE.CSS3DRenderer);
     css2dRenderer.domElement.classList.add('h5p-three-sixty-2d');
-    css3dRenderer.domElement.classList.add('h5p-three-sixty-3d');
-
+    css3dRenderer.domElement.classList.add('h5p-three-sixty-3d'); 
+    
     /**
      * Start rendering scene
      */
@@ -205,7 +205,7 @@ H5P.NDLAThreeSixty = (function (EventDispatcher, THREE) {
           // onClick, etc and pseudo-classes (hover etc) on all elements in scene
           css2dRenderer.domElement.insertBefore(css3dRenderer.domElement, css2dRenderer.domElement.firstChild);
         });
-
+        
         render();
       }
     };
@@ -352,9 +352,9 @@ H5P.NDLAThreeSixty = (function (EventDispatcher, THREE) {
      * TODO: Move into a separate collection handling class
      *
      * @param {Element} element
-     * @returns {THREE.CSS3DObject}
+     * @return {THREE.CSS3DObject}
      */
-    self.find = (element) =>
+    self.find = (element) => 
       threeElements.find(threeElement => threeElement.element === element);
 
     /**
@@ -362,7 +362,7 @@ H5P.NDLAThreeSixty = (function (EventDispatcher, THREE) {
      * TODO: Move into a separate collection handling class
      *
      * @param {Element} element
-     * @returns {number}
+     * @return {number}
      */
     self.indexOf = (element) =>
       threeElements.findIndex(threeElement => threeElement.element === element);
@@ -370,7 +370,7 @@ H5P.NDLAThreeSixty = (function (EventDispatcher, THREE) {
     /**
      * Get the position the camera is currently pointing at
      *
-     * @returns {Object}
+     * @return {Object}
      */
     self.getCurrentPosition = function () {
       return {
@@ -544,7 +544,7 @@ H5P.NDLAThreeSixty = (function (EventDispatcher, THREE) {
      * @param {number} y Initial y coordinate
      * @param {string} control Identifier
      * @param {Event} [e] Original event
-     * @returns {boolean} If it's safe to start moving
+     * @return {boolean} If it's safe to start moving
      */
     var start = function (x, y, control, e) {
       if (controlActive) {
@@ -596,7 +596,7 @@ H5P.NDLAThreeSixty = (function (EventDispatcher, THREE) {
       if(isPanorama) {
         deltaY = 0;
       }
-
+      
       // Update position relative to cursor speed
       moveEvent.alphaDelta = deltaX / f;
       moveEvent.betaDelta = deltaY / f;
@@ -634,7 +634,7 @@ H5P.NDLAThreeSixty = (function (EventDispatcher, THREE) {
      * Handle mouse down
      *
      * @private
-     * @param {PointerEvent} event
+     * @param {MouseEvent} event
      */
     var mouseDown = function (event) {
       const isLeftClick = event.which === 1;
@@ -659,7 +659,7 @@ H5P.NDLAThreeSixty = (function (EventDispatcher, THREE) {
      * Handle mouse move
      *
      * @private
-     * @param {PointerEvent} event
+     * @param {MouseEvent} event
      */
     var mouseMove = function (event) {
       let xDiff = event.movementX;
@@ -689,7 +689,7 @@ H5P.NDLAThreeSixty = (function (EventDispatcher, THREE) {
      * Handle mouse up
      *
      * @private
-     * @param {PointerEvent} event
+     * @param {MouseEvent} event
      */
     var mouseUp = function (event) {
       prevPosition = null;
@@ -835,14 +835,14 @@ H5P.NDLAThreeSixty = (function (EventDispatcher, THREE) {
     }
 
     /**
-     * @returns {number}
+     * @return {number}
      */
     self.getAlpha = function () {
       return alpha;
     };
 
     /**
-     * @returns {number}
+     * @return {number}
      */
     self.getBeta = function () {
       return beta;
@@ -850,7 +850,7 @@ H5P.NDLAThreeSixty = (function (EventDispatcher, THREE) {
 
     /**
      * @param {string} [control] Check for specific control
-     * @returns {boolean}
+     * @return {boolean}
      */
     self.isMoving = function (control) {
       return (control ? controlActive === control : !!controlActive);

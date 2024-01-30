@@ -26,9 +26,7 @@
                 "label": "Vis \"Tilbake\"-knapp",
                 "description": "Vis knapp som tar brukaren tilbake til forrige scene"
               },
-              {
-                "label": "SceneId"
-              },
+              {},
               {
                 "label": "Scenetittel",
                 "description": "Brukes for å identifisere scenen"
@@ -98,12 +96,27 @@
                               "label": "Skjul"
                             }
                           ]
-                        }
-                      ]
-                    },
-                    {
-                      "label": "Instillinger for koden",
-                      "fields": [
+                        },
+                        {
+                          "label": "Vis som aktivt felt",
+                          "description": "Gjør knappen om til en trykkflate av egendefinert størrelse som legger seg over bakgrunnsbildet."
+                        },
+                        {
+                          "label": "Vis aktivt felt når musen holdes over",
+                          "description": "Lar brukeren se den aktive trykkflaten når musen holdes over den. Uten denne innstillingen vil det aktive feltet alltid være gjennomsiktig."
+                        },
+                        {
+                          "label": "La det aktive feltet nås med tab-knappen",
+                          "description": "Gjør trykkflaten mer tastaturvennlig."
+                        },
+                        {
+                          "label": "Vis innhold i scenen",
+                          "description": "Lar innholdet vises åpent rett i scenen."
+                        },
+                        {
+                          "default": "256,128",
+                          "label": "Bredde og høyde"
+                        },
                         {
                           "label": "Kode for å åpne innholdet",
                           "description": "Hvis feltet ikke er tomt, må brukeren skrive inn koden for å se innholdet."
@@ -114,44 +127,17 @@
                         }
                       ]
                     },
-                    {
-                      "label": "Vis som aktivt felt",
-                      "description": "Gjør knappen om til en trykkflate av egendefinert størrelse som legger seg over bakgrunnsbildet."
-                    },
-                    {
-                      "label": "Instillinger for aktive felter",
-                      "fields": [
-                        {
-                          "label": "Vis aktivt felt når musen holdes over",
-                          "description": "Lar brukeren se den aktive trykkflaten når musen holdes over den. Uten denne innstillingen vil det aktive feltet alltid være gjennomsiktig."
-                        },
-                        {
-                          "label": "La det aktive feltet nås med tab-knappen",
-                          "description": "Required to be checked to make the content accessible!"
-                        },
-                        {
-                          "default": "256,128",
-                          "label": "Bredde og høyde"
-                        }
-                      ]
-                    },
-                    {
-                      "label": "Vis innhold i scenen",
-                      "description": "Lar innholdet vises åpent rett i scenen."
-                    },
+                    {},
                     {},
                     {
-                      "label": "Interaction position"
-                    },
-                    {
-                      "label": "Button style",
-                      "description": "Decide how the icon should look.",
+                      "label": "Knappetype",
+                      "description": "Velg hvilket ikon som skal vises.",
                       "options": [
                         {
-                          "label": "Text icon"
+                          "label": "Tekstikon"
                         },
                         {
-                          "label": "Info icon"
+                          "label": "Informasjonsikon"
                         }
                       ]
                     }
@@ -198,21 +184,20 @@
         },
         {},
         {
-          "label": "Spillelister"
+          "label": "Lydspor"
         },
         {
-          "label": "Playlists",
+          "label": "Spillelister",
           "field": {
             "fields": [
               {
-                "label": "Playlist Title",
-                "description": "Used to identify the playlist"
+                "label": "Navn på spilleliste",
+                "description": "Brukes for å gjenkjenne spillelisten"
               },
               {
-                "label": "Audio Tracks",
-                "description": "Add audio tracks to the playlist."
-              },
-              {}
+                "label": "Lydspor",
+                "description": "Legg ett eller flere lydspor til i spillelisten."
+              }
             ]
           }
         }
@@ -372,6 +357,10 @@
           "default": "Total"
         },
         {
+          "label": "Translation for \"Total Score\"",
+          "default": "Total Score"
+        },
+        {
           "label": "Label for button to show score summary",
           "default": "Show Score Summary"
         },
@@ -416,6 +405,14 @@
           "default": "Kode"
         },
         {
+          "label": "Vis kode",
+          "default": "Vis kode"
+        },
+        {
+          "label": "Skjul kode",
+          "default": "Skjul kode"
+        },
+        {
           "label": "Handling når innholdet er ulåst (Fortsett)",
           "default": "Fortsett"
         },
@@ -438,26 +435,6 @@
         {
           "label": "Locked content",
           "default": "Locked content"
-        },
-        {
-          "label": "Back",
-          "default": "Back"
-        },
-        {
-          "label": "Text for screenreaders. Title for fullscreen button (enter)",
-          "default": "Enter fullscreen mode"
-        },
-        {
-          "label": "Text for screenreaders. Title for fullscreen button (exit)",
-          "default": "Exit fullscreen mode"
-        },
-        {
-          "label": "Main toolbar",
-          "default": "Main toolbar"
-        },
-        {
-          "label": "No valid scenes set",
-          "default": "No valid scenes have been set."
         }
       ]
     }

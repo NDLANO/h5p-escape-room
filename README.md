@@ -1,7 +1,7 @@
-NDLA Escape Room 360
+NDLA Virtual Tour (360)
 ==========
 
-This is a H5P content type that is based upon the [Virtual Tour (360)](https://h5p.org/virtual-tour-360) content type. Apart from the features in the original content type NDLA Escape Room 360 also includes the possibility to:
+This is a H5P content type that is based upon the [Virtual Tour (360)](https://h5p.org/virtual-tour-360) content type. Apart from the features in the original content type NDLA Virtual Tour (360) also includes the possibility to:
 - Create clickable hotspot areas
 - Lock interactive objects with a code
 - Create playlists for scene and global audio
@@ -13,7 +13,7 @@ This is a H5P content type that is based upon the [Virtual Tour (360)](https://h
 
 ## Getting started
 
-This content type will run in the H5P plugin for WordPress, Drupal, and Moodle. It will also run in Edlib and Lumi. You might wanna install the H5P Escape Room 360 as well to make sure all content types are included.
+This content type will run in the H5P plugin for WordPress, Drupal, and Moodle. It will also run in Edlib and Lumi. You might wanna install the H5P Virtual Tour (360) as well to make sure all content types are included.
 
 Just download the latest release (.h5p file), and install it in your platform of choice.
 

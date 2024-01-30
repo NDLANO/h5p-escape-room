@@ -8,13 +8,8 @@ import OpenContent from '../../Interactions/OpenContent';
 export let staticSceneWidth, staticSceneHeight;
 
 export default class StaticScene extends React.Component {
-  /**
-   * @class
-   * @param {object} props React properties.
-   */
   constructor(props) {
     super(props);
-    this.props = props;
 
     this.sceneWrapperRef = React.createRef();
     this.imageElementRef = React.createRef();
@@ -29,17 +24,22 @@ export default class StaticScene extends React.Component {
       isVerticalImage: false,
     };
 
+    /**
+     *  Note: Need to bind function reference once in the constructor
+     *        otherwise EventListener will not be removed, since it will
+     *        think it is a new function reference if we bind it when creating
+     *        the listener.
+     *        @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind}
+     */
     this.onMove = this.onMove.bind(this);
     this.stoppedDragging = this.stoppedDragging.bind(this);
-    this.resizeScene = this.resizeScene.bind(this);
   }
 
-  /**
-   * React life-cycle handler: Component did mount.
-   */
   componentDidMount() {
     // Initialize resize logic
-    this.context.on('resize', this.resizeScene);
+    this.context.on('resize', () => {
+      this.resizeScene();
+    });
     this.resizeScene();
 
     if (this.props.isActive && this.props.sceneWaitingForLoad !== null) {
@@ -48,16 +48,6 @@ export default class StaticScene extends React.Component {
     }
   }
 
-  /**
-   * React life-cycle handler: Component will be unmounted.
-   */
-  componentWillUnmount() {
-    this.context.off('resize', this.resizeScene);
-  }
-
-  /**
-   * React life-cycle handler: Component did update.
-   */
   componentDidUpdate() {
     if (this.props.isActive && this.props.sceneWaitingForLoad !== null) {
       // Let main know that scene is finished loading
@@ -72,15 +62,10 @@ export default class StaticScene extends React.Component {
     }
   }
 
-  /**
-   * Resize scene.
-   */
   resizeScene() {
     if (!this.sceneWrapperRef || !this.sceneWrapperRef.current) {
       return;
     }
-
-    this.setStatisSceneSize();
 
     const wrapper = this.sceneWrapperRef.current;
     const wrapperSize = wrapper.getBoundingClientRect();
@@ -103,32 +88,26 @@ export default class StaticScene extends React.Component {
       return;
     }
 
+    const minFontSize = 14;
+    const fontIncrementThreshold = 55;
     const widthDiff = defaultSize - wrapperSize.width;
-    const newFontSize = Math.max(
-      StaticScene.FONT_SIZE_MIN_PX,
-      defaultFontSize - (widthDiff / StaticScene.FONT_INCREMENT_THRESHOLD)
-    );
+    let newFontSize = defaultFontSize - (widthDiff / fontIncrementThreshold);
+    if (newFontSize < minFontSize) {
+      newFontSize = minFontSize;
+    }
 
     this.sceneWrapperRef.current.style.fontSize = `${newFontSize}px`;
     this.forceUpdate();
   }
 
-  /**
-   * Get wrapper size.
-   * @param {boolean} [isVertical] True indicates vertical dragging.
-   * @returns {number|undefined} Wrapper height for vertical movement, else width.
-   */
   getWrapperSize(isVertical = false) {
     let wrapper = this.sceneWrapperRef.current;
     if (wrapper) {
       return isVertical ? wrapper.clientHeight : wrapper.clientWidth;
     }
+    return undefined;
   }
 
-  /**
-   * Get interaction being dragged.
-   * @returns {object|false} Interaction being dragged or false.
-   */
   getDraggingInteraction() {
     if (this.state.draggingInteractionIndex === null) {
       return false;
@@ -138,38 +117,28 @@ export default class StaticScene extends React.Component {
     return interactions[this.state.draggingInteractionIndex];
   }
 
-  /**
-   * Get percentage of mouse movement.
-   * @param {PointerEvent} event Mouse event.
-   * @param {boolean} [isVertical] True for vertical mouse movement.
-   * @returns {number} Percentage of mouse movement.
-   */
-  getMouseMovedPercentages(event, isVertical = false) {
-    const startPos = isVertical ? this.startY : this.startX;
-    const mousePos = isVertical ? event.clientY : event.clientX;
-    const wrapperSize = this.getWrapperSize(isVertical);
+  getMouseMovedPercentages(mouseEvent, isVertical = false) {
+    let startPos = this.startX;
+    let wrapperSize = this.getWrapperSize(isVertical);
+    let mousePos = mouseEvent.clientX;
+
+    if (isVertical) {
+      startPos = this.startY;
+      mousePos = mouseEvent.clientY;
+    }
 
     return ((startPos - mousePos) / wrapperSize) * 100;
   }
 
-  /**
-   * Get position value without percent symbol.
-   * @param {string} position Position string with percentage symbol.
-   * @returns {string|false} Position value without percent symbol or false.
-   */
   removePercentageDenotationFromPosition(position) {
     const lastChar = position.charAt(position.length - 1);
+    if (lastChar !== '%') {
+      return false;
+    }
 
-    return (lastChar === '%') ?
-      position.substring(0, position.length - 1) :
-      false;
+    return position.substr(0, position.length - 1);
   }
 
-  /**
-   * Get positions.
-   * @param {string} positions Positions values delimited by a comma.
-   * @returns {object} Position values as x and y.
-   */
   getPositions(positions) {
     const pos = positions.split(',');
     return {
@@ -178,18 +147,14 @@ export default class StaticScene extends React.Component {
     };
   }
 
-  /**
-   * Get new interaction position.
-   * @param {object} initialPos Position as object with x and y.
-   * @param {PointerEvent} event Event.
-   * @param {HTMLElement} element Element to move.
-   * @param {boolean} isVertical True if movement was vertical.
-   * @returns {number} New position.
-   */
-  getNewInteractionPosition(initialPos, event, element, isVertical = false) {
-    let position = isVertical ? initialPos.y : initialPos.x;
-    let mouseMoved = this.getMouseMovedPercentages(event, isVertical);
+  getNewInteractionPosition(initialPos, mouseEvent, element, isVertical = false) {
+    let position = initialPos.x;
+    let mouseMoved = this.getMouseMovedPercentages(mouseEvent, isVertical);
     let wrapperSize = this.getWrapperSize(isVertical);
+
+    if (isVertical) {
+      position = initialPos.y;
+    }
 
     position = this.removePercentageDenotationFromPosition(position);
     const movedTo = position - mouseMoved;
@@ -203,27 +168,26 @@ export default class StaticScene extends React.Component {
     const elementSizePercentage = (elementSize / wrapperSize) * 100;
     const positionThreshold = 100 - elementSizePercentage;
 
-    return Math.min(movedTo, positionThreshold);
+    if (movedTo >= positionThreshold) {
+      return positionThreshold;
+    }
+
+    return movedTo;
   }
 
-  /**
-   * Get new interaction position for both x and y coordinates.
-   * @param {PointerEvent} event Event.
-   * @returns {object} New positions.
-   */
-  getNewInteractionPositions(event) {
+  getNewInteractionPositions(mouseEvent) {
     const interaction = this.getDraggingInteraction();
     const initialPos = this.getPositions(interaction.interactionpos);
 
     const xPos = this.getNewInteractionPosition(
       initialPos,
-      event,
+      mouseEvent,
       this.state.draggingElement,
     );
 
     const yPos = this.getNewInteractionPosition(
       initialPos,
-      event,
+      mouseEvent,
       this.state.draggingElement,
       true,
     );
@@ -234,51 +198,40 @@ export default class StaticScene extends React.Component {
     };
   }
 
-  /**
-   * Start dragging.
-   * @param {number} interactionIndex Index of interaction.
-   * @param {PointerEvent} event Event.
-   */
-  startDragging(interactionIndex, event) {
-    if (event.button !== 0) {
+  startDragging(interactionIndex, e) {
+    if (e.button !== 0) {
       return;
     }
 
-    this.startX = event.clientX;
-    this.startY = event.clientY;
+    this.startX = e.clientX;
+    this.startY = e.clientY;
 
     window.addEventListener('mousemove', this.onMove);
     window.addEventListener('mouseup', this.stoppedDragging);
 
     this.setState({
       draggingInteractionIndex: interactionIndex,
-      draggingElement: event.target,
+      draggingElement: e.target,
       isDragDelayed: true,
     });
 
     // Small delay to not accidentally drag interactions when double clicking
-    window.setTimeout(() => {
-      this.setState({ isDragDelayed: false });
+    setTimeout(() => {
+      this.setState({
+        isDragDelayed: false,
+      });
     }, 50);
   }
 
-  /**
-   * Handle dragging movement.
-   * @param {PointerEvent} event Event.
-   */
-  onMove(event) {
+  onMove(e) {
     const isDragging = this.state.draggingInteractionIndex !== null;
     const isDragDelayed = this.state.isDragDelayed;
     if (!isDragging || isDragDelayed) {
       return;
     }
-
-    this.setState(this.getNewInteractionPositions(event));
+    this.setState(this.getNewInteractionPositions(e));
   }
 
-  /**
-   * Handle dragging stopped.
-   */
   stoppedDragging() {
     if (this.state.draggingInteractionIndex === null) {
       return;
@@ -296,12 +249,14 @@ export default class StaticScene extends React.Component {
         draggingElement: null,
         isDragDelayed: true,
       });
-
       return;
     }
 
     const interaction = this.getDraggingInteraction();
-    interaction.interactionpos = `${this.state.x}%,${this.state.y}%`;
+    interaction.interactionpos = [
+      this.state.x + '%',
+      this.state.y + '%',
+    ].join(',');
 
     this.setState({
       x: null,
@@ -312,45 +267,34 @@ export default class StaticScene extends React.Component {
     });
   }
 
-  /**
-   * Go to previous scene.
-   */
   goToPreviousScene() {
     if (this.props.sceneHistory.length > 0) {
       this.props.navigateToScene(SceneTypes.PREVIOUS_SCENE);
     }
   }
 
-  /**
-   * Handle scene loaded.
-   */
   onSceneLoaded() {
     const imageElement = this.imageElementRef.current;
     const ratio = imageElement.naturalWidth / imageElement.naturalHeight;
-    this.setState({ isVerticalImage: ratio < this.context.getRatio() });
-
-    this.focusScene();
-
-    this.resizeScene();
-  }
-
-  /**
-   * Set static scene size.
-   */
-  setStatisSceneSize() {
-    const imageElement = this.imageElementRef.current;
-    if (!imageElement) {
-      return;
-    }
-
-    const ratio = imageElement.naturalWidth / imageElement.naturalHeight;
-
-    staticSceneWidth = imageElement.clientWidth;
-    staticSceneHeight = imageElement.clientHeight;
-
     this.setState({
       isVerticalImage: ratio < this.context.getRatio(),
     });
+
+    this.focusScene();
+
+    const setStatisSceneSize = () => {
+      staticSceneWidth = imageElement.clientWidth;
+      staticSceneHeight = imageElement.clientHeight;
+
+      this.setState({
+        isVerticalImage: ratio < this.context.getRatio(),
+      });
+    };
+
+    this.context.on('resize', () => {
+      setStatisSceneSize();
+    });
+    setStatisSceneSize();
   }
 
   /**
@@ -363,21 +307,27 @@ export default class StaticScene extends React.Component {
     }
   }
 
-  /**
-   * Get adjusted position depending on font size (?).
-   * @param {number} posX X-coordinate.
-   * @param {number} posY Y-coordinate.
-   * @returns {object} Position with x and y.
-   */
+  // Since some interactions don't have titles this seeks to use the closest thing to a title to prevent "Untitled Text"
+  getInteractionTitle(action) {
+    const currentTitle = action.metadata.title;
+
+    switch (currentTitle) {
+      case 'Untitled Text':
+        return action.params.text;
+      case 'Untitled Image':
+        return action.params.alt;
+      default:
+        return currentTitle;
+    }
+  }
+
   getAdjustedInteractionPositions(posX, posY) {
     const interactionEm = 2.5;
     const wrapper = this.sceneWrapperRef.current;
     const wrapperSize = wrapper.getBoundingClientRect();
-
     if (!wrapperSize.width || !wrapperSize.height) {
       return false;
     }
-
     const fontSize = parseFloat(wrapper.style.fontSize);
     const interactionSize = interactionEm * fontSize;
     const height = interactionSize / wrapperSize.height * 100;
@@ -396,10 +346,6 @@ export default class StaticScene extends React.Component {
     };
   }
 
-  /**
-   * React render function.
-   * @returns {object} JSX element.
-   */
   render() {
     if (!this.props.isActive) {
       return null;
@@ -454,7 +400,7 @@ export default class StaticScene extends React.Component {
               }
 
               const buttonClasses = [];
-              if (this.props.audioIsPlaying === `interaction-${this.props.sceneId}-${index}`) {
+              if (this.props.audioIsPlaying === 'interaction-' + this.props.sceneId + '-' + index) {
                 buttonClasses.push('active');
               }
 
@@ -478,15 +424,26 @@ export default class StaticScene extends React.Component {
                 }
               }
 
-              const isGoToSceneInteraction =
-                H5P.libraryFromString(interaction.action.library)?.machineName === 'H5P.GoToScene';
+              let title;
 
-              const title = this.props.getInteractionTitle(interaction.action);
+              const library = H5P.libraryFromString(interaction.action.library);
+              const machineName = library.machineName;
+              const isGoToSceneInteraction = machineName === 'H5P.GoToScene';
+              const scenes = this.context.params.scenes;
+              if (isGoToSceneInteraction) {
+                const nextScene = scenes.find((scene) => {
+                  return scene.sceneId === interaction.action.params.nextSceneId;
+                });
+                title = nextScene.scenename;
+              }
+              else {
+                title = this.getInteractionTitle(interaction.action);
+              }
 
               const key = interaction.id || `interaction-${this.props.sceneId}${index}`;
 
               return (
-                interaction.showAsOpenSceneContent ?
+                interaction.label.showAsOpenSceneContent ?
                   <OpenContent
                     key={key}
                     staticScene={true}
@@ -515,7 +472,7 @@ export default class StaticScene extends React.Component {
                   <NavigationButton
                     key={key}
                     title={title}
-                    icon={getIconFromInteraction(interaction, this.context.params.scenes)}
+                    icon={getIconFromInteraction(interaction, scenes)}
                     label={getLabelFromInteraction(interaction)}
                     type={'interaction-' + index}
                     isHiddenBehindOverlay={this.props.isHiddenBehindOverlay}
@@ -534,11 +491,11 @@ export default class StaticScene extends React.Component {
                     // That is not correct when moving to a new scene without resizing
                     wrapperHeight={this.overLayRef.current ? this.overLayRef.current.clientHeight : 0}
                     staticScene={true}
-                    showAsHotspot={interaction.showAsHotspot}
+                    showAsHotspot={interaction.label.showAsHotspot}
                     sceneId = {this.props.sceneId}
                     interactionIndex = {index}
-                    isHotspotTabbable={interaction.hotspotSettings?.isHotspotTabbable}
-                    showHotspotOnHover={interaction.hotspotSettings?.showHotspotOnHover}
+                    isHotspotTabbable={interaction.label.isHotspotTabbable}
+                    showHotspotOnHover={interaction.label.showHotspotOnHover}
                   >
                     {
                       this.context.extras.isEditor &&
@@ -555,7 +512,7 @@ export default class StaticScene extends React.Component {
         {
           isShowingBackButton &&
           <NavigationButton
-            title={this.context.l10n.back}
+            title='Back'
             icon={Icons.GO_BACK}
             isHiddenBehindOverlay={this.props.isHiddenBehindOverlay}
             clickHandler={this.goToPreviousScene.bind(this)}
@@ -569,9 +526,3 @@ export default class StaticScene extends React.Component {
 }
 
 StaticScene.contextType = H5PContext;
-
-/** @constant {number} FONT_SIZE_MIN Minimum font size within scene in pixels.*/
-StaticScene.FONT_SIZE_MIN_PX = 14;
-
-/** @constant {number} FONT_INCREMENT_THRESHOLD Factor used to increase font size based on scene width. */
-StaticScene.FONT_INCREMENT_THRESHOLD = 55;

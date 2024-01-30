@@ -1003,7 +1003,7 @@ H5P.Question = (function ($, EventDispatcher, JoubelUI) {
     /**
      * Remove feedback
      *
-     * @returns {H5P.Question}
+     * @return {H5P.Question}
      */
     self.removeFeedback = function () {
 
@@ -1178,7 +1178,7 @@ H5P.Question = (function ($, EventDispatcher, JoubelUI) {
      * @param {string} data.text
      * @param {string} title Title for explanation panel
      *
-     * @returns {H5P.Question}
+     * @return {H5P.Question}
      */
     self.setExplanation = function (data, title) {
       if (data) {
@@ -1347,7 +1347,7 @@ H5P.Question = (function ($, EventDispatcher, JoubelUI) {
      *  is triggered
      * @param {function} clicked
      *  Click handler of button
-     * @returns {H5P.ConfirmationDialog|undefined}
+     * @return {H5P.ConfirmationDialog|undefined}
      *  Confirmation dialog if enabled
      */
     self.addConfirmationDialogToButton = function (options, clicked) {
@@ -1678,7 +1678,7 @@ H5P.Question = (function ($, EventDispatcher, JoubelUI) {
    *
    * @param {Object[]} feedbacks
    * @param {number} scoreRatio
-   * @returns {string}
+   * @return {string}
    */
   Question.determineOverallFeedback = function (feedbacks, scoreRatio) {
     scoreRatio = Math.floor(scoreRatio * 100);
@@ -1771,7 +1771,7 @@ H5P.Question.Explainer = (function ($) {
     /**
      * Return the container HTMLElement
      *
-     * @returns {HTMLElement}
+     * @return {HTMLElement}
      */
     self.getElement = function () {
       return self.$explanation;
@@ -1798,7 +1798,7 @@ H5P.Question.Explainer = (function ($) {
      * Create the element that displays the score point element for questions.
      *
      * @param {boolean} isCorrect
-     * @returns {HTMLElement}
+     * @return {HTMLElement}
      */
     self.getElement = function (isCorrect) {
       var element = document.createElement('div');
@@ -1843,7 +1843,7 @@ H5P.Question.Explainer = (function ($) {
      *
      * @private
      * @param {HTMLElement} element
-     * @returns {function}
+     * @return {function}
      */
     var showElement = function (element) {
       return function () {

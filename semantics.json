@@ -56,9 +56,7 @@
             },
             {
               "name": "sceneId",
-              "type": "number",
-              "label": "SceneId",
-              "widget": "none"
+              "type": "number"
             },
             {
               "name": "scenename",
@@ -105,9 +103,7 @@
               "name": "cameraStartPosition",
               "type": "text",
               "label": "Initial camera position",
-              "description": "Camera position in pitch and yaw",
-              "optional": true,
-              "widget": "none"
+              "description": "Camera position in pitch and yaw"
             },
             {
               "name": "interactions",
@@ -128,7 +124,7 @@
                   {
                     "name": "label",
                     "type": "group",
-                    "label": "Label settings",
+                    "label": "Label Settings",
                     "importance": "low",
                     "fields": [
                       {
@@ -180,15 +176,70 @@
                           }
                         ],
                         "default": "inherit"
-                      }
-                    ]
-                  },
-                  {
-                    "name": "passwordSettings",
-                    "type": "group",
-                    "label": "Password settings",
-                    "importance": "low",
-                    "fields": [
+                      },
+                      {
+                        "name": "showAsHotspot",
+                        "type": "boolean",
+                        "label": "Show as hotspot",
+                        "description": "Allows for adding interaction areas to the background image that can be custom size.",
+                        "optional": true
+                      },
+                      {
+                        "name": "showHotspotOnHover",
+                        "type": "boolean",
+                        "label": "Show hotspot when mouse is hovering",
+                        "description": "Will allow hotspot to be visible when mouse is hovering the area.",
+                        "optional": true,
+                        "widget": "showWhen",
+                        "showWhen": {
+                          "rules": [
+                            {
+                              "field": "showAsHotspot",
+                              "equals": true
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "isHotspotTabbable",
+                        "type": "boolean",
+                        "label": "Set the hotspot be tabbable",
+                        "description": "Will allow hotspot to be tabbable. Can be used for accessibilty.",
+                        "optional": true,
+                        "widget": "showWhen",
+                        "showWhen": {
+                          "rules": [
+                            {
+                              "field": "showAsHotspot",
+                              "equals": true
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "showAsOpenSceneContent",
+                        "type": "boolean",
+                        "label": "Show as open content in the scene",
+                        "description": "Allows the content to be shown in an open dialog box directly in the scene.",
+                        "optional": true,
+                        "widget": "showWhen",
+                        "showWhen": {
+                          "rules": [
+                            {
+                              "field": "showAsHotspot",
+                              "equals": false
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "hotSpotSizeValues",
+                        "type": "text",
+                        "default": "256,128",
+                        "label": "Values for storing the height and width for hotspot",
+                        "optional": true,
+                        "widget": "none"
+                      },
                       {
                         "name": "interactionPassword",
                         "type": "text",
@@ -212,88 +263,23 @@
                     ]
                   },
                   {
-                    "name": "showAsHotspot",
-                    "type": "boolean",
-                    "label": "Show as hotspot",
-                    "description": "Allows for adding interaction areas to the background image that can be custom size.",
-                    "optional": true
-                  },
-                  {
-                    "type": "group",
-                    "name": "hotspotSettings",
-                    "label": "Hotspot settings",
-                    "importance": "low",
-                    "widget": "showWhen",
-                    "showWhen": {
-                      "rules": [
-                        {
-                          "field": "showAsHotspot",
-                          "equals": true
-                        }
-                      ]
-                    },
-                    "fields": [
-                      {
-                        "name": "showHotspotOnHover",
-                        "type": "boolean",
-                        "label": "Show hotspot when mouse is hovering",
-                        "description": "Will allow hotspot to be visible when mouse is hovering the area.",
-                        "default": false,
-                        "optional": true
-                      },
-                      {
-                        "name": "isHotspotTabbable",
-                        "type": "boolean",
-                        "label": "Set the hotspot be tabbable",
-                        "description": "Will allow hotspot to be tabbable. Required to be checked to make the content accessible!",
-                        "optional": true,
-                        "default": true
-                      },
-                      {
-                        "name": "hotSpotSizeValues",
-                        "type": "text",
-                        "default": "256,128",
-                        "label": "Values for storing the height and width for hotspot",
-                        "widget": "none"
-                      }
-                    ]
-                  },
-                  {
-                    "name": "showAsOpenSceneContent",
-                    "type": "boolean",
-                    "label": "Show as open content in the scene",
-                    "description": "Allows the content to be shown in an open dialog box directly in the scene.",
-                    "optional": true,
-                    "widget": "showWhen",
-                    "showWhen": {
-                      "rules": [
-                        {
-                          "field": "showAsHotspot",
-                          "equals": false
-                        }
-                      ]
-                    }
-                  },
-                  {
                     "name": "action",
                     "type": "library",
                     "options": [
                       "H5P.GoToScene 0.1",
                       "H5P.AdvancedText 1.1",
                       "H5P.Image 1.1",
-                      "H5P.Audio 1.5",
-                      "H5P.Video 1.6",
+                      "H5P.Audio 1.4",
+                      "H5P.Video 1.5",
                       "H5P.Summary 1.10",
                       "H5P.SingleChoiceSet 1.11",
-                      "H5P.MultiChoice 1.16",
-                      "H5P.Blanks 1.14"
+                      "H5P.MultiChoice 1.14",
+                      "H5P.Blanks 1.12"
                     ]
                   },
                   {
                     "name": "interactionpos",
-                    "type": "text",
-                    "label": "Interaction position",
-                    "widget": "none"
+                    "type": "text"
                   },
                   {
                     "name": "iconTypeTextBox",
@@ -391,7 +377,6 @@
               "description": "Here you can pick an existing playlist as audio.",
               "name": "playlist",
               "type": "text",
-              "optional": true,
               "widget": "showWhen",
               "showWhen": {
                 "rules": [
@@ -465,7 +450,6 @@
     "label": "Playlists",
     "importance": "low",
     "description": "These options will let you add playlists for the scenes.",
-    "optional": true,
     "fields": [
       {
         "name": "audioPlaylists",
@@ -723,6 +707,13 @@
         "default": "Total"
       },
       {
+        "name": "totalScore",
+        "type": "text",
+        "label": "Translation for \"Total Score\"",
+        "importance": "low",
+        "default": "Total Score"
+      },
+      {
         "name": "scoreSummary",
         "type": "text",
         "label": "Label for button to show score summary",
@@ -800,6 +791,20 @@
         "default": "Code"
       },
       {
+        "name": "showCode",
+        "type": "text",
+        "label": "Show code",
+        "importance": "low",
+        "default": "Show code"
+      },
+      {
+        "name": "hideCode",
+        "type": "text",
+        "label": "Hide code",
+        "importance": "low",
+        "default": "Hide code"
+      },
+      {
         "name": "unlockedStateAction",
         "type": "text",
         "label": "Unlocked interaction action (Continue)",
@@ -840,41 +845,6 @@
         "label": "Locked content",
         "importance": "low",
         "default": "Locked content"
-      },
-      {
-        "name": "back",
-        "type": "text",
-        "label": "Back",
-        "importance": "low",
-        "default": "Back"
-      },
-      {
-        "name": "buttonFullscreenEnter",
-        "type": "text",
-        "label": "Text for screenreaders. Title for fullscreen button (enter)",
-        "importance": "low",
-        "default": "Enter fullscreen mode"
-      },
-      {
-        "name": "buttonFullscreenExit",
-        "type": "text",
-        "label": "Text for screenreaders. Title for fullscreen button (exit)",
-        "importance": "low",
-        "default": "Exit fullscreen mode"
-      },
-      {
-        "name": "mainToolbar",
-        "type": "text",
-        "label": "Main toolbar",
-        "importance": "low",
-        "default": "Main toolbar"
-      },
-      {
-        "name": "noValidScenesSet",
-        "type": "text",
-        "label": "No valid scenes set",
-        "importance": "low",
-        "default": "No valid scenes have been set."
       }
     ]
   }

@@ -9,7 +9,7 @@ const libraryName = process.env.npm_package_name;
 module.exports = {
   mode: mode,
   entry: {
-    dist: './entries/dist.js'
+    dist: './scripts/app.js'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

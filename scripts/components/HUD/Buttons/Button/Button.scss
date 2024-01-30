@@ -4,11 +4,11 @@
   pointer-events: auto;
   position: relative;
   float: left;
-  font-size: 2.5em;
+  font-size: 2em;
 
   .tooltip {
     padding: 0.25em 1em;
-    font-size: 0.35em;
+    font-size: 0.4375em;
     background: #000;
     color: #fff;
     position: absolute;
@@ -46,7 +46,7 @@
   &:hover .tooltip {
     @include tooltip-styling;
   }
-
+  
   &:focus-within .tooltip {
     @include tooltip-styling;
   }

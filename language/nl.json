@@ -26,9 +26,7 @@
                 "label": "Toon \"Terug\" knop",
                 "description": "Toon knop om terug te gaan naar de vorige scene"
               },
-              {
-                "label": "SceneId"
-              },
+              {},
               {
                 "label": "Scènetitel",
                 "description": "Deze wordt gebruikt om de scène voor de auteurs te identificeren"
@@ -98,15 +96,30 @@
                               "label": "Verbergen"
                             }
                           ]
-                        }
-                      ]
-                    },
-                    {
-                      "label": "Password settings",
-                      "fields": [
+                        },
+                        {
+                          "label": "Show as hotspot",
+                          "description": "Allows for adding interaction areas to the background image that can be custom size."
+                        },
+                        {
+                          "label": "Show hotspot when mouse is hovering",
+                          "description": "Will allow hotspot to be visible when mouse is hovering the area."
+                        },
+                        {
+                          "label": "Set the hotspot be tabbable",
+                          "description": "Will allow hotspot to be tabbable. Can be used for accessibilty."
+                        },
+                        {
+                          "label": "Show as open content in the scene",
+                          "description": "Allows the content to be shown in an open dialog box directly in the scene."
+                        },
+                        {
+                          "default": "256,128",
+                          "label": "Values for storing the height and width for hotspot"
+                        },
                         {
                           "label": "Code for the interaction",
-                          "description": "If not empty, the user has to input the code in order to open this content. Separate multiple correct codes with /."
+                          "description": "If not empty, the user has to input the code in order to open this content."
                         },
                         {
                           "label": "A hint for the interaction code",
@@ -114,35 +127,8 @@
                         }
                       ]
                     },
-                    {
-                      "label": "Show as hotspot",
-                      "description": "Allows for adding interaction areas to the background image that can be custom size."
-                    },
-                    {
-                      "label": "Hotspot settings",
-                      "fields": [
-                        {
-                          "label": "Show hotspot when mouse is hovering",
-                          "description": "Will allow hotspot to be visible when mouse is hovering the area."
-                        },
-                        {
-                          "label": "Set the hotspot be tabbable",
-                          "description": "Will allow hotspot to be tabbable. Required to be checked to make the content accessible!"
-                        },
-                        {
-                          "default": "256,128",
-                          "label": "Values for storing the height and width for hotspot"
-                        }
-                      ]
-                    },
-                    {
-                      "label": "Show as open content in the scene",
-                      "description": "Allows the content to be shown in an open dialog box directly in the scene."
-                    },
                     {},
-                    {
-                      "label": "Interaction position"
-                    },
+                    {},
                     {
                       "label": "Button style",
                       "description": "Decide how the icon should look.",
@@ -198,7 +184,7 @@
         },
         {},
         {
-          "label": "Playlists"
+          "label": "Audiobestand"
         },
         {
           "label": "Playlists",
@@ -372,6 +358,10 @@
           "default": "Total"
         },
         {
+          "label": "Translation for \"Total Score\"",
+          "default": "Total Score"
+        },
+        {
           "label": "Label for button to show score summary",
           "default": "Show Score Summary"
         },
@@ -416,6 +406,14 @@
           "default": "Code"
         },
         {
+          "label": "Show code",
+          "default": "Show code"
+        },
+        {
+          "label": "Hide code",
+          "default": "Hide code"
+        },
+        {
           "label": "Unlocked interaction action (Continue)",
           "default": "Continue"
         },
@@ -438,26 +436,6 @@
         {
           "label": "Locked content",
           "default": "Locked content"
-        },
-        {
-          "label": "Back",
-          "default": "Back"
-        },
-        {
-          "label": "Text for screenreaders. Title for fullscreen button (enter)",
-          "default": "Enter fullscreen mode"
-        },
-        {
-          "label": "Text for screenreaders. Title for fullscreen button (exit)",
-          "default": "Exit fullscreen mode"
-        },
-        {
-          "label": "Main toolbar",
-          "default": "Main toolbar"
-        },
-        {
-          "label": "No valid scenes set",
-          "default": "No valid scenes have been set."
         }
       ]
     }

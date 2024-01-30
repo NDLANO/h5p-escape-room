@@ -4,37 +4,20 @@ import './NavigationButtonLabel.scss';
 import { H5PContext } from '../../context/H5PContext';
 import { willOverflow } from '../Shared/OverflowHelpers';
 
-/**
- * Get label position.
- * @param {object} globalLabel Global label.
- * @param {object} label Local label.
- * @returns {string} Label position.
- */
 export const getLabelPos = (globalLabel, label) => {
-  const useLabelPosition = label?.labelPosition !== 'inherit';
-
+  const useLabelPosition = label && label.labelPosition && label.labelPosition !== 'inherit';
   return useLabelPosition ? label.labelPosition : globalLabel.labelPosition;
 };
 
-/**
- * Get label text.
- * @param {object} label Label.
- * @returns {string} Label text.
- */
 export const getLabelText = (label) => {
-  return label?.labelText ?? '';
+  return label && label.labelText ? label.labelText : '';
 };
 
-/**
- * Get label position.
- * @param {object} globalLabel Global label.
- * @param {object} label Local label.
- * @returns {boolean} True, if is hover label, else false.
- */
 export const isHoverLabel = (globalLabel, label) => {
-  return (label.showLabel === 'inherit') ?
-    !globalLabel.showLabel :
-    label.showLabel !== 'show';
+  if (label.showLabel === 'inherit') {
+    return globalLabel.showLabel ? false : true;
+  }
+  return label.showLabel === 'show' ? false : true;
 };
 
 // Threshold for if the label should be multiline
@@ -44,13 +27,8 @@ const INNER_LABEL_HEIGHT_THRESHOLD_LOW = 22;
 const INNER_LABEL_HEIGHT_THRESHOLD_HIGH = 44;
 
 export default class NavigationButtonLabel extends React.Component {
-  /**
-   * @class
-   * @param {object} props React props.
-   */
   constructor(props) {
     super(props);
-    this.props = props;
 
     this.onClick.bind(this);
     this.innerLabelDiv = React.createRef();
@@ -68,102 +46,68 @@ export default class NavigationButtonLabel extends React.Component {
   }
 
   /**
-   * Handle expand button being clicked.
-   * @param {PointerEvent} event Event.
+   * Handle expand button being clicked
+   * @param  {Event} e
    */
-  onClick(event) {
-    event.stopPropagation();
+  onClick(e) {
+    e.stopPropagation();
     if (!this.state.expandable) {
       return;
     }
 
     if (!this.state.isExpanded) {
-      window.setTimeout(() => {
+      setTimeout(() => {
         this.setState({
-          divHeight: this.innerLabelDiv.current ?
-            this.innerLabelDiv.current.scrollHeight :
-            0,
+          divHeight: this.innerLabelDiv.current ? this.innerLabelDiv.current.scrollHeight : 0,
           isExpanded: true
         });
       }, 0);
     }
     else {
-      window.setTimeout(() => {
+      setTimeout(() => {
         this.setState({ divHeight: this.getDivHeight(), isExpanded: false });
       }, 0);
     }
   }
 
-  /**
-   * React life-cycle handler: Component did update.
-   * @param {object} prevProps React props before update.
-   */
   componentDidUpdate(prevProps) {
     // Need to calculate if expand button should be shown and height
-    if (
-      this.props.labelText !== prevProps.labelText ||
-      this.props.hoverOnly !== prevProps.hoverOnly
-    ) {
+    if (this.props.labelText !== prevProps.labelText || this.props.hoverOnly !== prevProps.hoverOnly) {
       this.setHeightProperties();
     }
 
-    /*
-     * Need to calculate if alignment and expanddirection should be changed
-     * Only in static scene label can overflow, since camera can be moved in 360
-     */
-    if (
-      (
-        this.props.topPosition !== prevProps.topPosition ||
-        this.props.leftPosition !== prevProps.leftPosition ||
-        this.props.labelText !== prevProps.labelText
-      ) && this.props.staticScene
-    ) {
+    // Need to calculate if alignment and expanddirection should be changed
+    // It is only in a static scene the label can be overflow, since camera can be moved in 360
+    if ((this.props.topPosition !== prevProps.topPosition
+      || this.props.leftPosition !== prevProps.leftPosition
+      || this.props.labelText !== prevProps.labelText) && this.props.staticScene) {
       this.setExpandProperties();
     }
-
     if (!prevProps.rendered && this.props.rendered && this.props.staticScene) {
       this.setHeightProperties();
       this.setExpandProperties();
     }
   }
 
-  /**
-   * React life-cycle handler: Component did mount.
-   */
   componentDidMount() {
-    window.setTimeout(() => {
+    setTimeout(() => {
       this.setHeightProperties();
       if (this.props.staticScene) {
         this.setExpandProperties();
       }
     }, 50);
-
     this.context.on('resize', () => {
-      if (
-        this.state.isExpanded &&
-        this.innerLabelDiv.current &&
-        this.state.divHeight !== this.innerLabelDiv.current.scrollHeight
-      ) {
-        // Font size changes when screen resizes so ensure correct height
-        if (
-          this.innerLabelDiv.current.scrollHeight !== 0 && this.props.staticScene
-        ) {
+      if (this.state.isExpanded && this.innerLabelDiv.current && this.state.divHeight !== this.innerLabelDiv.current.scrollHeight) {
+        // Font size changes when the screen resizes so we need to make sure it has the correct height
+        if (this.innerLabelDiv.current.scrollHeight !== 0 && this.props.staticScene) {
           this.setState({
-            divHeight: this.innerLabelDiv.current ?
-              this.innerLabelDiv.current.scrollHeight :
-              0
+            divHeight: this.innerLabelDiv.current ? this.innerLabelDiv.current.scrollHeight : 0
           });
         }
-        /*
-         * If interaction doesn't have scrollheight and is expanded, we have
-         * moved scene. Interactions in 360 scene are not properly remounted and
-         * this leads to labels being expanded and not proparly shown when going
-         * back.
-         */
-        else if (
-          !this.props.staticScene &&
-          (this.state.isExpanded || this.state.divHeight !== '3em')
-        ) {
+        // If the interaction doesn't have a scrollheight and is expanded it means that we have moved scene
+        // The interactions in 360 scene is not proparaly remounted and this leads to
+        // Labels being expanded and not proparly shown when going back
+        else if (!this.props.staticScene && (this.state.isExpanded || this.state.divHeight !== '3em') ) {
           this.setState({
             isExpanded: false,
             divHeight: '3em'
@@ -173,135 +117,84 @@ export default class NavigationButtonLabel extends React.Component {
     });
   }
 
-  /**
-   * React life-cycle handler: Component is about to unmount.
-   */
   componentWillUnmount() {
     this.context.off('resize', () => {
-      if (
-        this.state.isExpanded &&
-        this.innerLabelDiv.current &&
-        this.state.divHeight !== this.innerLabelDiv.current.scrollHeight
-      ) {
+      if (this.state.isExpanded && this.innerLabelDiv.current && this.state.divHeight !== this.innerLabelDiv.current.scrollHeight) {
         this.setState({
-          divHeight: this.innerLabelDiv.current ?
-            this.innerLabelDiv.current.scrollHeight :
-            0
+          divHeight: this.innerLabelDiv.current ? this.innerLabelDiv.current.scrollHeight : 0
         });
       }
     });
   }
 
-  /**
-   * Set height properties.
-   */
   setHeightProperties() {
     const isExpandable = this.isExpandable();
-
     this.setState({
       expandable: isExpandable,
       divHeight: this.getDivHeight(),
-      /*
-       * Safari won't show ellipsis unless height is 100%
-       * Ellipsis should only be shown if it is expandable
-       * If not the calculated height will be incorrect
-       */
+      // Safari won't show ellipsis unless height is 100%
+      // Ellipsis should only be shown if it is expandable
+      // If not the calculated height will be incorrect
       innerLabelHeight: isExpandable ? '100%' : ''
     });
   }
 
-  /**
-   * Set expand properties.
-   */
   setExpandProperties() {
     const labelProperties = this.getOverflowProperties();
-
     if (labelProperties.expandDirection !== this.state.expandDirection) {
       this.setState({ expandDirection: labelProperties.expandDirection });
     }
-
     if (labelProperties.alignment !== this.state.alignment) {
       this.setState({ alignment: labelProperties.alignment });
     }
   }
 
   /**
-   * Return height of div based on scrollHeight.
-   * @returns {number|null} Height of div or null.
+   * Return hight of div based on scrollHeight
    */
   getDivHeight() {
-    if (!this.innerLabelDiv.current) {
-      return null;
+    if (this.innerLabelDiv.current) {
+      // Scrollheight will be incorrect if height === 100%, therefore we reset
+      this.innerLabelDiv.current.style.height = '';
+      return this.innerLabelDiv.current.scrollWidth > this.innerLabelDiv.current.offsetWidth || this.innerLabelDiv.current.scrollHeight > INNER_LABEL_HEIGHT_THRESHOLD_LOW ? '3em' : '1.5em';
     }
-
-    // Scrollheight will be incorrect if height === 100%, therefore we reset
-    this.innerLabelDiv.current.style.height = '';
-
-    /*
-     * // TODO: Check what these hardcoded values introduced by H5P Group
-     * originally are based on and potentially replace with CSS class.
-     * Not urgent.
-     */
-    return (
-      this.innerLabelDiv.current.scrollWidth >
-        this.innerLabelDiv.current.offsetWidth ||
-      this.innerLabelDiv.current.scrollHeight >
-        INNER_LABEL_HEIGHT_THRESHOLD_LOW
-    ) ?
-      '3em' :
-      '1.5em';
+    return null;
   }
 
   /**
-   * Determine if element can be expanded.
-   * @returns {boolean} True, if element can be expanded, else false.
+   * Return if element can be expanded
    */
   isExpandable() {
-    /*
-     * If not fully loaded, scrollheight might be wrong, therefore check if it
-     * is too wide and two lines
-     */
-    return (
-      this.innerLabelDiv.current.scrollHeight >
-        INNER_LABEL_HEIGHT_THRESHOLD_HIGH ||
-      (
-        this.getDivHeight() === '3em' &&
-        this.innerLabelDiv.current.scrollWidth >
-          this.innerLabelDiv.current.offsetWidth * 2
-      )
-    );
+    // If not fully loaded the scrollheight might be wrong, therefore we check if it is to wide and two lines
+    if (this.innerLabelDiv.current.scrollHeight > INNER_LABEL_HEIGHT_THRESHOLD_HIGH
+      || (this.getDivHeight() === '3em' && this.innerLabelDiv.current.scrollWidth > this.innerLabelDiv.current.offsetWidth * 2)) {
+      return true;
+    }
+    return false;
   }
 
   /**
-   * Calculate if element will overflow when expanded.
-   * @returns {boolean} True if element will overflow when expanded, else false.
+   * Calculate if element will overflow when expanded
    */
   getOverflowProperties() {
     let height = this.innerLabelDiv.current.scrollHeight;
 
-    // Get right height from top of navigation button for entire label
+    // Get the right height from the top of the navigation button for entire label
+
     if (this.props.labelPos === 'top') {
-      height += parseInt(
-        window.getComputedStyle(this.navLabel.current).paddingTop
-      );
+      height += parseInt(window.getComputedStyle(this.navLabel.current).paddingTop);
     }
     else if (this.props.labelPos === 'bottom') {
       height += parseInt(this.props.navButtonHeight) +
         parseInt(window.getComputedStyle(this.navLabel.current).paddingTop);
     }
     else {
-      height += parseInt(
-        window.getComputedStyle(this.navLabel.current).paddingTop
-      ) +
-      parseInt(window.getComputedStyle(this.navLabel.current).paddingBottom);
+      height += parseInt(window.getComputedStyle(this.navLabel.current).paddingTop)
+        + parseInt(window.getComputedStyle(this.navLabel.current).paddingBottom);
     }
-
     if (this.state.expandable && !this.props.hoverOnly) {
-      height += parseInt(
-        window.getComputedStyle(this.props.forwardRef.current).paddingTop
-      );
+      height += parseInt(window.getComputedStyle(this.props.forwardRef.current).paddingTop);
     }
-
     const overflowChanges = willOverflow(this.props.labelPos,
       height,
       this.props.topPosition,
@@ -311,23 +204,14 @@ export default class NavigationButtonLabel extends React.Component {
     return overflowChanges;
   }
 
-  /**
-   * React render function.
-   * @returns {object} JSX element.
-   */
   render() {
     const hoverOnly = this.props.hoverOnly ? 'hover-only' : '';
     const isExpanded = this.state.isExpanded ? 'is-expanded' : '';
     const canExpand = this.state.expandable ? 'can-expand' : '';
     const isMultline = (this.state.divHeight !== '1.5em') ? 'is-multiline' : '';
-    const expandDirection = this.state.expandDirection ?
-      'expand-' + this.state.expandDirection :
-      '';
+    const expandDirection = this.state.expandDirection ? 'expand-' + this.state.expandDirection : '';
     const alignment = this.state.alignment || this.props.labelPos;
-    const showLabel = this.props.navButtonFocused &&
-      !this.context.extras.isEditor ?
-      'show-label' :
-      '';
+    const showLabel = this.props.navButtonFocused && !this.context.extras.isEditor ? 'show-label' : '';
 
     const expandButtonTabIndex = !this.context.extras.isEditor
       && this.props.isHiddenBehindOverlay ? '-1' : undefined;
@@ -373,5 +257,4 @@ export default class NavigationButtonLabel extends React.Component {
     );
   }
 }
-
 NavigationButtonLabel.contextType = H5PContext;

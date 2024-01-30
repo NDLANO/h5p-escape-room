@@ -6,25 +6,20 @@ import InteractionContent from './Dialog/InteractionContent';
 import { H5PContext } from '../context/H5PContext';
 import './Main.scss';
 import HUD from './HUD/HUD';
-import FullscreenButton from './FullscreenButton/FullscreenButton.js';
 import NoScene from './Scene/NoScene';
 import PasswordContent from './Dialog/PasswordContent';
 import ScoreSummary from './Dialog/ScoreSummary';
 import {
   createAudioPlayer,
+  isInteractionAudio,
   fadeAudioInAndOut,
-  getAudioPlayerType,
-  AUDIO_PLAYER_TYPES
+  isSceneAudio,
+  isPlaylistAudio
 } from '../utils/audio-utils';
 
 export default class Main extends React.Component {
-  /**
-   * @class
-   * @param {object} props React properties.
-   */
   constructor(props) {
     super(props);
-    this.props = props;
 
     this.audioPlayers = {};
     this.sceneAudioPlayers = {};
@@ -47,7 +42,7 @@ export default class Main extends React.Component {
       scenesOpened: [],
       updateThreeSixty: false,
       startBtnClicked: false,
-      scoreCard: {},
+      /** @type {ScoreCard} */ scoreCard: {},
       labelBehavior: {
         showLabel: true,
         labelPosition: 'right'
@@ -55,13 +50,8 @@ export default class Main extends React.Component {
     };
 
     this.isVeryFirstRenderDone = this.props.isVeryFirstRenderDone ?? false;
-
-    this.documentID = `document-dom-${H5P.createUUID()}`;
   }
 
-  /**
-   * React life-cycle handler: component did mount.
-   */
   componentDidMount() {
     // Listen for focus to interaction
     this.context.on('focusInteraction', (e) => {
@@ -101,11 +91,6 @@ export default class Main extends React.Component {
     }
   }
 
-  /**
-   * React life-cycle handler: component did update.
-   * @param {object} prevProps React properties before update.
-   * @param {object} prevState React state before update.
-   */
   componentDidUpdate(prevProps, prevState) {
     if (this.state.threeSixty) {
       this.isVeryFirstRenderDone = true;
@@ -116,13 +101,9 @@ export default class Main extends React.Component {
         updateThreeSixty: false
       });
     }
-
     if (this.state.labelBehavior && this.context.behavior.label) {
-      if (
-        this.state.labelBehavior.showLabel !==
-          this.context.behavior.label.showLabel ||
-        this.state.labelBehavior.labelPosition !==
-          this.context.behavior.label.labelPosition
+      if ( this.state.labelBehavior.showLabel !== this.context.behavior.label.showLabel ||
+        this.state.labelBehavior.labelPosition !== this.context.behavior.label.labelPosition
       ) {
         this.setState({
           labelBehavior: {
@@ -133,16 +114,11 @@ export default class Main extends React.Component {
         });
       }
     }
-
-    if (
-      this.state.startBtnClicked &&
-      this.props.currentScene !== this.context.params.startSceneId
-    ) {
+    if (this.state.startBtnClicked && this.props.currentScene !== this.context.params.startSceneId) {
       this.setState({
         startBtnClicked: false
       });
     }
-
     const validScenes = this.context.params.scenes.map((scene) => {
       return scene.sceneId;
     });
@@ -150,7 +126,6 @@ export default class Main extends React.Component {
     const prunedHistory = this.state.sceneHistory.filter((sceneId) => {
       return validScenes.includes(sceneId);
     });
-
     // Scene has been removed from params, but not yet from history
     if (this.state.sceneHistory.length !== prunedHistory.length) {
       let lastElement = prunedHistory[prunedHistory.length - 1];
@@ -165,7 +140,6 @@ export default class Main extends React.Component {
         sceneHistory: prunedHistory,
       });
     }
-
     if (this.props.currentScene !== prevProps.currentScene) {
 
       // We skip adding to history if we navigated backwards
@@ -184,29 +158,22 @@ export default class Main extends React.Component {
 
     if (this.state.audioIsPlaying && this.state.audioIsPlaying !== prevState.audioIsPlaying) {
       // Something is playing audio
-      if (
-        getAudioPlayerType(prevState.audioIsPlaying) === AUDIO_PLAYER_TYPES['interaction']
-      ) {
-        // The last player was us, we need to stop it
+
+      if (isInteractionAudio(prevState.audioIsPlaying)) {
+        // Thas last player was us, we need to stop it
+
         const lastPlayer = this.getAudioPlayer(prevState.audioIsPlaying);
         fadeAudioInAndOut(lastPlayer, null, true);
       }
     }
   }
 
-  /**
-   * Set what interaction was focussed.
-   * @param {number} focusedInteraction Index of interaction that got focus.
-   */
   setFocusedInteraction(focusedInteraction) {
     this.setState({
       focusedInteraction: focusedInteraction,
     });
   }
 
-  /**
-   * Remove focus from all interactions.
-   */
   blurInteraction() {
     this.setState({
       focusedInteraction: null,
@@ -214,10 +181,10 @@ export default class Main extends React.Component {
   }
 
   /**
-   * Get initial score card.
-   * @returns {object} Score card.
+   * @returns {ScoreCard}
    */
   initialScoreCard() {
+    /** @type {ScoreCard} */
     const scoreCard = {
       numQuestionsInTour: 0,
       totalQuestionsCompleted: 0,
@@ -225,99 +192,121 @@ export default class Main extends React.Component {
       totalCodesUnlocked: 0,
       sceneScoreCards: {}
     };
-
     for (const sceneId in this.context.params.scenes) {
       const scene = this.context.params.scenes[sceneId];
-      scoreCard.sceneScoreCards[scene.sceneId] = this.initializeSceneScoreCard(scene);
+      scoreCard.sceneScoreCards[scene.sceneId] = this.initialSceneScoreCard(scene);
       scoreCard.numQuestionsInTour += scoreCard.sceneScoreCards[scene.sceneId].numQuestionsInScene;
     }
     return scoreCard;
   }
 
   /**
-   * Get initial scene score card.
-   * @param {object} scene Scene parameters.
-   * @returns {object} Scene score card.
+   * @param {SceneParams} scene
+   * @returns {SceneScoreCard}
    */
-  initializeSceneScoreCard(scene) {
+  initialSceneScoreCard(scene) {
+    /** @type {SceneScoreCard} */
     const sceneScoreCard = {
       title: scene.scenename,
       numQuestionsInScene: 0,
       scores: {}
     };
 
-    scene?.interactions?.forEach((interaction, index) => {
-      const maxScore = this.getQuestionMaxScore(interaction);
-      if (!maxScore) {
-        return;
+    if (scene.interactions) {
+      for (let i = 0; i < scene.interactions.length; i++) {
+        const interaction = scene.interactions[i];
+        const libraryName = H5P.libraryFromString(interaction.action.library).machineName;
+        switch (libraryName) {
+          case 'H5P.Summary':
+            sceneScoreCard.scores[i] = { title: this.getScoreLabelFromInteraction(interaction), raw: 0, max: this.getQuestionMaxScore(interaction), scaled: 0 };
+            sceneScoreCard.numQuestionsInScene += 1;
+            break;
+          case 'H5P.SingleChoiceSet':
+            sceneScoreCard.scores[i] = { title: this.getScoreLabelFromInteraction(interaction), raw: 0, max: this.getQuestionMaxScore(interaction), scaled: 0 };
+            sceneScoreCard.numQuestionsInScene += 1;
+            break;
+          case 'H5P.Blanks':
+            sceneScoreCard.scores[i] = { title: this.getScoreLabelFromInteraction(interaction), raw: 0, max: this.getQuestionMaxScore(interaction), scaled: 0 };
+            sceneScoreCard.numQuestionsInScene += 1;
+            break;
+          case 'H5P.MultiChoice':
+            sceneScoreCard.scores[i] = { title: this.getScoreLabelFromInteraction(interaction), raw: 0, max: this.getQuestionMaxScore(interaction), scaled: 0 };
+            sceneScoreCard.numQuestionsInScene += 1;
+            break;
+          default:
+            // Noop
+        }
       }
-
-      sceneScoreCard.scores[index] = {
-        title: this.getScoreLabelFromInteraction(interaction),
-        raw: 0,
-        max: maxScore,
-        scaled: 0
-      };
-
-      sceneScoreCard.numQuestionsInScene += 1;
-    });
+    }
 
     return sceneScoreCard;
   }
 
-  /**
-   * Get label from interaction.
-   * @param {object} interaction Interaction.
-   * @returns {string} Label for scorecard.
-   */
   getScoreLabelFromInteraction(interaction) {
-    return interaction.labelText ?
-      interaction.labelText :
-      interaction.action?.metadata?.title;
+    return interaction.labelText ? interaction.labelText : interaction.action?.metadata?.title;
   }
 
   /**
-   * @param {object} interaction Interaction.
-   * @returns {number} Maximum score of interaction.
+   * @param {Interaction} interaction
+   * @returns {number}
    */
   getQuestionMaxScore(interaction) {
-    return this.context.extras.isEditor ?
-      1 :
-      interaction.instanceMaxScore ?? 0;
+    if (this.context.extras.isEditor) {
+      return 1;
+    }
+
+    const question = H5P.newRunnable(
+      interaction.action,
+      this.context.contentId
+    );
+
+    const libraryName = H5P.libraryFromString(interaction.action.library).machineName;
+    if (libraryName === 'H5P.Blanks') {
+      question.createQuestions('');
+    }
+
+    return question.getMaxScore();
   }
 
   /**
-   * Determine whether an interaction is scored (?).
-   * @returns {boolean} True, if interaction is scored.
+   * @returns {boolean}
    */
   hasOneQuestion() {
     if (this.context.extras.isEditor || !this.context.params.scenes) {
       return false;
     }
 
-    return this.context.params.scenes.some((scene) => {
-      if (!scene.interactions) {
-        return false;
+    for (const sceneId in this.context.params.scenes) {
+      const scene = this.context.params.scenes[sceneId];
+      for (let i = 0; i < scene?.interactions?.length; i++) {
+        const interaction = scene.interactions[i];
+        const libraryName = H5P.libraryFromString(interaction.action.library).machineName;
+        switch (libraryName) {
+          case 'H5P.Summary':
+            return true;
+          case 'H5P.SingleChoiceSet':
+            return true;
+          case 'H5P.Blanks':
+            return true;
+          case 'H5P.MultiChoice':
+            return true;
+          default:
+            // Noop
+        }
       }
-
-      return scene.interactions.some((interaction) => {
-        return this.getQuestionMaxScore(interaction) > 0;
-      });
-    });
+    }
+    return false;
   }
 
   /**
-   * Navigate to scene by id.
-   * @param {number} sceneId Scene id.
+   * @param {number} sceneId
    */
   navigateToScene(sceneId) {
     this.setState({
       sceneWaitingForLoad: this.props.currentScene,
       focusedInteraction: null,
     });
-
     let nextSceneId = null;
-
     if (sceneId === SceneTypes.PREVIOUS_SCENE) {
       const history = [...this.state.sceneHistory];
       nextSceneId = history.pop();
@@ -333,9 +322,8 @@ export default class Main extends React.Component {
     }
 
     // Pause any playing interaction audio on navigation
-    const isInteractionAudioPlaying =
-      getAudioPlayerType(this.state.audioIsPlaying) === AUDIO_PLAYER_TYPES['interaction'];
-
+    const isInteractionAudioPlaying = this.state.audioIsPlaying
+      && isInteractionAudio(this.state.audioIsPlaying);
     if (isInteractionAudioPlaying) {
       const lastPlayer = this.getAudioPlayer(this.state.audioIsPlaying);
       fadeAudioInAndOut(lastPlayer, null, true);
@@ -348,110 +336,112 @@ export default class Main extends React.Component {
   }
 
   /**
-   * Handle showing scene description when scene gets rendered.
-   * Based on editor configuration.
-   * @param {number} sceneId Scene id of scene that is displayed.
+   * The user wants the scene description to display when the
+   * scene starts for the first time, handling it.
+   *
+   * @param {number} sceneId
    */
-  handleSceneDescriptionInitially(sceneId) {
-    if (!this.state.scenesOpened.includes(sceneId)) {
+  handleSceneDescriptionInitially = (sceneId) => {
+    const prevOpened = this.state.scenesOpened.includes(sceneId);
+    if (!prevOpened) {
       // Scene has not been opened before, find scene information
-      const scene = this.context.params.scenes.find((scene) => {
+      const scene = this.context.params.scenes.find((/** @type {SceneParams} */ scene) => {
         return scene.sceneId === sceneId;
       });
-
       if (scene.showSceneDescriptionInitially) {
         // Show scene description, since specified
         this.handleSceneDescription(scene.scenedescription);
       }
-
       // Add scene to list of opened scenes
       const newSceneOpened = this.state.scenesOpened;
       newSceneOpened.push(sceneId);
-
       this.setState({
         scenesOpened: newSceneOpened
       });
     }
-  }
+  };
 
   /**
-   * Show scene description.
+   * The user wants to see the scene description, handling it.
+   *
    * @param {string} text Scene description
    */
-  handleSceneDescription(text) {
+  handleSceneDescription = (text) => {
     this.setState({
       showingTextDialog: true,
       currentText: text,
       nextFocus: null
     });
-  }
+  };
 
   /**
-   * Show score summary.
+   * The user wants to see the score summary, handling it.
    */
-  handleScoreSummary() {
+  handleScoreSummary = () => {
     this.setState({
       showingScoreSummary: true,
       nextFocus: null
     });
-  }
+  };
 
   /**
-   * Close text dialog.
+   * The user wants to close the text dialog, handling it.
    */
-  handleCloseTextDialog() {
+  handleCloseTextDialog = () => {
     this.setState({
       showingTextDialog: false,
       showingScoreSummary: false,
       currentText: null,
       nextFocus: 'scene-description' // Should probably come in as an arg when opening the dialog
     });
-  }
+  };
 
   /**
-   * Get audio player for current track.
-   * @param {string} id Id of audio player.
-   * @param {object} [interaction] Parameters (Only needed initially).
-   * @returns {HTMLAudioElement|undefined} Audio player or `null` if track isn't playable.
+   * Get the audio player for the current track.
+   *
+   * @param {string} id
+   * @param {Interaction} [interaction] Parameters (Only needed initially)
+   * @return {HTMLAudioElement} or 'null' if track isn't playable.
    */
-  getAudioPlayer(id, interaction) {
+  getAudioPlayer = (id, interaction) => {
     // Create player if none exist
     if (this.audioPlayers[id] === undefined) {
       const noTrackToPlay = !interaction?.action?.params?.files?.length;
       if (noTrackToPlay) {
         return; // No track to play
       }
-
       this.audioPlayers[id] = createAudioPlayer(
         this.context.contentId,
         interaction.action.params.files,
         () => {
-          // Track started, set playing state
-          this.setState({ audioIsPlaying: id });
+          this.setState({
+            audioIsPlaying: id // Set state on starting to play
+          });
         },
         () => {
+          // Track ended, stop playing
           if (this.state.audioIsPlaying === id) {
-            // Track ended, stop playing
-            this.setState({ audioIsPlaying: null });
+            this.setState({
+              audioIsPlaying: null  // Clear state on track ended
+            });
           }
         },
         () => {
           if (this.state.audioIsPlaying === id) {
-            // Track ended, clear state
-            this.setState({ audioIsPlaying: null });
+            this.setState({
+              audioIsPlaying: null  // Clear state on playing ended
+            });
           }
         },
         false
       );
     }
-
     return this.audioPlayers[id];
-  }
+  };
 
   /**
-   * Get interaction from current scene by index.
-   * @param {number} interactionIndex Index of interaction to get.
-   * @returns {object} Interaction.
+   * @param {number} interactionIndex
+   * @returns {Interaction}
    */
   getInteractionFromCurrentScene(interactionIndex) {
     const scene = this.context.params.scenes.find(
@@ -461,17 +451,13 @@ export default class Main extends React.Component {
     return scene.interactions[interactionIndex];
   }
 
-  /**
-   * Show interaction in current scene by index.
-   * @param {number} interactionIndex Index of interaction to show.
-   */
   showInteraction(interactionIndex) {
     const interaction = this.getInteractionFromCurrentScene(interactionIndex);
     const library = H5P.libraryFromString(interaction.action.library);
     const machineName = library.machineName;
 
-    // Check if it has password and is unlocked
-    if (interaction.passwordSettings?.interactionPassword && !interaction.unlocked) {
+    //Check if it has password and is unlocked
+    if (interaction.label && interaction.label.interactionPassword && !interaction.unlocked) {
       this.setState({
         showingInteraction: true,
         currentInteraction: interactionIndex,
@@ -488,8 +474,7 @@ export default class Main extends React.Component {
       this.navigateToScene(nextSceneId);
     }
     else if (machineName === 'H5P.Audio') {
-      const playerId = `interaction-${this.props.currentScene}-${interactionIndex}`;
-
+      const playerId = 'interaction-' + this.props.currentScene + '-' + interactionIndex;
       if (this.state.audioIsPlaying === playerId) {
         // Pause and reset player
         const lastPlayer = this.getAudioPlayer(playerId);
@@ -497,21 +482,16 @@ export default class Main extends React.Component {
       }
       else {
         // Start current audio playback
-        if (
-          [AUDIO_PLAYER_TYPES['scene'], AUDIO_PLAYER_TYPES['playlist']]
-            .includes(getAudioPlayerType(this.state.audioIsPlaying))
-        ) {
+        if (this.state.audioIsPlaying && (isSceneAudio(this.state.audioIsPlaying) || isPlaylistAudio(this.state.audioIsPlaying)) ) {
           this.setState({
             sceneAudioWasPlaying: this.state.audioIsPlaying
           });
         }
-
         const player = this.getAudioPlayer(playerId, interaction);
         const lastPlayer =
-          getAudioPlayerType(this.state.audioIsPlaying) === AUDIO_PLAYER_TYPES['interaction']
+          this.state.audioIsPlaying && isInteractionAudio(this.state.audioIsPlaying)
             ? this.getAudioPlayer(this.state.audioIsPlaying)
             : this.sceneAudioPlayers[this.state.audioIsPlaying];
-
         fadeAudioInAndOut(lastPlayer, player, false);
       }
     }
@@ -524,11 +504,8 @@ export default class Main extends React.Component {
         nextFocus: null
       });
 
-      // Save last scene player if any
-      if (
-        [AUDIO_PLAYER_TYPES['scene'], AUDIO_PLAYER_TYPES['playlist']]
-          .includes(getAudioPlayerType(this.state.audioIsPlaying))
-      ) {
+      // Save the last scene player if any
+      if (this.state.audioIsPlaying && (isSceneAudio(this.state.audioIsPlaying) || isPlaylistAudio(this.state.audioIsPlaying)) ) {
         this.setState({
           sceneAudioWasPlaying: this.state.audioIsPlaying
         });
@@ -536,9 +513,6 @@ export default class Main extends React.Component {
     }
   }
 
-  /**
-   * Hide all interactions.
-   */
   hideInteraction() {
     this.setState((prevState) => ({
       showingInteraction: false,
@@ -553,9 +527,6 @@ export default class Main extends React.Component {
     }
   }
 
-  /**
-   * Hide password dialog.
-   */
   hidePasswordDialog() {
     this.setState((prevState) => ({
       showingPassword: false,
@@ -564,74 +535,47 @@ export default class Main extends React.Component {
     }));
   }
 
-  /**
-   * Add three sixty.
-   * @param {object} threeSixty ThreeSixty instance.
-   */
-  addThreeSixty(threeSixty) {
+  addThreeSixty = (threeSixty) => {
     this.props.addThreeSixty(threeSixty);
     this.setState({
       threeSixty: threeSixty
     });
-  }
+  };
 
-  /**
-   * Set player started.
-   * @param {number} id Id of player that started playing.
-   */
-  handleAudioIsPlaying(id) {
+  handleAudioIsPlaying = (id) => {
     this.setState({
       audioIsPlaying: id // Change the player
     });
-  }
+  };
 
-  /**
-   * Set player ended.
-   * @param {number} id Id of player that stopped playing.
-   */
-  handleSceneAudioWasPlaying(id) {
+  handleSceneAudioWasPlaying = (id) => {
     this.setState({
       sceneAudioWasPlaying: id // Set the prev player
     });
-  }
+  };
 
-  /**
-   * Get scene's audio players.
-   * @param {object} players Audio players.
-   */
-  getSceneAudioPlayers(players) {
+  getSceneAudioPlayers = (players) => {
     this.sceneAudioPlayers = players;
-  }
+  };
 
-  /**
-   * Center view of current scene.
-   */
   centerScene() {
-    const scene = this.context.params.scenes.find((scene) => {
+    const sceneParams = this.context.params.scenes;
+    const scene = sceneParams.find((scene) => {
       return scene.sceneId === this.props.currentScene;
     });
-
     if (!scene) {
       return;
     }
-
     this.props.onSetCameraPos(scene.cameraStartPosition, true);
   }
 
-  /**
-   * Go to start scene.
-   */
   goToStartScene() {
     this.navigateToScene(this.context.params.startSceneId);
-
     this.setState({
       startBtnClicked: true
     });
   }
 
-  /**
-   * Remove all scenes waiting to be loaded.
-   */
   doneLoadingNextScene() {
     this.setState({
       sceneWaitingForLoad: null,
@@ -639,10 +583,29 @@ export default class Main extends React.Component {
   }
 
   /**
-   * Update score card.
-   * @param {number} sceneId Scene id.
-   * @param {number} interactionId Interaction index.
-   * @param {object} score Score card.
+   * @param {string} inputPassword
+   * @returns {boolean}
+   */
+  handlePassword(inputPassword) {
+    const interaction = this.getInteractionFromCurrentScene(this.state.currentInteraction);
+    const passwords = interaction.label.interactionPassword.toLowerCase().split('/');
+    const isCorrectPassword = passwords.includes(inputPassword.toLowerCase());
+    interaction.unlocked = interaction.unlocked || isCorrectPassword;
+
+    if (!isCorrectPassword) {
+      this.read(this.context.l10n.wrongCode);
+    }
+    else {
+      this.read(this.context.l10n.contentUnlocked);
+    }
+
+    return isCorrectPassword;
+  }
+
+  /**
+   * @param {number} sceneId
+   * @param {number} interactionId
+   * @param {SceneScoreCardScore} score
    */
   updateScoreCard(sceneId, interactionId, score) {
     const newState = { ... this.state };
@@ -655,6 +618,7 @@ export default class Main extends React.Component {
 
     this.setState(newState);
 
+    /** @type {SceneParams} */
     const scene = this.context.params.scenes.find((scene) => {
       return scene.sceneId === sceneId;
     });
@@ -662,14 +626,9 @@ export default class Main extends React.Component {
     scene.interactions[interactionId].isAnswered = true;
   }
 
-  /**
-   * Update escape score card.
-   * @param {boolean} isUnlocked If true, unlocked. Else locked.
-   */
   updateEscapeScoreCard(isUnlocked) {
     const totalCodesEntered = this.state.scoreCard.totalCodesEntered + 1;
-    const totalCodesUnlocked = this.state.scoreCard.totalCodesUnlocked +
-      (isUnlocked ? 1 : 0);
+    const totalCodesUnlocked = this.state.scoreCard.totalCodesUnlocked + (isUnlocked ? 1 : 0);
 
     this.setState({
       scoreCard: {
@@ -682,6 +641,7 @@ export default class Main extends React.Component {
 
   /**
    * Read text via aria live region.
+   *
    * @param {string} text Text to read.
    */
   read(text) {
@@ -709,13 +669,9 @@ export default class Main extends React.Component {
     }, 100);
   }
 
-  /**
-   * React render function.
-   * @returns {object} JSX element.
-   */
   render() {
     const sceneParams = this.context.params.scenes;
-    if (!sceneParams?.length) {
+    if (!sceneParams) {
       return <NoScene label={this.context.l10n.noContent} />;
     }
 
@@ -725,14 +681,12 @@ export default class Main extends React.Component {
     if (!scene) {
       return null;
     }
-    const isStartScene =
-      this.props.currentScene === this.context.params.startSceneId;
+    const isStartScene = this.props.currentScene === this.context.params.startSceneId;
 
     const isShowingInteraction = this.state.showingInteraction &&
       this.state.currentInteraction !== null;
 
-    const currentInteraction = scene.interactions
-      ?.[this.state.currentInteraction];
+    const currentInteraction = scene.interactions?.[this.state.currentInteraction];
 
     let dialogClasses = [];
     if (currentInteraction && isShowingInteraction) {
@@ -743,15 +697,11 @@ export default class Main extends React.Component {
 
       dialogClasses.push(interactionClass);
     }
-
-    const showInteractionDialog = this.state.showingInteraction &&
-      this.state.currentInteraction !== null;
-    const showPasswordDialog = this.state.showingPassword &&
-      this.state.currentInteraction !== null;
-    const showTextDialog = this.state.showingTextDialog &&
-      this.state.currentText;
+    const showInteractionDialog = this.state.showingInteraction && this.state.currentInteraction !== null;
+    const showPasswordDialog = this.state.showingPassword && this.state.currentInteraction !== null;
+    const showTextDialog = this.state.showingTextDialog && this.state.currentText;
     const showingScoreSummary = this.state.showingScoreSummary;
-    // Whenever dialog is shown we need to hide all elements behind overlay
+    // Whenever a dialog is shown we need to hide all the elements behind the overlay
     const isHiddenBehindOverlay = (showInteractionDialog || showTextDialog);
 
     const sceneIcons = this.context.params.scenes.map((sceneParams) => {
@@ -762,18 +712,7 @@ export default class Main extends React.Component {
     });
 
     return (
-      <div
-        role="document"
-        aria-label={ this.context.l10n.title }
-        id={ this.documentID }
-      >
-        { this.props.fullScreenSupported &&
-          <FullscreenButton
-            ariaLabel={this.props.fullscreenButtonAriaLabel}
-            onClicked={this.props.onFullscreenClicked}
-            tabIndex={isHiddenBehindOverlay ? '-1' : undefined}
-          />
-        }
+      <div role="document" aria-label={ this.context.l10n.title }>
         { showInteractionDialog && !showPasswordDialog &&
           <Dialog
             title={ currentInteraction.action.metadata.title }
@@ -786,7 +725,7 @@ export default class Main extends React.Component {
               currentScene={this.props.currentScene}
               currentInteraction={this.state.currentInteraction}
               audioIsPlaying={this.state.audioIsPlaying}
-              onAudioIsPlaying={this.handleAudioIsPlaying.bind(this)}
+              onAudioIsPlaying={this.handleAudioIsPlaying}
               updateScoreCard={this.updateScoreCard.bind(this)}
             />
           </Dialog>
@@ -800,12 +739,12 @@ export default class Main extends React.Component {
             takeFocus={ this.isVeryFirstRenderDone }
           >
             <PasswordContent
-              read={this.read.bind(this)}
+              handlePassword={this.handlePassword.bind(this)}
               showInteraction={this.showInteraction.bind(this)}
               currentInteractionIndex={this.state.currentInteraction}
               currentInteraction={currentInteraction}
               isInteractionUnlocked={currentInteraction.unlocked}
-              hint={currentInteraction.passwordSettings.interactionPasswordHint}
+              hint={currentInteraction.label.interactionPasswordHint}
               updateEscapeScoreCard={this.updateEscapeScoreCard.bind(this)}
             />
           </Dialog>
@@ -814,17 +753,17 @@ export default class Main extends React.Component {
         { showTextDialog &&
         <Dialog
           title={ this.context.l10n.sceneDescription }
-          onHideTextDialog={ this.handleCloseTextDialog.bind(this) }
+          onHideTextDialog={  this.handleCloseTextDialog  }
           takeFocus={ this.isVeryFirstRenderDone }
         >
           <div dangerouslySetInnerHTML={{ __html: this.state.currentText }} />
         </Dialog>
         }
         { showingScoreSummary &&
-          <ScoreSummary
-            title={this.context.l10n.scoreSummary}
-            onHideTextDialog={ this.handleCloseTextDialog.bind(this) }
-            scores={this.state.scoreCard}></ScoreSummary>
+              <ScoreSummary
+                title={this.context.l10n.scoreSummary}
+                onHideTextDialog={  this.handleCloseTextDialog  }
+                scores={this.state.scoreCard}></ScoreSummary>
 
         }
         {
@@ -840,7 +779,7 @@ export default class Main extends React.Component {
                 sceneParams={sceneParams}
                 nextFocus={ this.state.nextFocus }
                 takeFocus={ this.isVeryFirstRenderDone && !showTextDialog }
-                addThreeSixty={ this.addThreeSixty.bind(this) }
+                addThreeSixty={ this.addThreeSixty }
                 imageSrc={sceneParams.scenesrc}
                 navigateToScene={this.navigateToScene.bind(this)}
                 forceStartCamera={this.props.forceStartCamera}
@@ -858,10 +797,6 @@ export default class Main extends React.Component {
                 startBtnClicked={this.state.startBtnClicked}
                 read={ this.read.bind(this) }
                 sceneDescriptionARIA={ sceneParams.sceneDescriptionARIA }
-                setReactRoots={ (reactRoots) => {
-                  this.reactRoots = reactRoots;
-                } }
-                getReactRoots={ () => this.reactRoots ?? [null, null] }
               />
             );
           })
@@ -872,18 +807,18 @@ export default class Main extends React.Component {
           sceneAudioWasPlaying={ this.state.sceneAudioWasPlaying }
           isHiddenBehindOverlay={ isHiddenBehindOverlay }
           nextFocus={ this.state.nextFocus }
-          onAudioIsPlaying={ this.handleAudioIsPlaying.bind(this) }
-          onSceneAudioWasPlaying={ this.handleSceneAudioWasPlaying.bind(this) }
-          onSceneDescription={ this.handleSceneDescription.bind(this) }
+          onAudioIsPlaying={ this.handleAudioIsPlaying }
+          onSceneAudioWasPlaying={ this.handleSceneAudioWasPlaying }
+          onSceneDescription={ this.handleSceneDescription }
+          onSubmitDialog={ () => console.error('Please implement SubmitDialog') }
           onCenterScene={ this.centerScene.bind(this) }
           isStartScene = {isStartScene}
           onGoToStartScene={ this.goToStartScene.bind(this) }
-          onShowingScoreSummary={this.handleScoreSummary.bind(this)}
+          onShowingScoreSummary={this.handleScoreSummary}
           showHomeButton={this.context.behavior.showHomeButton}
           showScoresButton={this.context.behavior.showScoresButton && this.hasOneQuestion()}
-          updateSceneAudioPlayers={ this.getSceneAudioPlayers.bind(this) }
+          updateSceneAudioPlayers={ this.getSceneAudioPlayers }
           interactionAudioPlayers={ this.audioPlayers }
-          ariaControls={ this.documentID }
         />
         <Screenreader
           readText = { this.state.readingText }
