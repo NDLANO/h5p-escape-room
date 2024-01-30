@@ -39,12 +39,12 @@
                 "description": "En text som kan beskriva scenen för slutanvändaren"
               },
               {
-                "label": "Scene description (for screen readers)",
-                "description": "A text that can describe the scene for the end-user. It will not be visible but read by screen readers, so formatting will be ignored."
+                "label": "Beskrivning av scen (för skärmläsare)",
+                "description": "En text som kan beskriva scenen för slutanvändaren. Texten kommer att användas av skärmläsare."
               },
               {
-                "label": "Display \"Scene Description\" initially",
-                "description": "Display the scene description when the scene starts for the first time"
+                "label": "Visa \"Scenbeskrivning\" i början",
+                "description": "Visar scenbeskrivningen när scenen visas första gången."
               },
               {
                 "label": "Initial kameraposition",
@@ -158,7 +158,7 @@
               },
               {
                 "label": "Audio type",
-                "description": "Decide what audio type this scene will use, either use an audio track or choose an existing audio playlist.",
+                "description": "Ställ in vilken ljudtyp denna scen ska använda, använd antingen ett ljudspår eller välj en befintlig spellista.",
                 "options": [
                   {
                     "label": "Ljudspår"
@@ -187,16 +187,16 @@
           "label": "Ljudspår"
         },
         {
-          "label": "Playlists",
+          "label": "Spellistor",
           "field": {
             "fields": [
               {
-                "label": "Playlist Title",
-                "description": "Used to identify the playlist"
+                "label": "Titel på spellista",
+                "description": "Används för att identifiera spellistan"
               },
               {
-                "label": "Audio Tracks",
-                "description": "Add audio tracks to the playlist."
+                "label": "Ljudspår",
+                "description": "Lägg till ljudspår till spellistan."
               }
             ]
           }
@@ -204,12 +204,12 @@
       ]
     },
     {
-      "label": "Playlists",
-      "description": "These options will let you add playlists for the scenes.",
+      "label": "Spellistor",
+      "description": "Dessa inställningar låter dig lägga till spellistor till scenerna.",
       "fields": [
         {
-          "label": "Added playlists",
-          "description": "Make playlists that's available for all scenes by default."
+          "label": "Tillagda spellistor",
+          "description": "Gör spellistor tillgängliga för alla scener som standard."
         }
       ]
     },
@@ -219,7 +219,7 @@
       "fields": [
         {
           "label": "Audio type",
-          "description": "Decide what audio type this scene will use, either use an audio track or choose an existing audio playlist.",
+          "description": "Ställ in vilken ljudtyp denna scen ska använda, använd antingen ett ljudspår eller välj en befintlig spellista.",
           "options": [
             {
               "label": "Global Audio"
@@ -235,15 +235,15 @@
         },
         {
           "label": "Playlist",
-          "description": "Here you can pick an existing playlist as audio."
+          "description": "Här kan du välja en befintlig spellista som ljud."
         },
         {
-          "label": "Display \"Scores\" button",
-          "description": "Display button for showing the scores from assignments."
+          "label": "Visa \"Poäng\"-knappen",
+          "description": "Visa en knapp som låter användaren se sina poäng."
         },
         {
-          "label": "Display \"Home\" button",
-          "description": "Display button for going to start scene."
+          "label": "Visa \"Hem\"-knappen",
+          "description": "Visa knapp som tar användaren till startscenen."
         },
         {
           "label": "Renderingskvalitet för scen",
@@ -294,7 +294,7 @@
       "fields": [
         {
           "label": "Aria-etikett för innehållstyp",
-          "default": "Virtual Tour"
+          "default": "Virtuell tur"
         },
         {
           "label": "Etikett för att spela ljud",
@@ -333,104 +333,104 @@
           "default": "Inget innehåll"
         },
         {
-          "label": "Label for context menu button for go to scene",
-          "default": "Go to scene"
+          "label": "Text för menyknappen för Gå till scen",
+          "default": "Gå till scen"
         },
         {
-          "label": "Label for context menu button for edit",
-          "default": "Edit"
+          "label": "Text för menyknappen Redigera",
+          "default": "Redigera"
         },
         {
-          "label": "Label for context menu button for delete",
+          "label": "Text för menyknappen Radera",
           "default": "Delete"
         },
         {
-          "label": "Translation for \"Score\"",
+          "label": "Översättning av \"Poäng\"",
           "default": "Score"
         },
         {
-          "label": "Translation for \"Assignment\"",
-          "default": "Assignment"
+          "label": "Översättning av \"Uppgift\"",
+          "default": "Uppgift"
         },
         {
-          "label": "Translation for \"Total\"",
+          "label": "Översättning av \"Summa\"",
           "default": "Total"
         },
         {
-          "label": "Translation for \"Total Score\"",
+          "label": "Översättning av \"Summa poäng\"",
           "default": "Total Score"
         },
         {
-          "label": "Label for button to show score summary",
-          "default": "Show Score Summary"
+          "label": "Text för knappen som visar sammanfattning av poäng",
+          "default": "Visa sammanfattning av poäng"
         },
         {
-          "label": "Translation for 'Scene'",
-          "default": "Scene"
+          "label": "Översättning av 'Scen'",
+          "default": "Scen"
         },
         {
-          "label": "Untitled",
-          "default": "Untitled"
+          "label": "Utan titel",
+          "default": "Utan titel"
         },
         {
-          "label": "Go to start scene",
-          "default": "Go to start scene"
+          "label": "Gå till startscenen",
+          "default": "Gå till startscenen"
         },
         {
-          "label": "You are at the start scene",
-          "default": "You are at the start scene"
+          "label": "Du är på startscenen",
+          "default": "Du är på startscenen"
         },
         {
-          "label": "Unlocked",
-          "default": "Unlocked"
+          "label": "Upplåst",
+          "default": "Upplåst"
         },
         {
-          "label": "Locked",
-          "default": "Locked"
+          "label": "Låst",
+          "default": "Låst"
         },
         {
-          "label": "Search the room until you find the code",
-          "default": "Search the room until you find the code"
+          "label": "Sök i rummet tills du hittar koden",
+          "default": "Sök i rummet tills du hittar koden"
         },
         {
-          "label": "The code was wrong, try again.",
-          "default": "The code was wrong, try again."
+          "label": "Koden var fel, försök igen.",
+          "default": "Koden var fel, försök igen."
         },
         {
-          "label": "The content has been unlocked!",
-          "default": "The content has been unlocked!"
+          "label": "Innehållet har låsts upp!",
+          "default": "Innehållet har låsts upp!"
         },
         {
           "label": "Code",
           "default": "Code"
         },
         {
-          "label": "Show code",
-          "default": "Show code"
+          "label": "Visa kod",
+          "default": "Visa kod"
         },
         {
-          "label": "Hide code",
-          "default": "Hide code"
+          "label": "Dölj kod",
+          "default": "Dölj kod"
         },
         {
-          "label": "Unlocked interaction action (Continue)",
-          "default": "Continue"
+          "label": "Handling när innehållet är upplåst (Fortsätt)",
+          "default": "Fortsätt"
         },
         {
-          "label": "Locked interaction action (Unlock)",
-          "default": "Unlock"
+          "label": "Handling när innehållet är låst (Lås upp)",
+          "default": "Lås upp"
         },
         {
-          "label": "Drag horizontally to scale (for screen readers)",
-          "default": "Drag horizontally to scale"
+          "label": "Drag horisontellt för att ändra storleken (för skärmläsare)",
+          "default": "Drag horisontellt för att ändra storleken"
         },
         {
-          "label": "Drag vertically to scale (for screen readers)",
-          "default": "Drag vertically to scale"
+          "label": "Drag vertikalt för att ändra storleken (för skärmläsare)",
+          "default": "Drag vertikalt för att ändra storleken"
         },
         {
-          "label": "Hint",
-          "default": "Hint"
+          "label": "Ledtråd",
+          "default": "Ledtråd"
         },
         {
           "label": "Låst innehåll",

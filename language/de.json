@@ -9,16 +9,16 @@
           "field": {
             "fields": [
               {
-                "label": "Szenenart",
+                "label": "Szenentyp",
                 "options": [
                   {
                     "label": "360°-Bild"
                   },
                   {
-                    "label": "Panoramic image"
+                    "label": "Panoramabild"
                   },
                   {
-                    "label": "Unbewegliches Bild"
+                    "label": "Statisches Bild"
                   }
                 ]
               },
@@ -36,18 +36,18 @@
               },
               {
                 "label": "Beschreibung der Szene",
-                "description": "Ein Text, der die Szene für den Benutzer beschreibt"
+                "description": "Ein Text, der die Szene für die Nutzenden beschreibt"
               },
               {
-                "label": "Scene description (for screen readers)",
-                "description": "A text that can describe the scene for the end-user. It will not be visible but read by screen readers, so formatting will be ignored."
+                "label": "Szenenbeschreibung (für Vorlesewerkzeuge)",
+                "description": "Ein Text, der die Szene für die Nutzenden beschreibt. Er wird nicht sichtbar sein, sondern nur von Vorlesewerkzeugen vorgelesen."
               },
               {
-                "label": "Display \"Scene Description\" initially",
-                "description": "Display the scene description when the scene starts for the first time"
+                "label": "Zeige die Szenenbeschreibung beim Öffnen der Szene",
+                "description": "Zeige die Szenenbeschreibung beim ersten Öffnen der Szene"
               },
               {
-                "label": "Anfangs-Kameraposition",
+                "label": "Kamera-Startposition",
                 "description": "Kameraposition in Winkelangabe (oben-unten und links-rechts)"
               },
               {
@@ -55,7 +55,7 @@
                 "field": {
                   "fields": [
                     {
-                      "label": "Label",
+                      "label": "Beschriftung",
                       "description": "Wenn leer, wird keine Beschriftung angezeigt und für Vorlesewerkzeuge wird der Szenentitel verwendet"
                     },
                     {
@@ -98,46 +98,46 @@
                           ]
                         },
                         {
-                          "label": "Show as hotspot",
-                          "description": "Allows for adding interaction areas to the background image that can be custom size."
+                          "label": "Als Hotspot anzeigen",
+                          "description": "Ermöglicht das Hinzufügen von Interaktionsbereichen zum Hintergrundbild mit benutzerdefinierter Größe."
                         },
                         {
-                          "label": "Show hotspot when mouse is hovering",
-                          "description": "Will allow hotspot to be visible when mouse is hovering the area."
+                          "label": "Hotspot anzeigen, wenn der Mauszeiger darüber schwebt",
+                          "description": "Zeigt den Hotspot an, wenn der Mauszeiger über dem Bereich schwebt."
                         },
                         {
-                          "label": "Set the hotspot be tabbable",
-                          "description": "Will allow hotspot to be tabbable. Can be used for accessibilty."
+                          "label": "Erlaube das Anwählen des Hotspots mit der Tab-Taste",
+                          "description": "Erlaubt das Anspringen des Hotspots mit der Tab-Taste. Dies ist aus Gründen der Barrierefreiheit sinnvoll."
                         },
                         {
-                          "label": "Show as open content in the scene",
-                          "description": "Allows the content to be shown in an open dialog box directly in the scene."
+                          "label": "Als offenen Inhalt in der Szene anzeigen",
+                          "description": "Ermöglicht das Anzeigen des Inhalts in einem geöffneten Dialogfeld direkt in der Szene."
                         },
                         {
                           "default": "256,128",
-                          "label": "Values for storing the height and width for hotspot"
+                          "label": "Werte zum Speichern der Höhe und Breite für den Hotspot"
                         },
                         {
-                          "label": "Code for the interaction",
-                          "description": "If not empty, the user has to input the code in order to open this content."
+                          "label": "Code für die Interaktion",
+                          "description": "Falls nicht leer, müssen die Nutzenden den Code eingeben, um den Inhalt zu öffnen. Trenne mehrere korrekte Lösungen mit einem / ab."
                         },
                         {
-                          "label": "A hint for the interaction code",
-                          "description": "An optional hint for the code, can be left empty if wanted"
+                          "label": "Ein Hinweis für den Interaktionscode",
+                          "description": "Ein optionaler Hinweis für den Code, kann bei Bedarf leer gelassen werden"
                         }
                       ]
                     },
                     {},
                     {},
                     {
-                      "label": "Button style",
-                      "description": "Decide how the icon should look.",
+                      "label": "Button-Stil",
+                      "description": "Entscheide, wie das Icon aussehen soll.",
                       "options": [
                         {
-                          "label": "Text icon"
+                          "label": "Textsymbol"
                         },
                         {
-                          "label": "Info icon"
+                          "label": "Info-Symbol"
                         }
                       ]
                     }
@@ -145,8 +145,8 @@
                 }
               },
               {
-                "label": "Darstellungsweise der Buttons",
-                "description": "Lege fest, wie Buttons aussehen, die auf diese Szene verweisen. Für Szenen, die unbeweglich sind und nicht zu weiteren Szenen führen, empfiehlt sich die Option \"Mehr Informationen\".",
+                "label": "Button-Stil",
+                "description": "Lege fest, wie Buttons aussehen, die auf diese Szene verweisen. Für Szenen, die statisch sind und nicht zu weiteren Szenen führen, empfiehlt sich die Option \"Mehr Informationen\".",
                 "options": [
                   {
                     "label": "Neue Szene (Pfeil)"
@@ -157,14 +157,14 @@
                 ]
               },
               {
-                "label": "Audio type",
-                "description": "Decide what audio type this scene will use, either use an audio track or choose an existing audio playlist.",
+                "label": "Tontyp",
+                "description": "Entscheide, welchen Audiotyp diese Szene verwenden soll. Verwende entweder eine Tonspur oder wähle eine vorhandene Wiedergabeliste.",
                 "options": [
                   {
-                    "label": "Audio Track"
+                    "label": "Tonspur"
                   },
                   {
-                    "label": "Playlist"
+                    "label": "Wiedergabeliste"
                   }
                 ]
               },
@@ -173,11 +173,11 @@
                 "description": "Füge eine Tonspur hinzu, die nur in dieser Szene gespielt wird."
               },
               {
-                "label": "Playlist",
-                "description": "Here you can pick an existing playlist as audio."
+                "label": "Wiedergabeliste",
+                "description": "Hier kannst du eine existierende Wiedergabeliste auswählen."
               },
               {
-                "label": "Restart audio when scene is reopened"
+                "label": "Starte die Tonspur von vorne, wenn die Szene erneut geöffnet wird"
               }
             ]
           }
@@ -187,30 +187,29 @@
           "label": "Tonspur"
         },
         {
-          "label": "Playlists",
+          "label": "Wiedergabelisten",
           "field": {
             "fields": [
               {
-                "label": "Playlist Title",
-                "description": "Used to identify the playlist"
+                "label": "Titel der Wiedergabeliste",
+                "description": "Wird genutzt, um die Wiedergabeliste zu identifizieren."
               },
               {
-                "label": "Audio Tracks",
-                "description": "Add audio tracks to the playlist."
-              },
-              {}
+                "label": "Tonspuren",
+                "description": "Füge der Wiedergabeliste eine Tonspur hinzu."
+              }
             ]
           }
         }
       ]
     },
     {
-      "label": "Playlists",
-      "description": "These options will let you add playlists for the scenes.",
+      "label": "Wiedergabelisten",
+      "description": "Mit diesen Optionen kannst du Wiedergabelisten für die Szenen hinzufügen.",
       "fields": [
         {
-          "label": "Added playlists",
-          "description": "Make playlists that's available for all scenes by default."
+          "label": "Hinzugefügte Wiedergabelisten",
+          "description": "Erstelle Wiedergabelisten, die standardmäßig für alle Szenen genutzt werden."
         }
       ]
     },
@@ -219,14 +218,14 @@
       "description": "Diese Optionen legen fest, wie die Tour im Detail funktioniert.",
       "fields": [
         {
-          "label": "Audio type",
-          "description": "Decide what audio type this scene will use, either use an audio track or choose an existing audio playlist.",
+          "label": "Tontyp",
+          "description": "Entscheide, welchen Audiotyp diese Szene verwenden soll. Verwende entweder eine Tonspur oder wähle eine vorhandene Wiedergabeliste.",
           "options": [
             {
-              "label": "Global Audio"
+              "label": "Globale Tonspur"
             },
             {
-              "label": "Playlist"
+              "label": "Wiedergabeliste"
             }
           ]
         },
@@ -235,16 +234,16 @@
           "description": "Füge eine Tonspur hinzu, die standardmäßig in allen Szenen gespielt wird."
         },
         {
-          "label": "Playlist",
-          "description": "Here you can pick an existing playlist as audio."
+          "label": "Wiedergabeliste",
+          "description": "Hier kannst du eine existierende Wiedergabeliste auswählen."
         },
         {
-          "label": "Display \"Scores\" button",
-          "description": "Display button for showing the scores from assignments."
+          "label": "Zeige den \"Punkte\"-Button",
+          "description": "Zeige den Button, um die Punkte der Aufgaben anzeigen zu lassen."
         },
         {
-          "label": "Display \"Home\" button",
-          "description": "Display button for going to start scene."
+          "label": "Zeige den \"Home\"-Button",
+          "description": "Zeige den Button an, mit dem man zur Startszene gelangt."
         },
         {
           "label": "Darstellungsqualität der Szenen",
@@ -298,11 +297,11 @@
           "default": "Virtuelle Tour"
         },
         {
-          "label": "Beschriftungen, um Ton abzuspielen",
+          "label": "Beschriftung des \"Tonspur abspielen\"-Buttons",
           "default": "Tonspur abspielen"
         },
         {
-          "label": "Beschriftung, um Ton zu pausieren",
+          "label": "Beschriftung des \"Tonspur pausieren\"-Buttons",
           "default": "Tonspur pausieren"
         },
         {
@@ -310,132 +309,132 @@
           "default": "Szenenbeschreibung"
         },
         {
-          "label": "Beschriftung des Buttons, die Kamera zurückzusetzen",
+          "label": "Beschriftung des \"Kamera zurücksetzen\"-Buttons",
           "default": "Kamera zurücksetzen"
         },
         {
-          "label": "Beschriftung des Buttons, um den Dialog zu senden",
-          "default": "Dialog absenden"
+          "label": "Beschriftung des \"Absenden\"-Buttons",
+          "default": "Absenden"
         },
         {
-          "label": "Beschriftung des Buttons, um den Dialog zu schließen",
-          "default": "Dialog schließen"
+          "label": "Beschriftung des \"Schließen\"-Buttons",
+          "default": "Schließen"
         },
         {
-          "label": "Aria-Label des Buttons, der Beschriftungen erweitert",
-          "default": "Die Beschriftung erweitern"
+          "label": "Aria-Label des \"Beschriftung ausklappen\"-Buttons",
+          "default": "Beschriftung ausklappen"
         },
         {
-          "label": "Beschriftung wenn der Hintergrund der 360°-Szene lädt",
+          "label": "Hinweistext, wenn der Hintergrund der 360°-Szene lädt",
           "default": "Lade Hintergrundbild..."
         },
         {
-          "label": "Beschriftung, wenn kein Inhalt vorhanden ist",
+          "label": "Hinweistext, wenn kein Inhalt vorhanden ist",
           "default": "Kein Inhalt"
         },
         {
-          "label": "Label for context menu button for go to scene",
-          "default": "Go to scene"
+          "label": "Beschriftung des \"Gehe zu Szene\"-Buttons",
+          "default": "Gehe zu Szene"
         },
         {
-          "label": "Label for context menu button for edit",
-          "default": "Edit"
+          "label": "Beschriftung des \"Bearbeiten\"-Buttons",
+          "default": "Bearbeiten"
         },
         {
-          "label": "Label for context menu button for delete",
-          "default": "Delete"
+          "label": "Beschriftung des \"Löschen\"-Buttons",
+          "default": "Löschen"
         },
         {
-          "label": "Translation for \"Score\"",
-          "default": "Score"
+          "label": "Punkte",
+          "default": "Punkte"
         },
         {
-          "label": "Translation for \"Assignment\"",
-          "default": "Assignment"
+          "label": "Aufgabe",
+          "default": "Aufgabe"
         },
         {
-          "label": "Translation for \"Total\"",
-          "default": "Total"
+          "label": "Insgesamt",
+          "default": "Insgesamt"
         },
         {
-          "label": "Translation for \"Total Score\"",
-          "default": "Total Score"
+          "label": "Gesamtpunktzahl",
+          "default": "Gesamtpunktzahl"
         },
         {
-          "label": "Label for button to show score summary",
-          "default": "Show Score Summary"
+          "label": "Beschriftung des \"Zeige Punkteübersicht\"-Buttons",
+          "default": "Zeige Punkteübersicht"
         },
         {
-          "label": "Translation for 'Scene'",
-          "default": "Scene"
+          "label": "Szene",
+          "default": "Szene"
         },
         {
-          "label": "Untitled",
-          "default": "Untitled"
+          "label": "Unbenannt",
+          "default": "Unbenannt"
         },
         {
-          "label": "Go to start scene",
-          "default": "Go to start scene"
+          "label": "Gehe zur Startszene",
+          "default": "Gehe zur Startszene"
         },
         {
-          "label": "You are at the start scene",
-          "default": "You are at the start scene"
+          "label": "Du bist bei der Startszene",
+          "default": "Du bist bei der Startszene"
         },
         {
-          "label": "Unlocked",
-          "default": "Unlocked"
+          "label": "Zugänglich",
+          "default": "Zugänglich"
         },
         {
-          "label": "Locked",
-          "default": "Locked"
+          "label": "Gesperrt",
+          "default": "Gesperrt"
         },
         {
-          "label": "Search the room until you find the code",
-          "default": "Search the room until you find the code"
+          "label": "Durchsuche die Szene, bis du den Code findest",
+          "default": "Durchsuche die Szene, bis du den Code findest"
         },
         {
-          "label": "The code was wrong, try again.",
-          "default": "The code was wrong, try again."
+          "label": "Der Code war falsch, versuche es noch einmal.",
+          "default": "Der Code war falsch, versuche es noch einmal."
         },
         {
-          "label": "The content has been unlocked!",
-          "default": "The content has been unlocked!"
+          "label": "Der Inhalt wurde zugänglich gemacht!",
+          "default": "Der Inhalt wurde zugänglich gemacht!"
         },
         {
           "label": "Code",
           "default": "Code"
         },
         {
-          "label": "Show code",
-          "default": "Show code"
+          "label": "Blende den Code ein",
+          "default": "Blende den Code ein"
         },
         {
-          "label": "Hide code",
-          "default": "Hide code"
+          "label": "Blende den Code aus",
+          "default": "Blende den Code aus"
         },
         {
-          "label": "Unlocked interaction action (Continue)",
-          "default": "Continue"
+          "label": "Freigeschalteter Inhalt (Weiter)",
+          "default": "Weiter"
         },
         {
-          "label": "Locked interaction action (Unlock)",
-          "default": "Unlock"
+          "label": "Gesperrter Inhalt (Entsperren)",
+          "default": "Entsperren"
         },
         {
-          "label": "Drag horizontally to scale (for screen readers)",
-          "default": "Drag horizontally to scale"
+          "label": "Ziehe horizontal zum Skalieren (für Vorlesewerkzeuge)",
+          "default": "Ziehe horizontal zum Skalieren"
         },
         {
-          "label": "Drag vertically to scale (for screen readers)",
-          "default": "Drag vertically to scale"
+          "label": "Ziehe vertikal zum Skalieren (für Vorlesewerkzeuge)",
+          "default": "Ziehe vertikal zum Skalieren"
         },
         {
-          "label": "Hint",
-          "default": "Hint"
+          "label": "Hinweis",
+          "default": "Hinweis"
         },
         {
-          "label": "Locked content",
-          "default": "Locked content"
+          "label": "Gesperrter Inhalt",
+          "default": "Gesperrter Inhalt"
         }
       ]
     }
