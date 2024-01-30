@@ -12,7 +12,7 @@ H5P.JoubelHelpTextDialog = (function ($) {
    * @param {H5P.jQuery}  $container  The container which message dialog will be appended to
    * @param {string}      message     The message
    * @param {string}      closeButtonTitle The title for the close button
-   * @returns {H5P.jQuery}
+   * @return {H5P.jQuery}
    */
   function JoubelHelpTextDialog(header, message, closeButtonTitle) {
     H5P.EventDispatcher.call(this);
@@ -75,7 +75,7 @@ H5P.JoubelHelpTextDialog = (function ($) {
 
     /**
      * Get the DOM element
-     * @returns {HTMLElement}
+     * @return {HTMLElement}
      */
     self.getElement = function () {
       return $helpTextDialogBox;
@@ -103,7 +103,7 @@ H5P.JoubelMessageDialog = (function ($) {
    *
    * @param {H5P.jQuery} $container The container which message dialog will be appended to
    * @param {string} message The message
-   * @returns {H5P.jQuery}
+   * @return {H5P.jQuery}
    */
   function JoubelMessageDialog ($container, message) {
     var timeout;
@@ -470,7 +470,7 @@ H5P.JoubelProgressbar = (function ($) {
   /**
    * Check if last step is reached
    * @method isLastStep
-   * @returns {Boolean}
+   * @return {Boolean}
    */
   JoubelProgressbar.prototype.isLastStep = function () {
     return this.steps === this.currentStep;
@@ -544,7 +544,7 @@ H5P.JoubelScoreBar = (function ($) {
      * Create the text representation of the scorebar .
      *
      * @private
-     * @returns {string}
+     * @return {string}
      */
     var createLabel = function (score) {
       if (!label) {
@@ -839,7 +839,7 @@ var H5P = H5P || {};
 H5P.JoubelSpeechBubble = (function ($) {
 
   var $currentSpeechBubble;
-  var $currentContainer;
+  var $currentContainer;  
   var $tail;
   var $innerTail;
   var removeSpeechBubbleTimeout;
@@ -855,7 +855,7 @@ H5P.JoubelSpeechBubble = (function ($) {
    * @param {H5P.jQuery} $container The speaking object
    * @param {string} text The text to display
    * @param {number} maxWidth The maximum width of the bubble
-   * @returns {H5P.JoubelSpeechBubble}
+   * @return {H5P.JoubelSpeechBubble}
    */
   function JoubelSpeechBubble($container, text, maxWidth) {
     maxWidth = maxWidth || DEFAULT_MAX_WIDTH;
@@ -943,9 +943,9 @@ H5P.JoubelSpeechBubble = (function ($) {
 
   /**
    * Returns the closest h5p container for the given DOM element.
-   *
+   * 
    * @param {object} $container jquery element
-   * @returns {object} the h5p container (jquery element)
+   * @return {object} the h5p container (jquery element)
    */
   function getH5PContainer($container) {
     var $h5pContainer = $container.closest('.h5p-frame');
@@ -967,9 +967,9 @@ H5P.JoubelSpeechBubble = (function ($) {
 
   /**
    * Repositions the speech bubble according to the position of the container.
-   *
-   * @param {object} $currentSpeechbubble the speech bubble that should be positioned
-   * @param {object} $container the container to which the speech bubble should point
+   * 
+   * @param {object} $currentSpeechbubble the speech bubble that should be positioned   
+   * @param {object} $container the container to which the speech bubble should point 
    * @param {number} maxWidth the maximum width of the speech bubble
    * @param {object} $tail the tail (the triangle that points to the referenced container)
    * @param {object} $innerTail the inner tail (the triangle that points to the referenced container)
@@ -1047,7 +1047,7 @@ H5P.JoubelSpeechBubble = (function ($) {
    *
    * @param {number} bubbleWidth The width of the speech bubble
    * @param {object} offset
-   * @returns {object} Return position for the speech bubble
+   * @return {object} Return position for the speech bubble
    */
   function getBubblePosition(bubbleWidth, offset) {
     var bubblePosition = {};
@@ -1082,7 +1082,7 @@ H5P.JoubelSpeechBubble = (function ($) {
    * @param {object} bubblePosition Speech bubble position
    * @param {object} offset
    * @param {number} iconWidth The width of the tip icon
-   * @returns {object} Return position for the tail
+   * @return {object} Return position for the tail
    */
   function getTailPosition(bubbleWidth, bubblePosition, offset, iconWidth) {
     var tailPosition = {};
@@ -1112,7 +1112,7 @@ H5P.JoubelSpeechBubble = (function ($) {
    * @param {number} width The width of the speech bubble
    * @param {object} position Speech bubble position
    * @param {number} fontSize The size of the bubbles font
-   * @returns {object} Return CSS
+   * @return {object} Return CSS
    */
   function bubbleCSS(direction, width, position, fontSize) {
     if (direction === 'top') {
@@ -1140,7 +1140,7 @@ H5P.JoubelSpeechBubble = (function ($) {
    *
    * @param {string} direction The direction the speech bubble will grow
    * @param {object} position Tail position
-   * @returns {object} Return CSS
+   * @return {object} Return CSS
    */
   function tailCSS(direction, position) {
     if (direction === 'top') {
@@ -1167,7 +1167,7 @@ H5P.JoubelSpeechBubble = (function ($) {
    *
    * @param {H5P.jQuery} $outer
    * @param {H5P.jQuery} $inner
-   * @returns {object} Position offset
+   * @return {object} Position offset
    */
   function getOffsetBetween($outer, $inner) {
     var outer = $outer[0].getBoundingClientRect();
@@ -1221,7 +1221,7 @@ H5P.JoubelTip = (function ($) {
    * @param {boolean} [behaviour.helpIcon] Set to 'true' to Add help-icon classname to Tip button (changes the icon)
    * @param {boolean} [behaviour.showSpeechBubble] Set to 'false' to disable functionality (you may this in the editor)
    * @param {boolean} [behaviour.tabcontrol] Set to 'true' if you plan on controlling the tabindex in the parent (tabindex="-1")
-   * @returns {H5P.jQuery|undefined} Tip button jQuery element or 'undefined' if invalid tip
+   * @return {H5P.jQuery|undefined} Tip button jQuery element or 'undefined' if invalid tip
    */
   function JoubelTip(tipHtml, behaviour) {
 
@@ -1337,7 +1337,7 @@ H5P.JoubelUI = (function ($) {
    * @method H5P.JoubelUI.createTip
    * @param  {string}  text   The textual tip
    * @param  {Object}  params Parameters
-   * @returns {H5P.JoubelTip}
+   * @return {H5P.JoubelTip}
    */
   JoubelUI.createTip = function (text, params) {
     return new H5P.JoubelTip(text, params);
@@ -1348,7 +1348,7 @@ H5P.JoubelUI = (function ($) {
    * @method H5P.JoubelUI.createMessageDialog
    * @param  {H5P.jQuery}               $container The dom container
    * @param  {string}                   message    The message
-   * @returns {H5P.JoubelMessageDialog}
+   * @return {H5P.JoubelMessageDialog}
    */
   JoubelUI.createMessageDialog = function ($container, message) {
     return new H5P.JoubelMessageDialog($container, message);
@@ -1360,7 +1360,7 @@ H5P.JoubelUI = (function ($) {
    * @param  {string}             header  The textual header
    * @param  {string}             message The textual message
    * @param  {string}             closeButtonTitle The title for the close button
-   * @returns {H5P.JoubelHelpTextDialog}
+   * @return {H5P.JoubelHelpTextDialog}
    */
   JoubelUI.createHelpTextDialog = function (header, message, closeButtonTitle) {
     return new H5P.JoubelHelpTextDialog(header, message, closeButtonTitle);
@@ -1373,7 +1373,7 @@ H5P.JoubelUI = (function ($) {
    * @param  {string}             progressColor   The progress color in hex value
    * @param  {string}             fillColor       The fill color in hex value
    * @param  {string}             backgroundColor The background color in hex value
-   * @returns {H5P.JoubelProgressCircle}
+   * @return {H5P.JoubelProgressCircle}
    */
   JoubelUI.createProgressCircle = function (number, progressColor, fillColor, backgroundColor) {
     return new H5P.JoubelProgressCircle(number, progressColor, fillColor, backgroundColor);
@@ -1382,7 +1382,7 @@ H5P.JoubelUI = (function ($) {
   /**
    * Create throbber for loading
    * @method H5P.JoubelUI.createThrobber
-   * @returns {H5P.JoubelThrobber}
+   * @return {H5P.JoubelThrobber}
    */
   JoubelUI.createThrobber = function () {
     return new H5P.JoubelThrobber();
@@ -1392,7 +1392,7 @@ H5P.JoubelUI = (function ($) {
    * Create simple rounded button
    * @method H5P.JoubelUI.createSimpleRoundedButton
    * @param  {string}                  text The button label
-   * @returns {H5P.SimpleRoundedButton}
+   * @return {H5P.SimpleRoundedButton}
    */
   JoubelUI.createSimpleRoundedButton = function (text) {
     return new H5P.SimpleRoundedButton(text);
@@ -1402,7 +1402,7 @@ H5P.JoubelUI = (function ($) {
    * Create Slider
    * @method H5P.JoubelUI.createSlider
    * @param  {Object} [params] Parameters
-   * @returns {H5P.JoubelSlider}
+   * @return {H5P.JoubelSlider}
    */
   JoubelUI.createSlider = function (params) {
     return new H5P.JoubelSlider(params);
@@ -1413,7 +1413,7 @@ H5P.JoubelUI = (function ($) {
    * @method H5P.JoubelUI.createScoreBar
    * @param  {number=}       maxScore The maximum score
    * @param {string} [label] Makes it easier for readspeakers to identify the scorebar
-   * @returns {H5P.JoubelScoreBar}
+   * @return {H5P.JoubelScoreBar}
    */
   JoubelUI.createScoreBar = function (maxScore, label, helpText, scoreExplanationButtonLabel) {
     return new H5P.JoubelScoreBar(maxScore, label, helpText, scoreExplanationButtonLabel);
@@ -1428,7 +1428,7 @@ H5P.JoubelUI = (function ($) {
    * @param {string} [options.progressText] A progress text for describing
    *  current progress out of total progress for readspeakers.
    *  e.g. "Slide :num of :total"
-   * @returns {H5P.JoubelProgressbar}
+   * @return {H5P.JoubelProgressbar}
    */
   JoubelUI.createProgressbar = function (numSteps, options) {
     return new H5P.JoubelProgressbar(numSteps, options);
@@ -1441,7 +1441,7 @@ H5P.JoubelUI = (function ($) {
    * @param {object} params
    *  May hold any properties allowed by jQuery. If href is set, an A tag
    *  is used, if not a button tag is used.
-   * @returns {H5P.jQuery} The jquery element created
+   * @return {H5P.jQuery} The jquery element created
    */
   JoubelUI.createButton = function(params) {
     var type = 'button';

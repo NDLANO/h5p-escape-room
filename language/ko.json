@@ -26,9 +26,7 @@
                 "label": "\"Back\" (뒤로가기) 버튼 표시",
                 "description": "이전 장면으로 이동하기 위한 버튼 표시"
               },
-              {
-                "label": "SceneId"
-              },
+              {},
               {
                 "label": "장면 제목",
                 "description": "장면을 구분하기 위해 사용"
@@ -98,15 +96,30 @@
                               "label": "Hide"
                             }
                           ]
-                        }
-                      ]
-                    },
-                    {
-                      "label": "Password settings",
-                      "fields": [
+                        },
+                        {
+                          "label": "Show as hotspot",
+                          "description": "Allows for adding interaction areas to the background image that can be custom size."
+                        },
+                        {
+                          "label": "Show hotspot when mouse is hovering",
+                          "description": "Will allow hotspot to be visible when mouse is hovering the area."
+                        },
+                        {
+                          "label": "Set the hotspot be tabbable",
+                          "description": "Will allow hotspot to be tabbable. Can be used for accessibilty."
+                        },
+                        {
+                          "label": "Show as open content in the scene",
+                          "description": "Allows the content to be shown in an open dialog box directly in the scene."
+                        },
+                        {
+                          "default": "256,128",
+                          "label": "Values for storing the height and width for hotspot"
+                        },
                         {
                           "label": "Code for the interaction",
-                          "description": "If not empty, the user has to input the code in order to open this content. Separate multiple correct codes with /."
+                          "description": "If not empty, the user has to input the code in order to open this content."
                         },
                         {
                           "label": "A hint for the interaction code",
@@ -114,35 +127,8 @@
                         }
                       ]
                     },
-                    {
-                      "label": "Show as hotspot",
-                      "description": "Allows for adding interaction areas to the background image that can be custom size."
-                    },
-                    {
-                      "label": "Hotspot settings",
-                      "fields": [
-                        {
-                          "label": "Show hotspot when mouse is hovering",
-                          "description": "Will allow hotspot to be visible when mouse is hovering the area."
-                        },
-                        {
-                          "label": "Set the hotspot be tabbable",
-                          "description": "Will allow hotspot to be tabbable. Required to be checked to make the content accessible!"
-                        },
-                        {
-                          "default": "256,128",
-                          "label": "Values for storing the height and width for hotspot"
-                        }
-                      ]
-                    },
-                    {
-                      "label": "Show as open content in the scene",
-                      "description": "Allows the content to be shown in an open dialog box directly in the scene."
-                    },
                     {},
-                    {
-                      "label": "Interaction position"
-                    },
+                    {},
                     {
                       "label": "Button style",
                       "description": "Decide how the icon should look.",
@@ -198,7 +184,7 @@
         },
         {},
         {
-          "label": "Playlists"
+          "label": "오디오 트랙"
         },
         {
           "label": "Playlists",
@@ -225,6 +211,48 @@
         {
           "label": "글로벌 오디오",
           "description": "기본적으로 모든 장면에서 사용할 수 있는 오디오 트랙을 추가합니다."
+        },
+        {
+          "label": "장면 품질",
+          "description": "장면을 렌더링하는 데 사용되는 너비 및 높이의 양을 선택합니다. 이것은 장면의 품질 수준에 직접적인 영향을 미칩니다. 장면 내에서 장면이 \"blocky\" 혹은 \"waves\" 로 보이는 경우 품질을 높여 본다. 고품질 렌더링은 로드하는 데 시간이 더 많이 걸립니다.",
+          "options": [
+            {
+              "label": "고품질 (128x128)"
+            },
+            {
+              "label": "중간품질 (64x64)"
+            },
+            {
+              "label": "저품질 (16x16)"
+            }
+          ]
+        },
+        {
+          "label": "레이블 설정",
+          "fields": [
+            {
+              "label": "레이블 위치",
+              "description": "기본 레이블 위치입니다. 그 위치는 상호작용에 따라 재정의될 수 있다.",
+              "options": [
+                {
+                  "label": "우측 정렬"
+                },
+                {
+                  "label": "왼쪽 정렬"
+                },
+                {
+                  "label": "상단 정렬"
+                },
+                {
+                  "label": "하단 정렬"
+                }
+              ]
+            },
+            {
+              "label": "라벨 표시",
+              "description": "선택되지 않은 경우 - 레이블은 마우스 커서 위에만 표시됩니다."
+            }
+          ]
         }
       ]
     },
@@ -301,6 +329,18 @@
               "description": "If unchecked - labels will show only on mouse over"
             }
           ]
+        },
+        {
+          "label": "확장 버튼 라벨",
+          "default": "비주얼 라벨 확장"
+        },
+        {
+          "label": "배경 영상이 360 장면에서 로드되는 경우 라벨",
+          "default": "배경 이미지 로드 중..."
+        },
+        {
+          "label": "내용이 없을 때 라벨",
+          "default": "내용 없음"
         }
       ]
     },
@@ -372,6 +412,10 @@
           "default": "Total"
         },
         {
+          "label": "Translation for \"Total Score\"",
+          "default": "Total Score"
+        },
+        {
           "label": "Label for button to show score summary",
           "default": "Show Score Summary"
         },
@@ -416,6 +460,14 @@
           "default": "Code"
         },
         {
+          "label": "Show code",
+          "default": "Show code"
+        },
+        {
+          "label": "Hide code",
+          "default": "Hide code"
+        },
+        {
           "label": "Unlocked interaction action (Continue)",
           "default": "Continue"
         },
@@ -438,26 +490,6 @@
         {
           "label": "Locked content",
           "default": "Locked content"
-        },
-        {
-          "label": "Back",
-          "default": "Back"
-        },
-        {
-          "label": "Text for screenreaders. Title for fullscreen button (enter)",
-          "default": "Enter fullscreen mode"
-        },
-        {
-          "label": "Text for screenreaders. Title for fullscreen button (exit)",
-          "default": "Exit fullscreen mode"
-        },
-        {
-          "label": "Main toolbar",
-          "default": "Main toolbar"
-        },
-        {
-          "label": "No valid scenes set",
-          "default": "No valid scenes have been set."
         }
       ]
     }

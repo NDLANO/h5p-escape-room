@@ -26,9 +26,7 @@
                 "label": "Mostrar botón \"Retroceder\"",
                 "description": "Mostrar botón para navegar de regreso a su escena anterior"
               },
-              {
-                "label": "SceneId"
-              },
+              {},
               {
                 "label": "Título de Escena",
                 "description": "Usado para identificar la escena"
@@ -98,12 +96,27 @@
                               "label": "Ocultar"
                             }
                           ]
-                        }
-                      ]
-                    },
-                    {
-                      "label": "Password settings",
-                      "fields": [
+                        },
+                        {
+                          "label": "Mostrar como punto caliente (hotspot)",
+                          "description": "Permite añadir áreas de interacciones a la imagen del fondo, las que pueden ser de tamaño personalizado."
+                        },
+                        {
+                          "label": "Mostrar hotspot cuando el ratón le pasa encima",
+                          "description": "Permitirá que el hotspot sea visible cuando el ratón está pasando por encima del área."
+                        },
+                        {
+                          "label": "Configurar que el hotspot sea reactivo al tabulador",
+                          "description": "Configurar que el hotspot sea reactivo al tabulador. Puede ser usado por accesibilidad."
+                        },
+                        {
+                          "label": "Mostrar como contenido abierto en la escena",
+                          "description": "Permite que el contenido sea mostrado en la caja de diálogo abierta directamente en la escena."
+                        },
+                        {
+                          "default": "256,128",
+                          "label": "Valores para almacenar la altura y ancho del hotspot"
+                        },
                         {
                           "label": "Código para la interacción",
                           "description": "Si no está vacío, el usuario tiene que escribir el código para abrir este contenido."
@@ -114,44 +127,17 @@
                         }
                       ]
                     },
-                    {
-                      "label": "Mostrar como punto caliente (hotspot)",
-                      "description": "Permite añadir áreas de interacciones a la imagen del fondo, las que pueden ser de tamaño personalizado."
-                    },
-                    {
-                      "label": "Hotspot settings",
-                      "fields": [
-                        {
-                          "label": "Mostrar hotspot cuando el ratón le pasa encima",
-                          "description": "Permitirá que el hotspot sea visible cuando el ratón está pasando por encima del área."
-                        },
-                        {
-                          "label": "Configurar que el hotspot sea reactivo al tabulador",
-                          "description": "Configurar que el hotspot sea reactivo al tabulador. Required to be checked to make the content accessible!"
-                        },
-                        {
-                          "default": "256,128",
-                          "label": "Valores para almacenar la altura y ancho del hotspot"
-                        }
-                      ]
-                    },
-                    {
-                      "label": "Mostrar como contenido abierto en la escena",
-                      "description": "Permite que el contenido sea mostrado en la caja de diálogo abierta directamente en la escena."
-                    },
+                    {},
                     {},
                     {
-                      "label": "Interaction position"
-                    },
-                    {
-                      "label": "Button style",
-                      "description": "Decide how the icon should look.",
+                      "label": "Estilo del botón",
+                      "description": "Decidir cómo debería verse el ícono.",
                       "options": [
                         {
-                          "label": "Text icon"
+                          "label": "Ícono de texto"
                         },
                         {
-                          "label": "Info icon"
+                          "label": "Ícono de información"
                         }
                       ]
                     }
@@ -198,21 +184,20 @@
         },
         {},
         {
-          "label": "Listas de reproducción"
+          "label": "Pista de Audio"
         },
         {
-          "label": "Playlists",
+          "label": "Listas de reproducción",
           "field": {
             "fields": [
               {
-                "label": "Playlist Title",
-                "description": "Used to identify the playlist"
+                "label": "Título de Lista de reproducción",
+                "description": "Usado para identificar la lista de reproducción"
               },
               {
-                "label": "Audio Tracks",
-                "description": "Add audio tracks to the playlist."
-              },
-              {}
+                "label": "Pistas de Audio",
+                "description": "Añadir pistas de audio a la lista de reproducción."
+              }
             ]
           }
         }
@@ -372,6 +357,10 @@
           "default": "Total"
         },
         {
+          "label": "Traducción para \"Puntaje Total\"",
+          "default": "Puntaje Total"
+        },
+        {
           "label": "Etiqueta para botón para mostrar resumen de puntaje",
           "default": "Mostrar Resumen de Puntaje"
         },
@@ -416,6 +405,14 @@
           "default": "Código"
         },
         {
+          "label": "Mostrar código",
+          "default": "Mostrar código"
+        },
+        {
+          "label": "Ocultar código",
+          "default": "Ocultar código"
+        },
+        {
           "label": "Acción de interacción desbloqueada (Continuar)",
           "default": "Continuar"
         },
@@ -438,26 +435,6 @@
         {
           "label": "Contenido bloqueado",
           "default": "Contenido bloqueado"
-        },
-        {
-          "label": "Back",
-          "default": "Back"
-        },
-        {
-          "label": "Text for screenreaders. Title for fullscreen button (enter)",
-          "default": "Enter fullscreen mode"
-        },
-        {
-          "label": "Text for screenreaders. Title for fullscreen button (exit)",
-          "default": "Exit fullscreen mode"
-        },
-        {
-          "label": "Main toolbar",
-          "default": "Main toolbar"
-        },
-        {
-          "label": "No valid scenes set",
-          "default": "No valid scenes have been set."
         }
       ]
     }

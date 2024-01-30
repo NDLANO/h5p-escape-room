@@ -1,72 +1,72 @@
-/**
+/** 
  * Helper class with various methods for checking if a DOM element overflows
  * another.
- */
+ * */
 export class OverflowHelper {
+
   /**
    * Create an instance of OverflowHelper.
-   * @class
-   * @param  {number} height Element height.
-   * @param  {number} top Element top position.
-   * @param  {number} left Element left position
-   * @param  {number} containerHeight Container height.
+   * @param  {number} elHeight
+   * @param  {number} topPosition
+   * @param  {number} leftPosition
+   * @param  {number} containerHeight
+   * @param  {number} containerWidth 
    */
-  constructor(height, top, left, containerHeight) {
-    this.height = height;
+  constructor(elHeight, topPosition, leftPosition, containerHeight) {
+    this.height = elHeight;
 
-    this.top = top;
-    this.left = left;
+    this.topPosition = topPosition;
+    this.leftPosition = leftPosition;
 
     this.containerHeight = containerHeight;
+
   }
 
   /**
-   * Check whether DOM element is overflowing container's top edge.
-   * @returns {boolean} True if overflowing, else false.
+   * Check whether the DOM element is overflowing the container's top edge
+   * @returns {boolean} true if overflowing, false if not
    */
   overflowsTop() {
-    return this.height > this.top;
+    return this.height > this.topPosition;
   }
 
 
   /**
-   * Check whether DOM element is overflowing container's bottom edge.
-   * @returns {boolean} True if overflowing, else false.
+   * Check whether the DOM element is overflowing the container's bottom edge
+   * @returns {boolean} true if overflowing, false if not
    */
   overflowsBottom() {
-    return this.height + this.top > this.containerHeight;
+    return this.height + this.topPosition >
+      this.containerHeight;
   }
 }
 
 /**
- * Calculate correct alignment and expand direction for element.
- * @param  {string} position Position of [top|right|bottom|left].
- * @param  {number} height Height.
- * @param  {number} top Top position.
- * @param  {number} left Left position.
- * @param  {number} wrapperHeight Wrapper Height.
+ * Calculate correct alignment and expand direction for an element
+ * @param  {string} position
+ * @param  {number} height
+ * @param  {number} topPosition
+ * @param  {number} leftPosition
+ * @param  {number} wrapperHeight
  * @returns {object} {expandirection, alignment}
  */
-export const willOverflow = (position, height, top, left, wrapperHeight) => {
-  const overflowHelper = new OverflowHelper(height, top, left, wrapperHeight);
+export function willOverflow(position, height, topPosition, leftPosition, wrapperHeight) {
+  const overflowHelper = new OverflowHelper(height, topPosition, leftPosition, wrapperHeight);
   let expandDirection = null;
   let alignment = null;
 
   switch (position) {
     case 'left':
-      // Intentional fallthrough
     case 'right':
       if (overflowHelper.overflowsBottom()) {
         expandDirection = 'up';
       }
       break;
-
     case 'top':
       if (overflowHelper.overflowsTop()) {
         alignment = 'bottom';
       }
       break;
-
     case 'bottom':
       if (overflowHelper.overflowsBottom()) {
         alignment = 'top';
@@ -75,4 +75,4 @@ export const willOverflow = (position, height, top, left, wrapperHeight) => {
   }
 
   return { expandDirection: expandDirection, alignment: alignment };
-};
+}

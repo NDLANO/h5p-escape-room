@@ -26,9 +26,7 @@
                 "label": "Visa knapp \"Tillbaka\"",
                 "description": "Visa knapp för att navigera bakåt till din föregående scen"
               },
-              {
-                "label": "SceneId"
-              },
+              {},
               {
                 "label": "Scen-titel",
                 "description": "Används för att identifiera scenen"
@@ -98,12 +96,27 @@
                               "label": "Dölj"
                             }
                           ]
-                        }
-                      ]
-                    },
-                    {
-                      "label": "Password settings",
-                      "fields": [
+                        },
+                        {
+                          "label": "Visa som hotspot",
+                          "description": "Möjliggör att lägga till interaktions-områden på bakgrundsbilden som kan av vara anpassad storlek."
+                        },
+                        {
+                          "label": "Visa hotspot vid hovring med markör",
+                          "description": "Låter hotspot bli synlig vid hovring med markör över området."
+                        },
+                        {
+                          "label": "Gör så att det går att använda tabb för att nå hotspot",
+                          "description": "Gör så att hotspot kan nås via tabbning. Användbart för webbtillgänglighet."
+                        },
+                        {
+                          "label": "Visa som öppet innehåll i scenen",
+                          "description": "Tillåter att innehållet visas i en öppen dialogbox, direkt i scenen."
+                        },
+                        {
+                          "default": "256,128",
+                          "label": "Värden för att lagra höjd och bredd för hotspot"
+                        },
                         {
                           "label": "Kod för interaktionen",
                           "description": "If not empty, the user has to input the code in order to open this content."
@@ -114,44 +127,17 @@
                         }
                       ]
                     },
-                    {
-                      "label": "Visa som hotspot",
-                      "description": "Möjliggör att lägga till interaktions-områden på bakgrundsbilden som kan av vara anpassad storlek."
-                    },
-                    {
-                      "label": "Hotspot settings",
-                      "fields": [
-                        {
-                          "label": "Visa hotspot vid hovring med markör",
-                          "description": "Låter hotspot bli synlig vid hovring med markör över området."
-                        },
-                        {
-                          "label": "Gör så att det går att använda tabb för att nå hotspot",
-                          "description": "Gör så att hotspot kan nås via tabbning. Required to be checked to make the content accessible!"
-                        },
-                        {
-                          "default": "256,128",
-                          "label": "Värden för att lagra höjd och bredd för hotspot"
-                        }
-                      ]
-                    },
-                    {
-                      "label": "Visa som öppet innehåll i scenen",
-                      "description": "Tillåter att innehållet visas i en öppen dialogbox, direkt i scenen."
-                    },
+                    {},
                     {},
                     {
-                      "label": "Interaction position"
-                    },
-                    {
-                      "label": "Button style",
-                      "description": "Decide how the icon should look.",
+                      "label": "Knapptyp",
+                      "description": "Avgör hur ikonen ska se ut.",
                       "options": [
                         {
-                          "label": "Text icon"
+                          "label": "Textikon"
                         },
                         {
-                          "label": "Info icon"
+                          "label": "Info-ikon"
                         }
                       ]
                     }
@@ -198,7 +184,7 @@
         },
         {},
         {
-          "label": "Playlists"
+          "label": "Ljudspår"
         },
         {
           "label": "Playlists",
@@ -211,8 +197,7 @@
               {
                 "label": "Audio Tracks",
                 "description": "Add audio tracks to the playlist."
-              },
-              {}
+              }
             ]
           }
         }
@@ -372,6 +357,10 @@
           "default": "Total"
         },
         {
+          "label": "Translation for \"Total Score\"",
+          "default": "Total Score"
+        },
+        {
           "label": "Label for button to show score summary",
           "default": "Show Score Summary"
         },
@@ -416,6 +405,14 @@
           "default": "Code"
         },
         {
+          "label": "Show code",
+          "default": "Show code"
+        },
+        {
+          "label": "Hide code",
+          "default": "Hide code"
+        },
+        {
           "label": "Unlocked interaction action (Continue)",
           "default": "Continue"
         },
@@ -438,26 +435,6 @@
         {
           "label": "Låst innehåll",
           "default": "Låst innehåll"
-        },
-        {
-          "label": "Back",
-          "default": "Back"
-        },
-        {
-          "label": "Text for screenreaders. Title for fullscreen button (enter)",
-          "default": "Enter fullscreen mode"
-        },
-        {
-          "label": "Text for screenreaders. Title for fullscreen button (exit)",
-          "default": "Exit fullscreen mode"
-        },
-        {
-          "label": "Main toolbar",
-          "default": "Main toolbar"
-        },
-        {
-          "label": "No valid scenes set",
-          "default": "No valid scenes have been set."
         }
       ]
     }

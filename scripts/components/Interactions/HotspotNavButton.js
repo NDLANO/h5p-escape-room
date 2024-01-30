@@ -5,15 +5,50 @@ import { scaleOpenContentElement } from '../../utils/open-content-utils';
 import { staticSceneWidth, staticSceneHeight } from '../Scene/SceneTypes/StaticScene';
 import { clamp } from '../../utils/utils';
 
+/**
+ * @typedef {{
+ *   isHotspotTabbable: boolean;
+ *   setHotspotValues: (newWidth: number, newHeight: number) => void;
+ *   tabIndexValue: number;
+ *   reference: React.RefObject;
+ *   staticScene: boolean;
+ *   ariaLabel: string;
+ *   showHotspotOnHover: boolean;
+ *   onClickEvent: React.MouseEventHandler;
+ *   onDoubleClickEvent: React.MouseEventHandler;
+ *   onMouseDownEvent: React.MouseEventHandler;
+ *   onMouseUpEvent?: React.MouseEventHandler;
+ *   onFocusEvent: React.FocusEventHandler;
+ *   onBlurEvent: React.FocusEventHandler;
+ *   getHotspotValues: () => [number, number];
+ *   style: NavButtonStyle;
+ *   resizeOnDrag?: (width: number, height: number) => void;
+ * }} Props
+ */
+
+/**
+ * @typedef {{
+ *   anchorDrag: boolean;
+ *   canDrag: boolean;
+ *   camPosYaw: number;
+ *   camPosPitch: number;
+ *   startMousePos: number;
+ *   startMidPoint: number;
+ *   sizeWidth: number;
+ *   sizeHeight: number;
+ *   elementRect: DOMRect | null;
+ * }} State
+ */
+
+/**
+ * @extends {React.Component<Props, State>}
+ */
 export default class HotspotNavButton extends React.Component {
-  /**
-   * @class
-   * @param {object} props React props.
-   */
+  /** @param {Props} props */
   constructor(props) {
     super(props);
-    this.props = props;
 
+    /** @type {State} */
     this.state = {
       anchorDrag : false,
       canDrag : false,
@@ -27,9 +62,6 @@ export default class HotspotNavButton extends React.Component {
     };
   }
 
-  /**
-   * React life-cycle handler: Component did mount.
-   */
   componentDidMount() {
     const [sizeWidth, sizeHeight] = this.props.getHotspotValues();
 
@@ -39,65 +71,50 @@ export default class HotspotNavButton extends React.Component {
     });
   }
 
-  /**
-   * Toggle drag state.
-   */
-  toggleDrag() {
+  toggleDrag = () => {
     const canDrag = this.state.canDrag;
-    this.setState({ canDrag: !canDrag });
+    this.setState({
+      canDrag: !canDrag
+    });
 
     if (!this.props.staticScene) {
-      /*
-       * If cant drag anymore, start rendering of threesixty scene, also set
-       * camera position that is stored when start hotspot scaling
-       */
+      //If we cant drag anymore, we start the rendering of the threesixty scene,
+      // we also set the camera position that is stored wen we start the hotspot scaling
       if (canDrag) {
         this.context.threeSixty.startRendering();
-        this.context.threeSixty.setCameraPosition(
-          this.state.camPosYaw, this.state.camPosPitch
-        );
+        this.context.threeSixty.setCameraPosition(this.state.camPosYaw, this.state.camPosPitch);
+
       }
       else {
-        // Store current position, because technically still dragging background
+        //We store the current position, because we are technically still dragging the background around here
         this.setState({
           camPosYaw : this.context.threeSixty.getCurrentPosition().yaw,
           camPosPitch : this.context.threeSixty.getCurrentPosition().pitch
         });
-
-        // Stop rendering threesixty scene so it doesn't look like moving around
+        //We stop rendering the threesixty scene so it doesnt look like we are moving around
         this.context.threeSixty.stopRendering();
       }
     }
-  }
+  };
 
-  /**
-   * Handle anchor mouse down.
-   * @param {PointerEvent} event Event.
-   * @param {boolean} isHorizontalDrag True for horizontal dragging.
-   */
-  onAnchorDragMouseDown(event, isHorizontalDrag) {
-    /*
-     * Based on direction, store x or y start position of mouse, find center of
-     * div, startMidPoint, which is needed for scaling from
-     */
+  onAnchorDragMouseDown = (e, horizontalDrag) => {
+
+    /*Based on the direction, we store the X or Y start position of the mouse,
+     and finds the center of the div, startMidPoint, which is needed for scaling from*/
     this.setState({
       anchorDrag: true,
-      startMousePos: isHorizontalDrag ?
-        event.clientX :
-        event.clientY,
-      startMidPoint: isHorizontalDrag ?
-        this.state.sizeWidth / 2 :
-        this.state.sizeHeight / 2,
-      elementRect: this.props.reference.current?.getBoundingClientRect() ?? null
+      startMousePos : horizontalDrag ? e.clientX : e.clientY,
+      startMidPoint : horizontalDrag ? this.state.sizeWidth / 2 : this.state.sizeHeight / 2,
+      elementRect: this.props.reference.current?.getBoundingClientRect() ?? null,
     });
-  }
+  };
 
   /**
-   * Handle mouse movement.
-   * @param {PointerEvent} event Mouse event.
-   * @param {boolean} isHorizontalDrag True for vertical dragging.
+   *
+   * @param {React.MouseEvent} event
+   * @param {boolean} isHorizontalDrag
    */
-  onMouseMove(event, isHorizontalDrag) {
+  onMouseMove = (event, isHorizontalDrag) => {
     const { clientX, clientY } = event;
     const newSize = scaleOpenContentElement(
       clientX,
@@ -109,73 +126,68 @@ export default class HotspotNavButton extends React.Component {
       this.state.startMidPoint
     );
 
-    if (
-      newSize > HotspotNavButton.SIZE_MIN && newSize < HotspotNavButton.SIZE_MAX
-    ) {
-      /*
-       * These values are used for inline styling in div in render loop,
-       * updating div dimensions when mousemove event fires
-       */
+    const minimumSize = 20;
+    const maximumSize = 2000;
+
+    const newSizeIsValid = newSize > minimumSize && newSize < maximumSize;
+    if (newSizeIsValid) {
+      /*These values are used for inline styling in the div in the render loop,
+        updating the div dimensions when the mousemove event fires*/
       if (this.props.staticScene) {
-        isHorizontalDrag ?
-          this.setState({ sizeWidth: (newSize / staticSceneWidth) * 100 }) :
-          this.setState({ sizeHeight: (newSize / staticSceneHeight) * 100 });
+        isHorizontalDrag
+          ? this.setState({
+            sizeWidth: (newSize / staticSceneWidth) * 100,
+          })
+          : this.setState({
+            sizeHeight: (newSize / staticSceneHeight) * 100,
+          });
       }
       else {
-        isHorizontalDrag ?
-          this.setState({ sizeWidth: newSize }) :
-          this.setState({ sizeHeight: newSize });
+        isHorizontalDrag
+          ? this.setState({
+            sizeWidth: newSize,
+          })
+          : this.setState({
+            sizeHeight: newSize,
+          });
       }
 
       this.props.resizeOnDrag(this.state.sizeWidth, this.state.sizeHeight);
     }
-  }
+  };
 
-  /**
-   * Handle anchor drag mouse up.
-   */
-  onAnchorDragMouseUp() {
-    const newSizeWidth = this.state.sizeWidth;
-    const newSizeHeight = this.state.sizeHeight;
+  onAnchorDragMouseUp = () => {
+    let newSizeWidth = this.state.sizeWidth;
+    let newSizeHeight = this.state.sizeHeight;
 
-    this.setState({ anchorDrag: false });
-
-    // Used for writing data into editor, for them to persist into the view
+    this.setState({
+      anchorDrag: false,
+    });
+    //Used for writing the data into to editor, for them to persist into the viewer
     this.props.setHotspotValues(newSizeWidth, newSizeHeight);
-  }
+  };
 
-  /**
-   * Determine tab index value.
-   * @returns {number} Tab index value.
-   */
-  determineTabIndex() {
-    return this.context.extras.isEditor || this.props.isHotspotTabbable ?
-      this.props.tabIndexValue :
-      -1;
-  }
+  determineTabIndex = () => {
+    return this.context.extras.isEditor || this.props.isHotspotTabbable ? this.props.tabIndexValue : -1;
+  };
 
-  /**
-   * React render function.
-   * @returns {object} JSX element.
-   */
   render() {
     const DragButton = (innerProps) => {
       const hotspotBtnRef = useRef(null);
 
-      const mouseMoveHandler = (event) => {
-        this.onMouseMove(event, !innerProps.horizontalDrag);
+      const mouseMoveHandler = (e) => {
+        this.onMouseMove(e, innerProps.horizontalDrag);
       };
-
-      // Add mouseup listener on document so user can release mouse everywhere
-      const handleMouseDown = useCallback((event) => {
-        this.onAnchorDragMouseDown(event, !innerProps.horizontalDrag);
+      //Here we add a mouseup listener on the document so the user can release the mouse on anything on the document
+      const handleMouseDown = useCallback((e) => {
+        this.onAnchorDragMouseDown(e, innerProps.horizontalDrag);
         this.toggleDrag();
         document.addEventListener('mousemove', mouseMoveHandler);
 
         document.addEventListener(
           'mouseup',
           () => {
-            document.removeEventListener('mousemove', mouseMoveHandler);
+            document.removeEventListener('mousemove',  mouseMoveHandler);
             this.toggleDrag();
             this.onAnchorDragMouseUp();
           },
@@ -184,49 +196,34 @@ export default class HotspotNavButton extends React.Component {
       }, []);
 
       useEffect(() => {
-        /*
-         * Stop propagation early on: mousedown is already listened to by
-         * threesixty
-         */
-        hotspotBtnRef.current.addEventListener('mousedown', (event) => {
-          event.stopPropagation();
-          handleMouseDown(event);
+        /*In order to take control of the mousedown listener, we have to it when the component mount,
+       the reason for trhis is that we have to stop the propagation early on, since mousedown is already listened to by threesixty */
+        hotspotBtnRef.current.addEventListener('mousedown', (e) => {
+          e.stopPropagation();
+          handleMouseDown(e);
         });
+
       }, []);
 
+
       return (
-        <button
-          className={innerProps.horizontalDrag ?
-            'drag drag--vertical' :
-            'drag drag--horizontal'
-          }
+        <button className={innerProps.horizontalDrag ? 'drag drag--horizontal' : 'drag drag--vertical'}
           ref={hotspotBtnRef}
           tabIndex={this.props.tabIndexValue}
-          aria-label={innerProps.horizontalDrag ?
-            this.context.l10n.hotspotDragHorizAlt :
-            this.context.l10n.hotspotDragVertiAlt
-          }
+          aria-label={innerProps.horizontalDrag ? this.context.l10n.hotspotDragHorizAlt : this.context.l10n.hotspotDragVertiAlt}
         />
       );
     };
 
-    const iconSize = clamp(
-      20,
-      Math.min(this.state.sizeWidth / 2, this.state.sizeHeight / 2),
-      40
-    );
+    const iconSize = clamp(20, Math.min(this.state.sizeWidth / 2, this.state.sizeHeight / 2), 40);
 
     return (
-      <div
-        className={`nav-button-hotspot-wrapper ${this.props.staticScene ? 'nav-button-hotspot-wrapper--is-static' : ''} `}
+      <div className={`nav-button-hotspot-wrapper ${this.props.staticScene ? 'nav-button-hotspot-wrapper--is-static' : ''} `}
         style={this.props.staticScene ? { height:'100%', width:'100%' } : {}}>
         <button
           ref={this.props.reference}
           aria-label={this.props.ariaLabel}
-          style={this.props.staticScene ?
-            { width: '100%', height: '100%', fontSize: iconSize } :
-            { width: `${this.state.sizeWidth}px`, height: `${this.state.sizeHeight}px`, fontSize: iconSize }
-          }
+          style={this.props.staticScene ? { width: '100%', height: '100%', fontSize: iconSize } : { width: this.state.sizeWidth + 'px', height: this.state.sizeHeight + 'px', fontSize: iconSize }}
           className={ `nav-button nav-button-hotspot ${this.props.showHotspotOnHover ? 'nav-button-hotspot--show-hotspot-on-hover' : ''} ${this.context.extras.isEditor ? 'nav-button-hotspot--editor' : ''} `}
           tabIndex={this.determineTabIndex()}
           onClick={this.props.onClickEvent}
@@ -248,9 +245,3 @@ export default class HotspotNavButton extends React.Component {
   }
 }
 HotspotNavButton.contextType = H5PContext;
-
-/** @constant {number} SIZE_MIN Minimum size of 3D hotspot */
-HotspotNavButton.SIZE_MIN = 20;
-
-/** @constant {number} SIZE_MAX Maximum size of 3D hotspot */
-HotspotNavButton.SIZE_MAX = 2000;

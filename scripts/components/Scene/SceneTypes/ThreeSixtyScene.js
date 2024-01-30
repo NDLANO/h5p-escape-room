@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import NavigationButton, { getIconFromInteraction, getLabelFromInteraction } from '../../Interactions/NavigationButton';
 import { H5PContext } from '../../../context/H5PContext';
 import ContextMenu from '../../Shared/ContextMenu';
@@ -13,12 +13,37 @@ export const sceneRenderingQualityMapping = {
   low: 16,
 };
 
+/**
+ * @typedef {{
+ *  startBtnClicked: boolean;
+ *  sceneParams: SceneParams;
+ *  threeSixty: any;
+ *  addThreeSixty: (threeSixty: any) => void;
+ *  imageSrc: { path: string; };
+ *  audioIsPlaying: string;
+ *  sceneId: number;
+ *  onFocusedInteraction: () => void;
+ *  onBlurInteraction: () => void;
+ *  nextFocus: number;
+ *  focusedInteraction: number;
+ *  showInteraction: (interactionIndex: number) => void;
+ *  isHiddenBehindOverlay: boolean;
+ *  onSetCameraPos: (interactionPosition: string) => void;
+ *  isActive: boolean;
+ *  sceneIcons: { id: number; iconType: string; }[];
+ *  updateThreeSixty: boolean;
+ *  isEditingInteraction: boolean;
+ * }} Props
+ */
+
+/** @type {ThreeSixtyScene extends React.Component<Props>} */
 export default class ThreeSixtyScene extends React.Component {
   /**
-   * @param {object} props React properties.
+   * @param {Props} props
    */
   constructor(props) {
     super(props);
+
     this.props = props;
 
     this.sceneRef = React.createRef();
@@ -34,15 +59,13 @@ export default class ThreeSixtyScene extends React.Component {
       willPointerLock: false,
       hasPointerLock: false,
     };
-
-    this.handleFirstRender = this.handleFirstRender.bind(this);
-    this.handleSceneMoveStart = this.handleSceneMoveStart.bind(this);
-    this.handleSceneMoveStop = this.handleSceneMoveStop.bind(this);
   }
 
   /**
-   * Lock dragged Navigation Button to the pointer.
-   * @param {HTMLElement} element Dragged Navigation button DOM element.
+   * @private
+   *
+   * Locks the dragged Navigation Button to the pointer
+   * @param {HTMLElement} element
    */
   initializePointerLock(element) {
     element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock;
@@ -63,7 +86,9 @@ export default class ThreeSixtyScene extends React.Component {
   }
 
   /**
-   * Unlock Navigation Button from pointer.
+   * @private
+   *
+   * Unlocks the Navigation Button from the pointer.
    */
   cancelPointerLock() {
     this.setState({
@@ -73,28 +98,18 @@ export default class ThreeSixtyScene extends React.Component {
   }
 
   /**
-   * Handle first render.
+   * @private
+   *
+   * Called when the scene is moved, caused by a drag event.
+   *
+   * @param {H5PEvent} event
    */
-  handleFirstRender() {
-    this.setState({
-      isRendered: true
-    });
-
-    this.focusScene();
-  }
-
-  /**
-   * Handle dragging scene started.
-   * @param {H5P.Event} event Event.
-   * @returns {boolean|undefined} False, when dragging context menu or context menu children.
-   */
-  handleSceneMoveStart(event) {
-    this.startPosition = this.props.threeSixty.getCurrentPosition();
-
+  handleSceneMoveStart = (event) => {
     if (!this.context.extras.isEditor || event.data.isCamera) {
-      return; // Not relevant.
+      return;
     }
 
+    /** @type {HTMLElement} */
     const target = event.data.target;
     if (target) {
       const isOrIsInContextMenu = !!target.closest('.context-menu');
@@ -118,38 +133,47 @@ export default class ThreeSixtyScene extends React.Component {
         this.initializePointerLock(element);
       }
     }
+  };
+
+  /**
+   * @private
+   *
+   * Since some interactions don't have titles,
+   * this seeks to use the closest thing to a title to prevent "Untitled Text"
+   *
+   * @param {Action} action
+   */
+  getInteractionTitle(action) {
+    const currentTitle = action.metadata.title;
+    switch (currentTitle) {
+      case 'Untitled Text':
+        return action.params.text;
+      case 'Untitled Image':
+        return action.params.alt;
+      default:
+        return currentTitle;
+    }
   }
 
   /**
-   * Handle dragging scene ended.
-   * @param {H5P.Event} event Event.
+   * @private
+   *
+   * Called when a scene move is stopped after dragging ends.
    */
-  handleSceneMoveStop(event) {
+  handleSceneMoveStop = (e) => {
     if (this.context.extras.isEditor) {
       this.cancelPointerLock();
     }
-    this.context.trigger('movestop', event.data);
-  }
+    this.context.trigger('movestop', e.data);
+  };
 
   /**
-   * React life-cycle handler: Component will unmount.
+   * @private
+   *
+   * Creates a ThreeSixty object. If one exists uses that one.
+   * Apply all listeners
    */
-  componentWillUnmount() {
-    if (!this.props.threeSixty) {
-      return; // Was not set up properly.
-    }
-
-    // Remove handlers.
-    this.props.threeSixty.stopRendering();
-    this.props.threeSixty.off('movestart', this.handleSceneMoveStart);
-    this.props.threeSixty.off('movestop', this.handleSceneMoveStop);
-    this.props.threeSixty.off('firstrender', this.handleFirstRender);
-  }
-
-  /**
-   * Initialize ThreeSixty.
-   */
-  initializeThreeSixty() {
+  initializeThreeSixty = () => {
     // Determine camera position
     let cameraPosition = this.state.cameraPosition;
     if (!cameraPosition || this.props.startBtnClicked) {
@@ -186,20 +210,31 @@ export default class ThreeSixtyScene extends React.Component {
     threeSixty.resize(this.context.getRatio());
 
     // Show loading screen until first render has been drawn
-    threeSixty.on('firstrender', this.handleFirstRender);
+    threeSixty.on('firstrender', () => {
+      this.setState({
+        isRendered: true
+      });
+
+      this.focusScene();
+    });
 
     threeSixty.startRendering();
-    threeSixty.update();
+    if (this.props.isPanorama) {
+      threeSixty.updateCylinder();
+    }
+    else {
+      threeSixty.update();
+    }
 
     threeSixty.on('movestart', this.handleSceneMoveStart);
     threeSixty.on('movestop', this.handleSceneMoveStop);
 
     // Add buttons to scene
     this.addInteractionHotspots(threeSixty, this.props.sceneParams.interactions);
-  }
+  };
 
   /**
-   * Focus.
+   * Focus
    */
   focusScene() {
     // Scene should only take focus if nothing else could
@@ -209,13 +244,13 @@ export default class ThreeSixtyScene extends React.Component {
   }
 
   /**
-   * Load current ThreeSixty scene.
+   * Loads the current ThreeSixty scene
    */
   loadScene() {
     if (!this.imageElement) {
       // Create image element used for loading on first load
       this.imageElement = document.createElement('img');
-      this.imageElement.addEventListener('load', this.sceneLoaded.bind(this));
+      this.imageElement.addEventListener('load', this.sceneLoaded);
     }
 
     this.setState({
@@ -239,9 +274,11 @@ export default class ThreeSixtyScene extends React.Component {
   }
 
   /**
-   * Handle scene loaded.
+   * @private
+   *
+   * Triggeered when the scene is loaded.  Updates state.threeSixty in Main.js
    */
-  sceneLoaded() {
+  sceneLoaded = () => {
     if (this.state.isLoaded && this.state.isUpdated && this.props.isActive) {
       // Has been loaded before, we only need to reload the texture
       this.props.threeSixty.update();
@@ -251,18 +288,22 @@ export default class ThreeSixtyScene extends React.Component {
         isLoaded: true // Indicates that this.imageElement can now be used
       });
     }
-  }
+  };
 
   /**
-   * Create, add and render all interactions in 3D world.
-   * @param {object} threeSixty ThreeSixty object.
-   * @param {object[]} interactions Interactions.
+   * @private
+   *
+   * Create, add and render all interactions in the 3D world.
+   *
+   * @param {Array} interactions
    */
   addInteractionHotspots(threeSixty, interactions) {
-    const list = interactions ?
-      interactions.map((interaction, index) => this.createInteraction(interaction, index))
-      : [];
+    const list = interactions ? interactions.map(this.createInteraction) : [];
+
+    /** @type {Array<JSX.Element>} */
     const components2d = [];
+
+    /** @type {Array<JSX.Element>} */
     const components3d = [];
 
     for (const interaction of list) {
@@ -276,62 +317,54 @@ export default class ThreeSixtyScene extends React.Component {
 
     this.renderedInteractions = list.length;
 
-    let [reactRoot2D, reactRoot3D] = this.props.getReactRoots();
+    /** @type {[HTMLElement, HTMLElement]} */
     const [rendererElement2d, rendererElement3d] = threeSixty.getRenderers();
-    if (!reactRoot2D || !reactRoot3D) {
-      reactRoot2D = createRoot(rendererElement2d);
-      reactRoot3D = createRoot(rendererElement3d.firstChild);
 
-      this.props.setReactRoots([reactRoot2D, reactRoot3D]);
-    }
-
-    reactRoot2D.render(
+    ReactDOM.render(
       <H5PContext.Provider value={this.context}>
         { components2d }
-      </H5PContext.Provider>
+      </H5PContext.Provider>,
+      rendererElement2d,
     );
 
-    /*
-     * In contrast to React 16, React 18 we need to render the react2D root
-     * first before the react3D root can be rendered, as the latter is a child
-     * of the former (why by the way?) and would overruled by rendering the 2D
-     * root at the same time.
-     */
-    window.requestAnimationFrame(() => {
-      // Workaround for reactRoot2D.render overwriting rendererElement3d
-      const elements2d = [...rendererElement2d.childNodes];
-      if (!elements2d.includes(rendererElement3d)) {
-        rendererElement2d.insertBefore(rendererElement3d, elements2d[0]);
-      }
-
-      reactRoot3D.render(
-        <H5PContext.Provider value={this.context}>
-          { components3d }
-        </H5PContext.Provider>
-      );
-    });
+    ReactDOM.render(
+      <H5PContext.Provider value={this.context}>
+        { components3d }
+      </H5PContext.Provider>,
+      /** @type {HTMLElement} */ (rendererElement3d.firstChild),
+    );
   }
 
   /**
-   * Create button for each interaction.
-   * @param {object} interaction Interaction.
-   * @param {number} index Interaction index.
-   * @returns {object} Interaction.
+   * @private
+   *
+   * Creates a button for each interaction
+   *
+   * @param {Interaction} interaction
+   * @param {number} index
+   * @return {{
+   *  component: JSX.Element;
+   *  is3d: boolean;
+   * }}
    */
-  createInteraction(interaction, index) {
+  createInteraction = (interaction, index) => {
     const className = ['three-sixty'];
-
-    if (
-      this.props.audioIsPlaying === `interaction-${this.props.sceneId}-${index}`
-    ) {
+    if (this.props.audioIsPlaying === 'interaction-' + this.props.sceneId + '-' + index) {
       className.push('active');
     }
+    let title;
+    const isGoToSceneInteraction = interaction.action.library.split(' ')[0] === 'H5P.GoToScene';
+    if (isGoToSceneInteraction) {
+      const gotoScene = this.context.params.scenes.find((scene) => {
+        return scene.sceneId === interaction.action.params.nextSceneId;
+      });
+      title = gotoScene.scenename; // Use scenename as title.
+    }
+    else {
+      title = this.getInteractionTitle(interaction.action);
+    }
 
-    const isGoToSceneInteraction =
-      H5P.libraryFromString(interaction.action.library)?.machineName === 'H5P.GoToScene';
-    const title = this.props.getInteractionTitle(interaction.action);
-
-    const onMount = (element) => {
+    const onMount = (/** @type {HTMLElement} */ element) => {
       element.dataset.interactionId = interaction.id;
 
       this.props.threeSixty.add(
@@ -341,11 +374,11 @@ export default class ThreeSixtyScene extends React.Component {
       );
     };
 
-    const onUnmount = (element) => {
+    const onUnmount = (/** @type {HTMLElement} */ element) => {
       this.props.threeSixty.remove(this.props.threeSixty.find(element));
     };
 
-    const onUpdate = (element) => {
+    const onUpdate = (/** @type {HTMLElement} */ element) => {
       const threeElement = this.props.threeSixty.find(element);
 
       H5P.NDLAThreeSixty.setElementPosition(
@@ -359,7 +392,7 @@ export default class ThreeSixtyScene extends React.Component {
     const is3d = renderIn3d(interaction);
 
     const component = (
-      interaction.showAsOpenSceneContent ?
+      interaction.label?.showAsOpenSceneContent ?
         <OpenContent
           key={key}
           mouseDownHandler={null}
@@ -409,10 +442,7 @@ export default class ThreeSixtyScene extends React.Component {
           isHiddenBehindOverlay={ this.props.isHiddenBehindOverlay }
           nextFocus={ this.props.nextFocus }
           type={ 'interaction-' + index }
-          clickHandler={() => {
-            this.handleNavButtonClick(index);
-          }
-          }
+          clickHandler={this.props.showInteraction.bind(this, index)}
           doubleClickHandler={() => {
             this.context.trigger('doubleClickedInteraction', index);
           }}
@@ -423,9 +453,9 @@ export default class ThreeSixtyScene extends React.Component {
           onBlur={this.props.onBlurInteraction}
           isFocused={this.props.focusedInteraction === index}
           rendered={this.state.isUpdated}
-          showAsHotspot={interaction.showAsHotspot}
-          showHotspotOnHover={interaction.hotspotSettings?.showHotspotOnHover}
-          isHotspotTabbable={interaction.hotspotSettings?.isHotspotTabbable}
+          showAsHotspot={interaction.label.showAsHotspot}
+          showHotspotOnHover={interaction.label.showHotspotOnHover}
+          isHotspotTabbable={interaction.label.isHotspotTabbable}
           sceneId = {this.props.sceneId}
           interactionIndex = {index}
           is3d={is3d}
@@ -444,12 +474,16 @@ export default class ThreeSixtyScene extends React.Component {
       component,
       is3d,
     };
-  }
+  };
 
   /**
-   * Convert params position string to object.
-   * @param {string} position Position as `yaw.pitch`.
-   * @returns {object} Camera position.
+   * @private
+   *
+   * Convert params position string.
+   * TODO: Use object in params instead of convert all the time.
+   *
+   * @param {string} position
+   * @return {CameraPosition}
    */
   static getPositionFromString(position) {
     const [yaw, pitch] = position.split(',').map((strValue) => Number.parseFloat(strValue));
@@ -461,35 +495,16 @@ export default class ThreeSixtyScene extends React.Component {
   }
 
   /**
-   * Handle click on navigation button.
-   * @param {number} index Index of interaction linked to navigation button.
-   */
-  handleNavButtonClick(index) {
-    // Prevent click if user also dragged button beyond maximum slack.
-    const endPosition = this.props.threeSixty.getCurrentPosition();
-    if (
-      Math.abs(endPosition.yaw - this.startPosition?.yaw) >
-        ThreeSixtyScene.MAX_YAW_DELTA ||
-      Math.abs(endPosition.pitch - this.startPosition?.pitch) >
-        ThreeSixtyScene.MAX_PITCH_DELTA
-    ) {
-      return; // Dragged button too much for click
-    }
-
-    this.props.showInteraction.bind(this)(index);
-  }
-
-  /**
+   * @private
+   *
    * Handle interaction focused.
-   * @param {object} interaction Interaction.
+   *
+   * @param {Interaction} interaction
    */
-  handleInteractionFocus(interaction) {
+  handleInteractionFocus = (interaction) => {
     this.props.onSetCameraPos(interaction.interactionpos);
-  }
+  };
 
-  /**
-   * React handler. Component did mount.
-   */
   componentDidMount() {
     // Only load scene if image exists
     if (this.props.imageSrc !== undefined) {
@@ -502,20 +517,15 @@ export default class ThreeSixtyScene extends React.Component {
   }
 
   /**
-   * React handler: Component did mount.
-   * @param {object} prevProps Properties before update.
+   * @param {Props} prevProps
    */
   componentDidUpdate(prevProps) {
-    if (
-      (this.props.isActive && this.state.isLoaded && !this.state.isUpdated) ||
-      (this.props.isActive && this.props.updateThreeSixty) ||
-      (this.props.isActive && prevProps.isPanorama !== this.props.isPanorama)
-    ) {
+    if ((this.props.isActive && this.state.isLoaded && !this.state.isUpdated) ||
+    (this.props.isActive && this.props.updateThreeSixty)) {
       // Active and loaded, prepare the scene
-      window.setTimeout(() => {
+      setTimeout(() => {
         this.initializeThreeSixty();
-      }, 40); // Using timeout to allow loading screen to render before we load WebGL. TODO: Is there no callback?
-
+      }, 40); // Using timeout to allow loading screen to render before we load WebGL
       this.setState({
         isUpdated: true
       });
@@ -533,7 +543,7 @@ export default class ThreeSixtyScene extends React.Component {
       this.props.threeSixty.stopRendering();
       this.props.threeSixty.off('movestart', this.handleSceneMoveStart);
       this.props.threeSixty.off('movestop', this.handleSceneMoveStop);
-      this.props.threeSixty.off('firstrender', this.handleFirstRender);
+      this.props.threeSixty.off('firstrender');
       this.setState({
         cameraPosition: this.props.threeSixty.getCurrentPosition(),
         isUpdated: false,
@@ -568,6 +578,7 @@ export default class ThreeSixtyScene extends React.Component {
     // Need to respond to dialog toggling in order to hide the buttons under the overlay
     const isHiddenBehindOverlayHasChanged = (this.props.isHiddenBehindOverlay !== prevProps.isHiddenBehindOverlay);
     if (isHiddenBehindOverlayHasChanged && this.state.isUpdated) {
+      // TODO: Update scene element
       this.props.threeSixty.setTabIndex(false);
     }
 
@@ -587,14 +598,8 @@ export default class ThreeSixtyScene extends React.Component {
           || isHiddenBehindOverlayHasChanged
           || this.props.isEditingInteraction;
 
-      this.addInteractionHotspots(
-        this.props.threeSixty, this.props.sceneParams.interactions
-      );
-
       if (shouldUpdateInteractionHotspots) {
-        this.addInteractionHotspots(
-          this.props.threeSixty, this.props.sceneParams.interactions
-        );
+        this.addInteractionHotspots(this.props.threeSixty, this.props.sceneParams.interactions);
       }
       // Check if the scene that interactions point to has changed icon type
       // This is only relevant when changing the icon using the H5P editor
@@ -624,10 +629,6 @@ export default class ThreeSixtyScene extends React.Component {
     }
   }
 
-  /**
-   * React render function.
-   * @returns {object} JSX element.
-   */
   render() {
     if (!this.props.isActive) {
       return null;
@@ -656,9 +657,3 @@ export default class ThreeSixtyScene extends React.Component {
 }
 
 ThreeSixtyScene.contextType = H5PContext;
-
-/** @constant {number} MAX_YAW_DELTA Maximum yaw delta allowed to distinguish click from drag. */
-ThreeSixtyScene.MAX_YAW_DELTA = 0.005;
-
-/** @constant {number} MAX_PITCH_DELTA Maximum pitch delta allowed to distinguish click from drag. */
-ThreeSixtyScene.MAX_PITCH_DELTA = 0.01;

@@ -5,19 +5,13 @@ import { H5PContext } from '../../context/H5PContext';
 import './ScoreSummary.scss';
 
 export default class ScoreSummary extends React.Component {
-  /**
-   * @class
-   * @param {object} props React props.
-   */
   constructor(props) {
     super(props);
-    this.props = props;
-
-    this.scoreBarDOM = React.createRef();
   }
 
   /**
    * Get total scores of all scenes.
+   *
    * @param {object} sceneScoreCards Score cards.
    * @returns {object} Overall score and total score of all scenes.
    */
@@ -32,69 +26,34 @@ export default class ScoreSummary extends React.Component {
       }, { score: 0, max:0 });
   }
 
-  /**
-   * React life-cycle handler: component did mount.
-   */
   componentDidMount() {
     const totalScores = this.getTotalScores(this.props.scores.sceneScoreCards);
-    const scoreBar = new H5P.JoubelScoreBar(
-      totalScores.max, 'label', 'helpText', 'scoreExplanationButtonLabel'
-    );
+    const scoreBar = new H5P.JoubelScoreBar(totalScores.max, 'label', 'helpText', 'scoreExplanationButtonLabel');
     scoreBar.setScore(totalScores.score);
-    scoreBar.appendTo(this.scoreBarDOM.current);
+    const wrapper = H5P.jQuery('#total-scores');
+    scoreBar.appendTo(wrapper);
   }
 
-  /**
-   * React render function.
-   * @returns {object} JSX element.
-   */
   render() {
     const items = [];
-    for (
-      const [sceneId, sceneScores] of
-      Object.entries(this.props.scores.sceneScoreCards)
-    ) {
-      items.push(
-        <SceneScores key={sceneId} sceneId={sceneId} sceneScores={sceneScores}>
-        </SceneScores>
-      );
+    for (const [sceneId, sceneScores] of Object.entries(this.props.scores.sceneScoreCards)) {
+      items.push(<SceneScores key={sceneId} sceneId={sceneId} sceneScores={sceneScores}></SceneScores>);
     }
-
     const children = (
       <div className="h5p-summary-table-pages">
         <table className="h5p-score-table">
           <thead>
             <tr>
-              <th
-                className="h5p-summary-table-header slide"
-              >
-                {this.context.l10n.assignment}
-              </th>
-              <th
-                className="h5p-summary-table-header score"
-              >
-                {this.context.l10n.score} <span>/</span> {this.context.l10n.total.toLowerCase()}
-              </th>
+              <th className="h5p-summary-table-header slide">{this.context.l10n.assignment}</th>
+              <th className="h5p-summary-table-header score">{this.context.l10n.score} <span>/</span> {this.context.l10n.total.toLowerCase()}</th>
             </tr>
           </thead>
           {items}
           <tfoot>
-            <tr>
-              <td
-                className="h5p-td h5p-summary-task-title"
-              >
-                Total:
-              </td>
-              <td
-                ref={this.scoreBarDOM}
-                className="h5p-td h5p-summary-score-bar"
-              >
-              </td>
-            </tr>
+            <tr><td className="h5p-td h5p-summary-task-title">Total:</td><td id="total-scores" className="h5p-td h5p-summary-score-bar"></td></tr>
           </tfoot>
         </table>
-      </div>
-    );
+      </div>);
 
     return (
       <Dialog

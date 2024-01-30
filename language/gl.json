@@ -26,9 +26,7 @@
                 "label": "Amosar botón \"Atrás\"",
                 "description": "Amosar botón para volver á escena anterior"
               },
-              {
-                "label": "SceneId"
-              },
+              {},
               {
                 "label": "Título da Escena",
                 "description": "Úsase para identificar a escena"
@@ -37,8 +35,8 @@
                 "label": "Fondo da Escena"
               },
               {
-                "label": "Descrición da escena",
-                "description": "Texto que pode describir a escena ao usuario"
+                "description": "Texto que pode describir a escena ao usuario",
+                "label": "Descrición da escena"
               },
               {
                 "label": "Descrición da escena (para lectores de pantalla)",
@@ -61,7 +59,6 @@
                       "description": "Se o deixamos en branco, non se amosará ningunha etiqueta e intentarase amosar o campo do título para os lectores de pantalla"
                     },
                     {
-                      "label": "Configuración de Etiquetas",
                       "fields": [
                         {
                           "label": "Posición da etiqueta",
@@ -98,12 +95,27 @@
                               "label": "Agochar"
                             }
                           ]
-                        }
-                      ]
-                    },
-                    {
-                      "label": "Password settings",
-                      "fields": [
+                        },
+                        {
+                          "label": "Amosar como punto de acceso",
+                          "description": "Permite engadir áreas de interacción á imaxe de fondo que poden ter un tamaño personalizado."
+                        },
+                        {
+                          "label": "Amosar o punto de acceso cando o rato estea enriba",
+                          "description": "Permitirá que o punto de acceso sexa visible cando o rato estea sobre a zona."
+                        },
+                        {
+                          "label": "Establece que o punto de acceso sexa tabulable",
+                          "description": "Permitirá que o punto de acceso sexa tabulable. Pódese usar para a accesibilidade."
+                        },
+                        {
+                          "label": "Amosar como contido aberto na escena",
+                          "description": "Permite que o contido se amose nunha caixa de diálogo aberta directamente na escena."
+                        },
+                        {
+                          "default": "256,128",
+                          "label": "Valores para almacenar a altura e o ancho do punto de acceso"
+                        },
                         {
                           "label": "Código para a interacción",
                           "description": "Se non está baleiro, o usuario ten que introducir o código para poder abrir este contido. Separa varios códigos correctos con /."
@@ -112,46 +124,20 @@
                           "label": "Unha pista para o código de interacción",
                           "description": "Unha pista opcional para o código, pódese deixar baleira se se quere"
                         }
-                      ]
-                    },
-                    {
-                      "label": "Amosar como punto de acceso",
-                      "description": "Permite engadir áreas de interacción á imaxe de fondo que poden ter un tamaño personalizado."
-                    },
-                    {
-                      "label": "Hotspot settings",
-                      "fields": [
-                        {
-                          "label": "Amosar o punto de acceso cando o rato estea enriba",
-                          "description": "Permitirá que o punto de acceso sexa visible cando o rato estea sobre a zona."
-                        },
-                        {
-                          "label": "Establece que o punto de acceso sexa tabulable",
-                          "description": "Permitirá que o punto de acceso sexa tabulable. Required to be checked to make the content accessible!"
-                        },
-                        {
-                          "default": "256,128",
-                          "label": "Valores para almacenar a altura e o ancho do punto de acceso"
-                        }
-                      ]
-                    },
-                    {
-                      "label": "Amosar como contido aberto na escena",
-                      "description": "Permite que o contido se amose nunha caixa de diálogo aberta directamente na escena."
+                      ],
+                      "label": "Configuración de Etiquetas"
                     },
                     {},
+                    {},
                     {
-                      "label": "Interaction position"
-                    },
-                    {
-                      "label": "Button style",
-                      "description": "Decide how the icon should look.",
+                      "label": "Estilo do botón",
+                      "description": "Decide como debe ser a icona.",
                       "options": [
                         {
-                          "label": "Text icon"
+                          "label": "Icona de texto"
                         },
                         {
-                          "label": "Info icon"
+                          "label": "Icona de información"
                         }
                       ]
                     }
@@ -198,21 +184,20 @@
         },
         {},
         {
-          "label": "Listas de reprodución"
+          "label": "Pista de son"
         },
         {
-          "label": "Playlists",
+          "label": "Listas de reprodución",
           "field": {
             "fields": [
               {
-                "label": "Playlist Title",
-                "description": "Used to identify the playlist"
+                "label": "Título da lista de reprodución",
+                "description": "Úsase para identificar a lista de reprodución"
               },
               {
-                "label": "Audio Tracks",
-                "description": "Add audio tracks to the playlist."
-              },
-              {}
+                "label": "Pistas de son",
+                "description": "Engade pistas de son á lista de reprodución."
+              }
             ]
           }
         }
@@ -372,6 +357,10 @@
           "default": "Total"
         },
         {
+          "label": "Tradución para \"Puntuación Total\"",
+          "default": "Puntuación Total"
+        },
+        {
           "label": "Etiqueta do botón para amosar o resumo da puntuación",
           "default": "Amosar resumo da puntuación"
         },
@@ -416,6 +405,14 @@
           "default": "Código"
         },
         {
+          "label": "Amosar código",
+          "default": "Amosar código"
+        },
+        {
+          "label": "Agochar código",
+          "default": "Agochar código"
+        },
+        {
           "label": "Acción de interacción desbloqueada (Continuar)",
           "default": "Continuar"
         },
@@ -438,26 +435,6 @@
         {
           "label": "Contido bloqueado",
           "default": "Contido bloqueado"
-        },
-        {
-          "label": "Back",
-          "default": "Back"
-        },
-        {
-          "label": "Text for screenreaders. Title for fullscreen button (enter)",
-          "default": "Enter fullscreen mode"
-        },
-        {
-          "label": "Text for screenreaders. Title for fullscreen button (exit)",
-          "default": "Exit fullscreen mode"
-        },
-        {
-          "label": "Main toolbar",
-          "default": "Main toolbar"
-        },
-        {
-          "label": "No valid scenes set",
-          "default": "No valid scenes have been set."
         }
       ]
     }

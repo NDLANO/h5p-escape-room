@@ -2,28 +2,18 @@ import React from 'react';
 import { H5PContext } from '../../context/H5PContext';
 import './PasswordContent.scss';
 
-/**
- * Utilize focus on input reference.
- * @returns {object} Reference object with setFocus function.
- */
 const utilizeFocus = () => {
   const ref = React.createRef();
   const setFocus = () => {
-    ref.current?.focus();
+    ref.current &&  ref.current.focus();
   };
 
   return { setFocus, ref };
 };
 
 export default class PasswordContent extends React.Component {
-  /**
-   * @class
-   * @param {object} props React props.
-   */
   constructor(props) {
     super(props);
-    this.props = props;
-
     this.inputRef = utilizeFocus();
     this.state = {
       unlocked: false,
@@ -31,23 +21,13 @@ export default class PasswordContent extends React.Component {
       shakeClass: '',
       inputPassword: '',
     };
-
-    this.codeFieldLabelId = `field-code-${H5P.createUUID()}-${this.props.currentInteractionIndex}`;
   }
-
-  /**
-   * Handle change event of password input field.
-   * @param {Event} event Change event of input field.
-   */
-  handleOnChange(event) {
-    this.setState({ inputPassword: event.target.value });
-  }
-
-  /**
-   * Handle click on password button.
-   * @param {PointerEvent} event Event.
-   */
-  handleOnClick(event) {
+  handleOnChange = (event) => {
+    this.setState({
+      inputPassword: event.target.value,
+    });
+  };
+  handleOnClick = (event) => {
     event.preventDefault();
     this.setState({
       hasClicked: true,
@@ -56,54 +36,28 @@ export default class PasswordContent extends React.Component {
       this.props.showInteraction(this.props.currentInteractionIndex);
     }
     else {
-      const isCorrectPassword = this.handlePassword(this.state.inputPassword);
-
-      this.props.updateEscapeScoreCard(isCorrectPassword);
+      this.props.updateEscapeScoreCard(this.props.handlePassword(this.state.inputPassword));
 
       this.setState({
-        unlocked: isCorrectPassword,
+        unlocked: this.props.handlePassword(this.state.inputPassword),
       });
       if (!this.props.currentInteraction.unlocked) {
         this.shakeIcon();
       }
     }
-  }
+  };
 
-  /**
-   * Check correctness of password.
-   * @param {string} inputPassword Password that was entered.
-   * @returns {boolean} True, if password was correct.
-   */
-  handlePassword(inputPassword) {
-    const interaction = this.props.currentInteraction;
+  shakeIcon = () => {
+    this.setState({
+      shakeClass: 'h5p-password-icon--shake',
+    });
+    setTimeout(() => {
+      this.setState({
+        shakeClass: '',
+      });
+    }, 500);
+  };
 
-    const passwords = interaction.passwordSettings.interactionPassword
-      .toLowerCase().split('/');
-
-    const isCorrectPassword = passwords.includes(inputPassword.toLowerCase());
-    interaction.unlocked = interaction.unlocked || isCorrectPassword;
-
-    if (!isCorrectPassword) {
-      this.props.read(this.context.l10n.wrongCode);
-    }
-    else {
-      this.props.read(this.context.l10n.contentUnlocked);
-    }
-
-    return isCorrectPassword;
-  }
-
-  /**
-   * Shake icon.
-   */
-  shakeIcon() {
-    this.setState({ shakeClass: 'h5p-password-icon--shake' });
-  }
-
-  /**
-   * React render function.
-   * @returns {object} JSX object.
-   */
   render() {
     return (
       <div className="h5p-password-content">
@@ -120,9 +74,6 @@ export default class PasswordContent extends React.Component {
             className={`h5p-password-icon ${
               this.state.unlocked ? 'unlocked' : 'locked'
             } ${this.state.shakeClass}`}
-            onAnimationEnd={() => {
-              this.setState({ shakeClass: '' });
-            }}
           />
         </div>
         <div className='h1'>
@@ -151,7 +102,7 @@ export default class PasswordContent extends React.Component {
         <form className={'h5p-wrapper'} onSubmit={this.handleSubmit}>
           <label
             className={'h5p-wrapper'}
-            htmlFor={this.codeFieldLabelId}
+            htmlFor={'field-code-' + this.props.currentInteractionIndex}
           >
             <div className={'h5p-wrapper-inner'}>
               <input
@@ -160,10 +111,10 @@ export default class PasswordContent extends React.Component {
                 autoComplete="off"
                 ref={this.inputRef.ref}
                 className="h5p-field-input"
-                id={this.codeFieldLabelId}
+                id={'field-code-' + this.props.currentInteractionIndex}
                 placeholder={this.context.l10n.code}
                 value={this.state.inputPassword}
-                onChange={this.handleOnChange.bind(this)}
+                onChange={this.handleOnChange}
               />
             </div>
             {this.props.hint && (
@@ -173,7 +124,7 @@ export default class PasswordContent extends React.Component {
               </div>
             )}
           </label>
-          <button className={'h5p-password-btn'} onClick={this.handleOnClick.bind(this)}>
+          <button className={'h5p-password-btn'} onClick={this.handleOnClick}>
             {this.state.unlocked
               ? this.context.l10n.unlockedStateAction
               : this.context.l10n.lockedStateAction}

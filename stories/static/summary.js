@@ -31,7 +31,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
   /**
    * Sets name
    * @param {string} name
-   * @returns {XApiEventDefinitionBuilder}
+   * @return {XApiEventDefinitionBuilder}
    */
   XApiEventDefinitionBuilder.prototype.name = function (name) {
     this.attributes.name = name;
@@ -41,7 +41,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
   /**
    * Question text and any additional information to generate the report.
    * @param {string} description
-   * @returns {XApiEventDefinitionBuilder}
+   * @return {XApiEventDefinitionBuilder}
    */
   XApiEventDefinitionBuilder.prototype.description = function (description) {
     this.attributes.description = description;
@@ -52,7 +52,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    * Type of the interaction.
    * @param {string} interactionType
    * @see {@link https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#interaction-types|xAPI Spec}
-   * @returns {XApiEventDefinitionBuilder}
+   * @return {XApiEventDefinitionBuilder}
    */
   XApiEventDefinitionBuilder.prototype.interactionType = function (interactionType) {
     this.attributes.interactionType = interactionType;
@@ -63,7 +63,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    * A pattern for determining the correct answers of the interaction
    * @param {string[]} correctResponsesPattern
    * @see {@link https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#response-patterns|xAPI Spec}
-   * @returns {XApiEventDefinitionBuilder}
+   * @return {XApiEventDefinitionBuilder}
    */
   XApiEventDefinitionBuilder.prototype.correctResponsesPattern = function (correctResponsesPattern) {
     this.attributes.correctResponsesPattern = correctResponsesPattern;
@@ -73,7 +73,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
   /**
    * Sets optional attributes
    * @param {object} optional Can have one of the following configuration objects: choices, scale, source, target, steps
-   * @returns {XApiEventDefinitionBuilder}
+   * @return {XApiEventDefinitionBuilder}
    */
   XApiEventDefinitionBuilder.prototype.optional = function (optional) {
     this.attributes.optional = optional;
@@ -81,7 +81,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
   };
 
   /**
-   * @returns {object}
+   * @return {object}
    */
   XApiEventDefinitionBuilder.prototype.build = function () {
     var definition = {};
@@ -125,7 +125,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
 
   /**
    * @param {boolean} completion
-   * @returns {XApiEventResultBuilder}
+   * @return {XApiEventResultBuilder}
    */
   XApiEventResultBuilder.prototype.completion = function (completion) {
     this.attributes.completion = completion;
@@ -134,7 +134,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
 
   /**
    * @param {boolean} success
-   * @returns {XApiEventResultBuilder}
+   * @return {XApiEventResultBuilder}
    */
   XApiEventResultBuilder.prototype.success = function (success) {
     this.attributes.success = success;
@@ -143,7 +143,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
 
   /**
    * @param {number} duration The duraction in seconds
-   * @returns {XApiEventResultBuilder}
+   * @return {XApiEventResultBuilder}
    */
   XApiEventResultBuilder.prototype.duration = function (duration) {
     this.attributes.duration = duration;
@@ -153,7 +153,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
   /**
    * Sets response
    * @param {string|string[]} response
-   * @returns {XApiEventResultBuilder}
+   * @return {XApiEventResultBuilder}
    */
   XApiEventResultBuilder.prototype.response = function (response) {
     this.attributes.response = (typeof response === 'string') ? response : response.join('[,]');
@@ -164,7 +164,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    * Sets the score, and max score
    * @param {number} score
    * @param {number} maxScore
-   * @returns {XApiEventResultBuilder}
+   * @return {XApiEventResultBuilder}
    */
   XApiEventResultBuilder.prototype.score = function (score, maxScore) {
     this.attributes.rawScore = score;
@@ -174,7 +174,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
 
   /**
    * Builds the result object
-   * @returns {object}
+   * @return {object}
    */
   XApiEventResultBuilder.prototype.build = function () {
     var result = {};
@@ -226,7 +226,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    * @param {object} verb
    *
    * @public
-   * @returns {H5P.Summary.XApiEventBuilder}
+   * @return {H5P.Summary.XApiEventBuilder}
    */
   XApiEventBuilder.prototype.verb = function (verb) {
     this.attributes.verb = verb;
@@ -239,7 +239,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    * @param {string} objectType
    *
    * @public
-   * @returns {H5P.Summary.XApiEventBuilder}
+   * @return {H5P.Summary.XApiEventBuilder}
    */
   XApiEventBuilder.prototype.actor = function (name, mbox, objectType) {
     this.attributes.actor = {
@@ -255,7 +255,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    * Sets contentId
    * @param {string} contentId
    * @param {string} [subContentId]
-   * @returns {H5P.Summary.XApiEventBuilder}
+   * @return {H5P.Summary.XApiEventBuilder}
    */
   XApiEventBuilder.prototype.contentId = function (contentId, subContentId) {
     this.attributes.contentId = contentId;
@@ -267,7 +267,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    * Sets parent in context
    * @param {string} parentContentId
    * @param {string} [parentSubContentId]
-   * @returns {H5P.Summary.XApiEventBuilder}
+   * @return {H5P.Summary.XApiEventBuilder}
    */
   XApiEventBuilder.prototype.context = function (parentContentId, parentSubContentId) {
     this.attributes.parentContentId = parentContentId;
@@ -279,7 +279,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    * @param {object} result
    *
    * @public
-   * @returns {H5P.Summary.XApiEventBuilder}
+   * @return {H5P.Summary.XApiEventBuilder}
    */
   XApiEventBuilder.prototype.result = function (result) {
     this.attributes.result = result;
@@ -290,7 +290,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    * @param {object} objectDefinition
    *
    * @public
-   * @returns {H5P.Summary.XApiEventBuilder}
+   * @return {H5P.Summary.XApiEventBuilder}
    */
   XApiEventBuilder.prototype.objectDefinition = function (objectDefinition) {
     this.attributes.objectDefinition = objectDefinition;
@@ -300,7 +300,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
   /**
    * Returns the buildt event
    * @public
-   * @returns {H5P.XAPIEvent}
+   * @return {H5P.XAPIEvent}
    */
   XApiEventBuilder.prototype.build = function(){
     var event = new H5P.XAPIEvent();
@@ -345,7 +345,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    * Creates a Localized String object for en-US
    *
    * @param str
-   * @returns {LocalizedString}
+   * @return {LocalizedString}
    */
   var localizeToEnUS = function(str){
     if(str != undefined){
@@ -361,7 +361,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    * @param {string} [subContentId]
    *
    * @see {@link https://github.com/h5p/h5p-php-library/blob/master/js/h5p-x-api-event.js#L240-L249}
-   * @returns {string}
+   * @return {string}
    */
   var getContentXAPIId = function (contentId, subContentId) {
     const cid = 'cid-' + contentId;
@@ -380,7 +380,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    * Removes html elements from string
    *
    * @param {string} str
-   * @returns {string}
+   * @return {string}
    */
   var cleanString = function (str) {
     return $('<div>' + str + '</div>').text().trim();
@@ -403,7 +403,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    *
    * @public
    * @static
-   * @returns {H5P.Summary.XApiEventBuilder}
+   * @return {H5P.Summary.XApiEventBuilder}
    */
   XApiEventBuilder.create = function(){
     return new XApiEventBuilder();
@@ -414,7 +414,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    *
    * @public
    * @static
-   * @returns {XApiEventDefinitionBuilder}
+   * @return {XApiEventDefinitionBuilder}
    */
   XApiEventBuilder.createDefinition = function(){
     return new XApiEventDefinitionBuilder();
@@ -425,7 +425,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    *
    * @public
    * @static
-   * @returns {XApiEventResultBuilder}
+   * @return {XApiEventResultBuilder}
    */
   XApiEventBuilder.createResult = function(){
     return new XApiEventResultBuilder();
@@ -440,7 +440,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    * @public
    * @static
    * @see {@link https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#choice|xAPI-Spec}
-   * @returns {object}
+   * @return {object}
    */
   XApiEventBuilder.createChoice = function(id, description){
     return {
@@ -457,7 +457,7 @@ H5P.Summary.XApiEventBuilder = (function ($, EventDispatcher) {
    * @public
    * @static
    * @see {@link https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md#choice|xAPI-Spec}
-   * @returns {string}
+   * @return {string}
    */
   XApiEventBuilder.createCorrectResponsePattern = function(ids){
     return ids.join('[,]');
@@ -509,7 +509,7 @@ H5P.Summary.StopWatch = (function () {
    * Starts the stop watch
    *
    * @public
-   * @returns {H5P.Summary.StopWatch}
+   * @return {H5P.Summary.StopWatch}
    */
   StopWatch.prototype.start = function(){
     /**
@@ -523,7 +523,7 @@ H5P.Summary.StopWatch = (function () {
    * Stops the stopwatch, and returns the duration in seconds.
    *
    * @public
-   * @returns {number}
+   * @return {number}
    */
   StopWatch.prototype.stop = function(){
     this.duration = this.duration + Date.now() - this.startTime;
@@ -543,7 +543,7 @@ H5P.Summary.StopWatch = (function () {
    * Returns the passed time in seconds
    *
    * @public
-   * @returns {number}
+   * @return {number}
    */
   StopWatch.prototype.passedTime = function(){
     return Math.round(this.duration / 10) / 100;
@@ -1089,7 +1089,7 @@ H5P.Summary = (function ($, Question, XApiEventBuilder, StopWatch) {
   /**
    * Returns true if answers have been given
    *
-   * @returns {boolean}
+   * @return {boolean}
    */
   Summary.prototype.getAnswerGiven = function () {
     return this.errorCounts.length > 0;
@@ -1242,7 +1242,7 @@ H5P.Summary = (function ($, Question, XApiEventBuilder, StopWatch) {
    *
    * @param {String[]} answers
    *
-   * @returns {{ choices: []}}
+   * @return {{ choices: []}}
    */
   Summary.prototype.getXApiChoices = function (answers) {
     var choices = answers.map(function(answer, index){
@@ -1295,7 +1295,7 @@ H5P.Summary = (function ($, Question, XApiEventBuilder, StopWatch) {
    * or 0 if not existing
    *
    * @param {number} index
-   * @returns {number}
+   * @return {number}
    */
   Summary.prototype.timePassedInStopWatch = function (index) {
     if(this.stopWatches[index] !== undefined){
@@ -1310,7 +1310,7 @@ H5P.Summary = (function ($, Question, XApiEventBuilder, StopWatch) {
   /**
    * Returns the time the user has spent on all questions so far
    *
-   * @returns {number}
+   * @return {number}
    */
   Summary.prototype.getTotalPassedTime = function () {
     return this.stopWatches
@@ -1330,7 +1330,7 @@ H5P.Summary = (function ($, Question, XApiEventBuilder, StopWatch) {
    * @param {number} panelIndex
    * @param {number} duration
    *
-   * @returns {H5P.XAPIEvent}
+   * @return {H5P.XAPIEvent}
    */
   Summary.prototype.createXApiAnsweredEvent = function (panel, userAnswer, panelIndex, duration) {
     var self = this;
@@ -1367,7 +1367,7 @@ H5P.Summary = (function ($, Question, XApiEventBuilder, StopWatch) {
   /**
    * Retrieves the xAPI data necessary for generating result reports.
    *
-   * @returns {object}
+   * @return {object}
    */
   Summary.prototype.getXAPIData = function(){
     var self = this;
@@ -1413,7 +1413,7 @@ H5P.Summary = (function ($, Question, XApiEventBuilder, StopWatch) {
    * Returns an attribute from this.parent if it exists
    *
    * @param {string} attributeName
-   * @returns {*|undefined}
+   * @return {*|undefined}
    */
   Summary.prototype.getParentAttribute = function (attributeName) {
     var self = this;

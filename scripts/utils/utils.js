@@ -1,61 +1,21 @@
-import he from 'he';
-
 /**
  * Determine whether or not the interaction should be rendered in 3d
- * @param {object} interaction Interaction.
- * @returns {boolean} True, if should be rendered in 3D.
+ *
+ * @param {Interaction} interaction
+ * @return {boolean}
  */
-export const renderIn3d = (interaction) => {
-  return interaction.showAsHotspot;
-};
+export function renderIn3d(interaction) {
+  return interaction.label && interaction.label.showAsHotspot;
+}
 
 /**
- * Enforce value to be not smaller than minumum and not larger than maximum.
- * @param {number} min Minumum.
- * @param {number} value Value to be put in boundaries.
- * @param {number} max Maximum.
- * @returns {number} Value within boundaries.
+ * Returns the `value` if it's greater than the minimum and lower than the maximum.
+ * If it's lower than the minimum, then the minimum is returned,
+ * else if the value is greater than the maximum, then the maximum is returned.
+ *
+ * @param {number} min
+ * @param {number} value
+ * @param {number} max
+ * @returns {number}
  */
 export const clamp = (min, value, max) => Math.min(max, Math.max(min, value));
-
-/**
- * Extend an array just like JQuery's extend.
- * @param {object[]} theArgs Objects to be extended.
- * @returns {object} Merged objects.
- */
-export const extend = (...theArgs) => {
-  for (let i = 1; i < theArgs.length; i++) {
-    for (let key in theArgs[i]) {
-      if (Object.prototype.hasOwnProperty.call(theArgs[i], key)) {
-        if (
-          typeof theArgs[0][key] === 'object' &&
-          typeof theArgs[i][key] === 'object'
-        ) {
-          extend(theArgs[0][key], theArgs[i][key]);
-        }
-        else {
-          theArgs[0][key] = theArgs[i][key];
-        }
-      }
-    }
-  }
-  return theArgs[0];
-};
-
-/**
- * HTML decode and strip HTML.
- * @param {string|object} html html.
- * @returns {string} html value.
- */
-export const purifyHTML = (html) => {
-  if (typeof html !== 'string') {
-    return '';
-  }
-
-  let text = he.decode(html);
-  const div = document.createElement('div');
-  div.innerHTML = text;
-  text = div.textContent || div.innerText || '';
-
-  return text;
-};

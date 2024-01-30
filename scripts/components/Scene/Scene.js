@@ -10,18 +10,48 @@ export const SceneTypes = {
   PREVIOUS_SCENE: -1,
 };
 
+/**
+ * @typedef {{
+ *   isActive: boolean;
+ *   isHiddenBehindOverlay: boolean;
+ *   nextFocus: string;
+ *   takeFocus: boolean;
+ *   sceneIcons: { id: number; iconType: string; }[];
+ *   imageSrc: string;
+ *   navigateToScene: () => void;
+ *   showInteraction: () => void;
+ *   sceneHistory: Array<any>;
+ *   audioIsPlaying: boolean;
+ *   sceneId: number;
+ *   onBlurInteraction: () => void;
+ *   onFocusedInteraction: () => void;
+ *   focusedInteraction: number;
+ *   sceneWaitingForLoad: number;
+ *   doneLoadingNextScene: boolean;
+ *   updateScoreCard: () => void;
+ *   sceneParams: SceneParams;
+ *   threeSixty: any;
+ *   updateThreeSixty: boolean;
+ *   addThreeSixty: (threeSixty: any) => void;
+ *   forceStartCamera: boolean;
+ *   toggleCenterScene: boolean;
+ *   onSetCameraPos: (cameraPosition: CameraPosition) => void;
+ *   isEditingInteraction: boolean;
+ *   startBtnClicked: (event: MouseEvent) => void;
+ * }} Props
+ */
+
 export default class Scene extends React.Component {
   /**
-   * @class
-   * @param {object} props React properties.
+   * @param {Props} props
    */
   constructor(props) {
     super(props);
-    this.props = props;
   }
 
   /**
    * React component did update.
+   *
    * @param {object} prevProps Props before update.
    */
   componentDidUpdate(prevProps) {
@@ -45,26 +75,6 @@ export default class Scene extends React.Component {
     }
   }
 
-  /**
-   * Get interaction title.
-   * @param {object} action Action.
-   * @returns {string} Title.
-   */
-  getInteractionTitle(action) {
-    const machineName = H5P.libraryFromString(action.library)?.machineName;
-    if (machineName === 'H5P.GoToScene') {
-      return this.context.params.scenes.find((scene) => {
-        return scene.sceneId === action.params.nextSceneId;
-      })?.scenename ?? this.context.l10n.untitled;
-    }
-
-    return action.metadata.title ?? this.context.l10n.untitled;
-  }
-
-  /**
-   * React render function.
-   * @returns {object} JSX element.
-   */
   render() {
     if (this.props.sceneParams.sceneType === SceneTypes.STATIC_SCENE) {
       return (
@@ -85,7 +95,6 @@ export default class Scene extends React.Component {
           focusedInteraction={this.props.focusedInteraction}
           sceneWaitingForLoad={this.props.sceneWaitingForLoad}
           doneLoadingNextScene={this.props.doneLoadingNextScene}
-          getInteractionTitle={this.getInteractionTitle.bind(this)}
         />
       );
     }
@@ -101,9 +110,6 @@ export default class Scene extends React.Component {
         sceneIcons={this.props.sceneIcons}
         sceneParams={this.props.sceneParams}
         addThreeSixty={ this.props.addThreeSixty }
-        setReactRoots={ this.props.setReactRoots }
-        getReactRoots={ this.props.getReactRoots }
-        reactRoots={ this.props.reactRoots }
         imageSrc={this.props.imageSrc}
         navigateToScene={this.props.navigateToScene.bind(this)}
         forceStartCamera={this.props.forceStartCamera}
@@ -120,10 +126,8 @@ export default class Scene extends React.Component {
         doneLoadingNextScene={this.props.doneLoadingNextScene}
         startBtnClicked={this.props.startBtnClicked}
         isPanorama={this.props.sceneParams.sceneType === SceneTypes.PANORAMA}
-        getInteractionTitle={this.getInteractionTitle.bind(this)}
       />
     );
   }
 }
-
 Scene.contextType = H5PContext;

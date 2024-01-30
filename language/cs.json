@@ -26,9 +26,7 @@
                 "label": "Zobrazit tlačítko \"Zpět\"",
                 "description": "Zobrazit tlačítko pro navigaci zpět na předchozí scénu"
               },
-              {
-                "label": "SceneId"
-              },
+              {},
               {
                 "label": "Název scény",
                 "description": "Slouží k identifikaci"
@@ -98,12 +96,27 @@
                               "label": "Skrýt"
                             }
                           ]
-                        }
-                      ]
-                    },
-                    {
-                      "label": "Password settings",
-                      "fields": [
+                        },
+                        {
+                          "label": "Zobrazit jako aktivní body",
+                          "description": "Umožňuje přidat k obrázku na pozadí oblasti interakce, které mohou mít vlastní velikost."
+                        },
+                        {
+                          "label": "Zobrazit aktivní bod, když se myš pohybuje",
+                          "description": "Umožní, aby byl aktivní bod viditelný, když se myš pohybuje v oblasti."
+                        },
+                        {
+                          "label": "Nastavte aktivní bod tak, aby byl dostupný pomocí TAB",
+                          "description": "Umožní, aby byl aktivní bod dostupný pomocí TAB. Lze použít pro bezbariérovost."
+                        },
+                        {
+                          "label": "Zobrazit jako otevřený obsah ve scéně",
+                          "description": "Umožňuje zobrazení obsahu v otevřeném dialogovém okně přímo ve scéně."
+                        },
+                        {
+                          "default": "256,128",
+                          "label": "Hodnoty pro uložení výšky a šířky aktivního bodu"
+                        },
                         {
                           "label": "Kód pro interakci",
                           "description": "Pokud není prázdný, uživatel musí zadat kód, aby mohl tento obsah otevřít. Více správných kódů oddělte pomocí /."
@@ -114,44 +127,17 @@
                         }
                       ]
                     },
-                    {
-                      "label": "Zobrazit jako aktivní body",
-                      "description": "Umožňuje přidat k obrázku na pozadí oblasti interakce, které mohou mít vlastní velikost."
-                    },
-                    {
-                      "label": "Hotspot settings",
-                      "fields": [
-                        {
-                          "label": "Zobrazit aktivní bod, když se myš pohybuje",
-                          "description": "Umožní, aby byl aktivní bod viditelný, když se myš pohybuje v oblasti."
-                        },
-                        {
-                          "label": "Nastavte aktivní bod tak, aby byl dostupný pomocí TAB",
-                          "description": "Umožní, aby byl aktivní bod dostupný pomocí TAB. Required to be checked to make the content accessible!"
-                        },
-                        {
-                          "default": "256,128",
-                          "label": "Hodnoty pro uložení výšky a šířky aktivního bodu"
-                        }
-                      ]
-                    },
-                    {
-                      "label": "Zobrazit jako otevřený obsah ve scéně",
-                      "description": "Umožňuje zobrazení obsahu v otevřeném dialogovém okně přímo ve scéně."
-                    },
+                    {},
                     {},
                     {
-                      "label": "Interaction position"
-                    },
-                    {
-                      "label": "Button style",
-                      "description": "Decide how the icon should look.",
+                      "label": "Styl tlačítka",
+                      "description": "Rozhodnout, jak má ikona vypadat.",
                       "options": [
                         {
-                          "label": "Text icon"
+                          "label": "Text ikony"
                         },
                         {
-                          "label": "Info icon"
+                          "label": "Informační ikona"
                         }
                       ]
                     }
@@ -198,21 +184,20 @@
         },
         {},
         {
-          "label": "Seznam skladeb"
+          "label": "Zvuková stopa"
         },
         {
-          "label": "Playlists",
+          "label": "Seznam skladeb",
           "field": {
             "fields": [
               {
-                "label": "Playlist Title",
-                "description": "Used to identify the playlist"
+                "label": "Nadpis seznamu skladeb",
+                "description": "Používá se k identifikaci seznamu skladeb"
               },
               {
-                "label": "Audio Tracks",
-                "description": "Add audio tracks to the playlist."
-              },
-              {}
+                "label": "Zvukové stopy",
+                "description": "Přidejte zvukové stopy do seznamu stop."
+              }
             ]
           }
         }
@@ -372,6 +357,10 @@
           "default": "Celkem"
         },
         {
+          "label": "Překlad pro \"Celkové skóre\"",
+          "default": "Celkové skóre"
+        },
+        {
           "label": "Označení tlačítka pro zobrazení souhrnu skóre",
           "default": "Zobrazit souhrn skóre"
         },
@@ -416,6 +405,14 @@
           "default": "Kód"
         },
         {
+          "label": "Zobrazit kód",
+          "default": "Zobrazit kód"
+        },
+        {
+          "label": "Skrýt kód",
+          "default": "Skrýt kód"
+        },
+        {
           "label": "Akce odemčené interakce (Pokračovat)",
           "default": "Pokračovat"
         },
@@ -438,26 +435,6 @@
         {
           "label": "Uzamčený obsah",
           "default": "Uzamčený obsah"
-        },
-        {
-          "label": "Back",
-          "default": "Back"
-        },
-        {
-          "label": "Text for screenreaders. Title for fullscreen button (enter)",
-          "default": "Enter fullscreen mode"
-        },
-        {
-          "label": "Text for screenreaders. Title for fullscreen button (exit)",
-          "default": "Exit fullscreen mode"
-        },
-        {
-          "label": "Main toolbar",
-          "default": "Main toolbar"
-        },
-        {
-          "label": "No valid scenes set",
-          "default": "No valid scenes have been set."
         }
       ]
     }

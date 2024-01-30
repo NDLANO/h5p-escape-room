@@ -587,7 +587,7 @@ H5P.fullScreen = function ($element, instance, exitCallback, body, forceSemiFull
     // Create semi fullscreen.
 
     if (H5P.isFramed) {
-      return;
+      return; // TODO: Should we support semi-fullscreen for IE9 & 10 ?
     }
 
     before('h5p-semi-fullscreen');
@@ -687,7 +687,7 @@ H5P.fullScreen = function ($element, instance, exitCallback, body, forceSemiFull
    *
    * @param {string} path
    * @param {string} parameter
-   * @returns {string}
+   * @return {string}
    */
   H5P.addQueryParameter = function (path, parameter) {
     let newPath, secondSplit;
@@ -744,7 +744,7 @@ H5P.fullScreen = function ($element, instance, exitCallback, body, forceSemiFull
    *
    * @private
    * @param {string} path
-   * @returns {string}
+   * @return {string}
    */
   var hasProtocol = function (path) {
     return path.match(/^[a-z0-9]+:\/\//i);
@@ -1499,7 +1499,7 @@ H5P.attachToastTo = function (element, message, config) {
    * @param {boolean} [position.noOverflowBottom=false] True to prevent overflow bottom.
    * @param {boolean} [position.noOverflowX=false] True to prevent overflow left and right.
    * @param {boolean} [position.noOverflowY=false] True to prevent overflow top and bottom.
-   * @returns {object}
+   * @return {object}
    */
   const getToastCoordinates = function (element, toast, position) {
     position = position || {};
@@ -2517,7 +2517,7 @@ H5P.createTitle = function (rawTitle, maxLength) {
    * Function for getting content for a certain ID
    *
    * @param {number} contentId
-   * @returns {Object}
+   * @return {Object}
    */
   H5P.getContentForInstance = function (contentId) {
     var key = 'cid-' + contentId;
@@ -2598,7 +2598,7 @@ H5P.createTitle = function (rawTitle, maxLength) {
   /**
    * Retrieve parsed clipboard data.
    *
-   * @returns {Object}
+   * @return {Object}
    */
   H5P.getClipboard = function () {
     return parseClipboard();
@@ -2620,7 +2620,7 @@ H5P.createTitle = function (rawTitle, maxLength) {
    * Get config for a library
    *
    * @param string machineName
-   * @returns Object
+   * @return Object
    */
   H5P.getLibraryConfig = function (machineName) {
     var hasConfig = H5PIntegration.libraryConfig && H5PIntegration.libraryConfig[machineName];
@@ -2631,7 +2631,7 @@ H5P.createTitle = function (rawTitle, maxLength) {
    * Get item from the H5P Clipboard.
    *
    * @private
-   * @returns {Object}
+   * @return {Object}
    */
   var parseClipboard = function () {
     var clipboardData = localStorage.getItem('h5pClipboard');
