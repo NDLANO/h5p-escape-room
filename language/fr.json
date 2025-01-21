@@ -1,11 +1,11 @@
 {
   "semantics": [
     {
-      "label": "Editeur Three Image",
+      "label": "Éditeur de salle d'évasion",
       "fields": [
         {
           "label": "Scènes",
-          "entity": "Scene",
+          "entity": "Scène",
           "field": {
             "fields": [
               {
@@ -15,7 +15,7 @@
                     "label": "Image à 360°"
                   },
                   {
-                    "label": "Panoramic image"
+                    "label": "Image panoramique"
                   },
                   {
                     "label": "Image statique"
@@ -27,8 +27,8 @@
                 "description": "Affichez un bouton pour revenir à la scène précédente"
               },
               {
-                "label": "Enable \"Zoom\"",
-                "description": "Enable zooming in and out with zoom buttons, mouse wheel, touch gestures and keyboard shortcuts."
+                "label": "Activer \"Zoom\"",
+                "description": "Activer le zoom avant et arrière avec les boutons de zoom, la molette de souris, les gestes tactiles et les raccourcis clavier."
               },
               {
                 "label": "SceneId"
@@ -42,19 +42,19 @@
               },
               {
                 "label": "Description de la scène",
-                "description": "Un texte pour décirire la scène à l'utilisateur final"
+                "description": "Un texte pour décrire la scène à l'utilisateur final"
               },
               {
-                "label": "Scene description (for screen readers)",
-                "description": "A text that can describe the scene for the end-user. It will not be visible but read by screen readers, so formatting will be ignored."
+                "label": "Description de la scène (pour les lecteurs d’écran)",
+                "description": "Un texte pour décrire la scène à l'utilisateur final. Il ne sera pas visible mais lu par les lecteurs d’écran, donc le formatage sera ignoré."
               },
               {
-                "label": "Display \"Scene Description\" initially",
-                "description": "Display the scene description when the scene starts for the first time"
+                "label": "Afficher \"Description de la scène\" au début",
+                "description": "Afficher la description de la scène lorsque celle-ci démarre pour la première fois"
               },
               {
                 "label": "Position initiale de la caméra",
-                "description": "Position de la caméra (pitch and yaw)"
+                "description": "Position de la caméra (tangage et lacet)"
               },
               {
                 "label": "Interactions",
@@ -72,90 +72,90 @@
                           "description": "Choisissez où l'étiquette doit apparaître",
                           "options": [
                             {
-                              "label": "Utiliser un paramètre de comportement"
+                              "label": "Utiliser le paramètre comportemental"
                             },
                             {
-                              "label": "Right aligned"
+                              "label": "Alignée à droite"
                             },
                             {
-                              "label": "Left aligned"
+                              "label": "Alignée à gauche"
                             },
                             {
-                              "label": "Top aligned"
+                              "label": "Alignée en haut"
                             },
                             {
-                              "label": "Bottom aligned"
+                              "label": "Alignée en bas"
                             }
                           ]
                         },
                         {
-                          "label": "Display Label",
-                          "description": "If hidden - labels will show only on mouse over",
+                          "label": "Affichage des étiquettes",
+                          "description": "Si non cochée, les étiquettes seront affichées uniquement lorsque vous passez la souris dessus",
                           "options": [
                             {
-                              "label": "Use behavioral setting"
+                              "label": "Utiliser le paramètre comportemental"
                             },
                             {
-                              "label": "Show"
+                              "label": "Afficher"
                             },
                             {
-                              "label": "Hide"
+                              "label": "Masquer"
                             }
                           ]
                         }
                       ]
                     },
                     {
-                      "label": "Password settings",
+                      "label": "Paramètres de mot de passe",
                       "fields": [
                         {
-                          "label": "Code for the interaction",
-                          "description": "If not empty, the user has to input the code in order to open this content. Separate multiple correct codes with /."
+                          "label": "Code pour l'interaction",
+                          "description": "Si non vide, l'utilisateur doit saisir le code pour ouvrir ce contenu. Séparez plusieurs codes corrects avec /."
                         },
                         {
-                          "label": "A hint for the interaction code",
-                          "description": "An optional hint for the code, can be left empty if wanted"
+                          "label": "Un indice pour le code d'interaction",
+                          "description": "Un indice optionnel pour le code, peut être laissé vide si on le souhaite"
                         }
                       ]
                     },
                     {
-                      "label": "Show as hotspot",
-                      "description": "Allows for adding interaction areas to the background image that can be custom size."
+                      "label": "Afficher comme zone active",
+                      "description": "Permet d'ajouter des zones d'interaction personnalisées à l'image d'arrière-plan."
                     },
                     {
-                      "label": "Hotspot settings",
+                      "label": "Paramètres des zones actives",
                       "fields": [
                         {
-                          "label": "Show hotspot when mouse is hovering",
-                          "description": "Will allow hotspot to be visible when mouse is hovering the area."
+                          "label": "Afficher la zone active lorsque la souris passe dessus",
+                          "description": "Permet de rendre visible la zone sensible lorsque la souris passe dessus."
                         },
                         {
-                          "label": "Set the hotspot be tabbable",
-                          "description": "Will allow hotspot to be tabbable. Required to be checked to make the content accessible!"
+                          "label": "Rendre la zone active accessible avec la touche Tab",
+                          "description": "Permet de rendre la zone active accessible avec la touche Tab. Nécessaire pour rendre le contenu accessible !"
                         },
                         {
                           "default": "256,128",
-                          "label": "Values for storing the height and width for hotspot"
+                          "label": "Valeurs pour stocker la hauteur et la largeur de la zone sensible"
                         }
                       ]
                     },
                     {
-                      "label": "Show as open content in the scene",
-                      "description": "Allows the content to be shown in an open dialog box directly in the scene."
+                      "label": "Afficher comme contenu ouvert dans la scène",
+                      "description": "Permet d'afficher le contenu dans une boîte de dialogue ouverte directement dans la scène."
                     },
                     {},
                     {
-                      "label": "Interaction position"
+                      "label": "Position de l'interaction"
                     },
                     {
-                      "label": "Button style",
-                      "description": "Decide how the icon should look.",
+                      "label": "Style du bouton",
+                      "description": "Décidez de l'aspect de l'icône.",
                       "options": [
                         {
-                          "label": "Text icon"
+                          "label": "Icône de texte"
                         },
                         {
-                          "label": "Info icon"
+                          "label": "Icône d'information"
                         }
                       ]
                     }
@@ -167,7 +167,7 @@
                 "description": "Décidez à quoi devraient ressembler les boutons pointant vers cette scène. Pour les scènes statiques qui ne conduisent pas à de nouvelles scènes, nous vous recommandons le bouton \"Plus d'informations \".",
                 "options": [
                   {
-                    "label": "Nouvelle scène (arrow)"
+                    "label": "Nouvelle scène (flèche)"
                   },
                   {
                     "label": "Plus d'informations (plus)"
@@ -175,14 +175,14 @@
                 ]
               },
               {
-                "label": "Audio type",
-                "description": "Decide what audio type this scene will use, either use an audio track or choose an existing audio playlist.",
+                "label": "Type d'audio",
+                "description": "Décidez du type audio que cette scène utilisera, soit utiliser une piste audio ou choisir une liste de lecture audio existante.",
                 "options": [
                   {
-                    "label": "Audio Track"
+                    "label": "Piste audio"
                   },
                   {
-                    "label": "Playlist"
+                    "label": "Liste de lecture"
                   }
                 ]
               },
@@ -191,30 +191,30 @@
                 "description": "Ajoutez une piste audio spécifique à cette scène."
               },
               {
-                "label": "Playlist",
-                "description": "Here you can pick an existing playlist as audio."
+                "label": "Liste de lecture",
+                "description": "Ici vous pouvez choisir une liste de lecture existante comme audio."
               },
               {
-                "label": "Restart audio when scene is reopened"
+                "label": "Redémarrer l'audio lorsque la scène est rouverte"
               }
             ]
           }
         },
         {},
         {
-          "label": "Playlists"
+          "label": "Listes de lecture"
         },
         {
-          "label": "Playlists",
+          "label": "Listes de lecture",
           "field": {
             "fields": [
               {
-                "label": "Playlist Title",
-                "description": "Used to identify the playlist"
+                "label": "Titre de la liste de lecture",
+                "description": "Utilisé pour identifier la liste de lecture"
               },
               {
-                "label": "Audio Tracks",
-                "description": "Add audio tracks to the playlist."
+                "label": "Pistes audio",
+                "description": "Ajoutez des pistes audio à la liste de lecture."
               },
               {}
             ]
@@ -223,12 +223,12 @@
       ]
     },
     {
-      "label": "Playlists",
-      "description": "These options will let you add playlists for the scenes.",
+      "label": "Listes de lecture",
+      "description": "Ces options vous permettront d'ajouter des listes de lecture pour les scènes.",
       "fields": [
         {
-          "label": "Added playlists",
-          "description": "Make playlists that's available for all scenes by default."
+          "label": "Listes de lectures ajoutées",
+          "description": "Créez des listes de lectures disponibles par défaut pour toutes les scènes."
         }
       ]
     },
@@ -237,42 +237,42 @@
       "description": "Ces options vous permettront de contrôler comment le monde doit se comporter.",
       "fields": [
         {
-          "label": "Audio type",
-          "description": "Decide what audio type this scene will use, either use an audio track or choose an existing audio playlist.",
+          "label": "Type d'audio",
+          "description": "Décidez du type audio que cette scène utilisera, soit utiliser une piste audio ou choisir une liste de lecture audio existante.",
           "options": [
             {
-              "label": "Global Audio"
+              "label": "Piste audio globale"
             },
             {
-              "label": "Playlist"
+              "label": "Liste de lecture"
             }
           ]
         },
         {
           "label": "Piste audio globale",
-          "description": "Ajoutez une piste audio globale disponible par défaut pour toutes les scènes."
+          "description": "Ajoutez une piste audio qui est disponible pour toutes les scènes par défaut."
         },
         {
-          "label": "Playlist",
-          "description": "Here you can pick an existing playlist as audio."
+          "label": "Liste de lecture",
+          "description": "Ici vous pouvez choisir une liste de lecture existante comme audio."
         },
         {
-          "label": "Display \"Scores\" button",
-          "description": "Display button for showing the scores from assignments."
+          "label": "Afficher le bouton \"Résultats\"",
+          "description": "Bouton d'affichage des résultats des tâches."
         },
         {
-          "label": "Display \"Home\" button",
-          "description": "Display button for going to start scene."
+          "label": "Afficher le bouton \"Accueil\"",
+          "description": "Bouton permettant d'aller à la scène de départ."
         },
         {
           "label": "Qualité de rendu de la scène",
-          "description": "Choisissez la résolution pour le rendu d'une scène. Ceci affecte directement le niveau de qualité de la scène. Essayez d’augmenter la qualité si une scène a l’air figée ou si des \"vagues\" sont visibles dans les scènes. Notez qu'un rendu de meilleure qualité prend plus de temps à charger.",
+          "description": "Choisissez la résolution pour le rendu d'une scène. Ceci affecte directement le niveau de qualité de la scène. Essayez d'augmenter la qualité si une scène a l'air figée ou si des \"vagues\" sont visibles dans les scènes. Notez qu'un rendu de meilleure qualité prend plus de temps à charger.",
           "options": [
             {
               "label": "Haute qualité (128x128)"
             },
             {
-              "label": "Moyenne qualité (64x64)"
+              "label": "Qualité moyenne (64x64)"
             },
             {
               "label": "Basse qualité (16x16)"
@@ -280,204 +280,204 @@
           ]
         },
         {
-          "label": "Label settings",
+          "label": "Paramètres de l'étiquette",
           "fields": [
             {
-              "label": "Label position",
-              "description": "The default label position. The position may be overriden per interaction",
+              "label": "Position de l'étiquette",
+              "description": "La position par défaut de l'étiquette. La position peut être forcée pour chaque interaction",
               "options": [
                 {
-                  "label": "Right aligned"
+                  "label": "Alignée à droite"
                 },
                 {
-                  "label": "Left aligned"
+                  "label": "Alignée à gauche"
                 },
                 {
-                  "label": "Top aligned"
+                  "label": "Alignée en haut"
                 },
                 {
-                  "label": "Bottom aligned"
+                  "label": "Alignée en bas"
                 }
               ]
             },
             {
-              "label": "Display Labels",
-              "description": "If unchecked - labels will show only on mouse over"
+              "label": "Affichage des étiquettes",
+              "description": "Si non cochée, les étiquettes seront affichées uniquement lorsque vous passez la souris dessus"
             }
           ]
         }
       ]
     },
     {
-      "label": "Localize",
+      "label": "Localiser",
       "fields": [
         {
-          "label": "Aria label for content type",
-          "default": "Virtual Tour"
+          "label": "Étiquette Aria pour le type de contenu",
+          "default": "Salle d'évasion"
         },
         {
-          "label": "Label for to play audio",
-          "default": "Play Audio Track"
+          "label": "Étiquette pour lire l'audio",
+          "default": "Lire la piste audio"
         },
         {
-          "label": "Label to pause audio",
-          "default": "Pause Audio Track"
+          "label": "Étiquette pour mettre en pause l'audio",
+          "default": "Mettre en pause la piste audio"
         },
         {
-          "label": "Title to scene dialog",
-          "default": "Scene Description"
+          "label": "Titre de la boîte de dialogue de la scène",
+          "default": "Description de scène"
         },
         {
-          "label": "Label for button to reset camera",
-          "default": "Reset Camera"
+          "label": "Étiquette pour le bouton de réinitialisation de la caméra",
+          "default": "Réinitialiser la caméra"
         },
         {
-          "label": "Label for the submit dialog button",
-          "default": "Submit Dialog"
+          "label": "Étiquette pour le bouton d'envoi de la boîte de dialogue",
+          "default": "Envoyer"
         },
         {
-          "label": "Label for the close dialog button",
-          "default": "Close Dialog"
+          "label": "Étiquette pour le bouton de fermeture de la boîte de dialogue",
+          "default": "Fermer"
         },
         {
-          "label": "Aria label for the expand label button",
-          "default": "Expand the visual label"
+          "label": "Étiquette Aria pour le bouton d'extension de l'étiquette",
+          "default": "Agrandir l'étiquette"
         },
         {
-          "label": "Label for when background image is loading in 360 scene",
-          "default": "Loading background image..."
+          "label": "Étiquette pour le chargement de l'image d'arrière-plan dans la scène à 360°",
+          "default": "Chargement de l'image d'arrière-plan..."
         },
         {
-          "label": "Label for when there is no content",
-          "default": "No content"
+          "label": "Étiquette pour quand il n'y a pas de contenu",
+          "default": "Aucun contenu"
         },
         {
-          "label": "Label for context menu button for go to scene",
-          "default": "Go to scene"
+          "label": "Étiquette pour le bouton du menu contextuel permettant d'aller à la scène",
+          "default": "Aller à la scène"
         },
         {
-          "label": "Label for context menu button for edit",
-          "default": "Edit"
+          "label": "Étiquette pour le bouton de menu contextuel permettant de modifier",
+          "default": "Modifier"
         },
         {
-          "label": "Label for context menu button for delete",
-          "default": "Delete"
+          "label": "Étiquette pour le bouton du menu contextuel permettant de supprimer",
+          "default": "Supprimer"
         },
         {
-          "label": "Translation for \"Score\"",
-          "default": "Score"
+          "label": "Traduction de \"Score\"",
+          "default": "Résultat"
         },
         {
-          "label": "Translation for \"Assignment\"",
-          "default": "Assignment"
+          "label": "Traduction de \"Assignment\"",
+          "default": "Mission"
         },
         {
-          "label": "Translation for \"Total\"",
+          "label": "Traduction de \"Total\"",
           "default": "Total"
         },
         {
-          "label": "Label for button to show score summary",
-          "default": "Show Score Summary"
+          "label": "Étiquette pour le bouton permettant d'afficher le résumé des résultats",
+          "default": "Afficher le résumé des résultats"
         },
         {
-          "label": "Translation for 'Scene'",
-          "default": "Scene"
+          "label": "Traduction de \"Scene\"",
+          "default": "Scène"
         },
         {
-          "label": "Untitled",
-          "default": "Untitled"
+          "label": "Traduction de \"Untitled",
+          "default": "Sans titre"
         },
         {
-          "label": "Go to start scene",
-          "default": "Go to start scene"
+          "label": "Traduction de \"Go to start scene\"",
+          "default": "Aller à la scène de départ"
         },
         {
-          "label": "You are at the start scene",
-          "default": "You are at the start scene"
+          "label": "Traduction de \"You are at the start scene\"",
+          "default": "Vous êtes à la scène de départ"
         },
         {
-          "label": "Unlocked",
-          "default": "Unlocked"
+          "label": "Traduction de \"Unlocked\"",
+          "default": "Déverrouillé"
         },
         {
-          "label": "Locked",
-          "default": "Locked"
+          "label": "Traduction de \"Locked\"",
+          "default": "Verrouillé"
         },
         {
-          "label": "Search the room until you find the code",
-          "default": "Search the room until you find the code"
+          "label": "Traduction de \"Search the room until you find the code\"",
+          "default": "Fouillez la pièce jusqu'à ce que vous trouviez le code"
         },
         {
-          "label": "The code was wrong, try again.",
-          "default": "The code was wrong, try again."
+          "label": "Traduction de \"The code was wrong, try again\"",
+          "default": "Le code était erroné, réessayez."
         },
         {
-          "label": "The content has been unlocked!",
-          "default": "The content has been unlocked!"
+          "label": "Traduction de \"The content has been unlocked!\"",
+          "default": "Le contenu a été débloqué !"
         },
         {
-          "label": "Code",
+          "label": "Traduction de \"Code\"",
           "default": "Code"
         },
         {
-          "label": "Unlocked interaction action (Continue)",
-          "default": "Continue"
+          "label": "Action d'interaction déverrouillée (Continue)",
+          "default": "Continuer"
         },
         {
-          "label": "Locked interaction action (Unlock)",
-          "default": "Unlock"
+          "label": "Action d'interaction verrouillée (Unlock)",
+          "default": "Déverrouiller"
         },
         {
           "label": "Drag horizontally to scale (for screen readers)",
-          "default": "Drag horizontally to scale"
+          "default": "Faire glisser horizontalement pour mettre à l'échelle"
         },
         {
           "label": "Drag vertically to scale (for screen readers)",
-          "default": "Drag vertically to scale"
+          "default": "Faites glisser verticalement pour mettre à l'échelle"
         },
         {
           "label": "Hint",
-          "default": "Hint"
+          "default": "Indice"
         },
         {
           "label": "Locked content",
-          "default": "Locked content"
+          "default": "Contenu verrouillé"
         },
         {
           "label": "Back",
-          "default": "Back"
+          "default": "Retour"
         },
         {
-          "label": "Text for screenreaders. Title for fullscreen button (enter)",
-          "default": "Enter fullscreen mode"
+          "label": "Texte pour les lecteurs d'écran. Titre pour le bouton plein écran (entrer)",
+          "default": "Entrer en mode plein écran"
         },
         {
-          "label": "Text for screenreaders. Title for fullscreen button (exit)",
-          "default": "Exit fullscreen mode"
+          "label": "Texte pour les lecteurs d’écran. Titre pour le bouton plein écran (sortir)",
+          "default": "Quitter le mode plein écran"
         },
         {
           "label": "Main toolbar",
-          "default": "Main toolbar"
+          "default": "Barre d'outils principale"
         },
         {
           "label": "No valid scenes set",
-          "default": "No valid scenes have been set."
+          "default": "Aucune scène valide n’a été définie."
         },
         {
-          "label": "Text for screenreaders. Title for zoom in button",
-          "default": "Zoom in"
+          "label": "Texte pour les lecteurs d'écran. Titre pour le bouton de zoom avant",
+          "default": "Zoom avant"
         },
         {
-          "label": "Text for screenreaders. Title for zoom out button",
-          "default": "Zoom out"
+          "label": "Texte pour les lecteurs d'écran. Titre pour le bouton de zoom arrière",
+          "default": "Zoom arrière"
         },
         {
           "label": "Zoom toolbar",
-          "default": "Zoom toolbar"
+          "default": "Barre d'outils Zoom"
         },
         {
-          "label": "Zoom aria text for screenreaders",
-          "default": ":num% zoomed in"
+          "label": "Texte Aria du zoom pour les lecteurs d'écran",
+          "default": "Zoomé à :num%"
         }
       ]
     }
