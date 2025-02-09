@@ -1,7 +1,7 @@
 {
   "semantics": [
     {
-      "label": "Editor de Imágenes Tres",
+      "label": "Editor de Imágenes del Cuarto de Escape",
       "fields": [
         {
           "label": "Escenas",
@@ -27,11 +27,11 @@
                 "description": "Mostrar botón para navegar de regreso a su escena anterior"
               },
               {
-                "label": "Enable \"Zoom\"",
-                "description": "Enable zooming in and out with zoom buttons, mouse wheel, touch gestures and keyboard shortcuts."
+                "label": "Habilitar \"Zoom\"",
+                "description": "Habilitar Acercar y Alejar con botones de Zoo,, rueda del ratón, gestos al tocar y atajos de teclado."
               },
               {
-                "label": "SceneId"
+                "label": "IDescena"
               },
               {
                 "label": "Título de Escena",
@@ -123,7 +123,7 @@
                       "description": "Permite añadir áreas de interacciones a la imagen del fondo, las que pueden ser de tamaño personalizado."
                     },
                     {
-                      "label": "Hotspot settings",
+                      "label": "Configuraciones de PuntoCaliente",
                       "fields": [
                         {
                           "label": "Mostrar hotspot cuando el ratón le pasa encima",
@@ -145,7 +145,7 @@
                     },
                     {},
                     {
-                      "label": "Interaction position"
+                      "label": "Posición de la interacción"
                     },
                     {
                       "label": "Estilo del botón",
@@ -215,8 +215,7 @@
               {
                 "label": "Pistas de Audio",
                 "description": "Añadir pistas de audio a la lista de reproducción."
-              },
-              {}
+              }
             ]
           }
         }
@@ -313,7 +312,7 @@
       "fields": [
         {
           "label": "Etiqueta Aria para tipo de contenido",
-          "default": "Escape Room"
+          "default": "Cuarto de Escape"
         },
         {
           "label": "Etiqueta para reproducir audio",
@@ -444,40 +443,40 @@
           "default": "Contenido bloqueado"
         },
         {
-          "label": "Back",
-          "default": "Back"
+          "label": "Regresar",
+          "default": "Regresar"
         },
         {
-          "label": "Text for screenreaders. Title for fullscreen button (enter)",
-          "default": "Enter fullscreen mode"
+          "label": "Texto para lectores de pantalla. Título para botón Pantalla Completa (Intro)",
+          "default": "Pasar a modo de Pantalla Completa"
         },
         {
-          "label": "Text for screenreaders. Title for fullscreen button (exit)",
-          "default": "Exit fullscreen mode"
+          "label": "Texto para lectores de pantalla. Título para botón de Pantalla Completa (salir)",
+          "default": "Salir del modo de Pantalla Completa"
         },
         {
-          "label": "Main toolbar",
-          "default": "Main toolbar"
+          "label": "Barra principal de herramientas",
+          "default": "Barra principal de herramientas"
         },
         {
-          "label": "No valid scenes set",
-          "default": "No valid scenes have been set."
+          "label": "Sin escenas válidas configuradas",
+          "default": "No se han configurado escenas válidas."
         },
         {
-          "label": "Text for screenreaders. Title for zoom in button",
+          "label": "Texto para lectores de pantalla. Título para botón Acercar",
           "default": "Zoom in"
         },
         {
-          "label": "Text for screenreaders. Title for zoom out button",
-          "default": "Zoom out"
+          "label": "Texto para lectores de pantalla. Título para botón Alejar",
+          "default": "Alejar"
         },
         {
-          "label": "Zoom toolbar",
-          "default": "Zoom toolbar"
+          "label": "Barra de herramientas de Zoom",
+          "default": "Barra de herramientas de Zoom"
         },
         {
-          "label": "Zoom aria text for screenreaders",
-          "default": ":num% zoomed in"
+          "label": "Texto aria Zoom para lectores de pantalla",
+          "default": ":num% acercado"
         }
       ]
     }
