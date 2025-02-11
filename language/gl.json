@@ -1,7 +1,7 @@
 {
   "semantics": [
     {
-      "label": "Editor de Tres Imaxes",
+      "label": "Editor da sala de escape",
       "fields": [
         {
           "label": "Escenas",
@@ -215,8 +215,7 @@
               {
                 "label": "Pistas de son",
                 "description": "Engade pistas de son á lista de reprodución."
-              },
-              {}
+              }
             ]
           }
         }
