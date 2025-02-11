@@ -215,8 +215,7 @@
               {
                 "label": "Pistas de Audio",
                 "description": "Añadir pistas de audio a la lista de reproducción."
-              },
-              {}
+              }
             ]
           }
         }
