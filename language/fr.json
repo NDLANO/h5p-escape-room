@@ -215,8 +215,7 @@
               {
                 "label": "Pistes audio",
                 "description": "Ajoutez des pistes audio à la liste de lecture."
-              },
-              {}
+              }
             ]
           }
         }
