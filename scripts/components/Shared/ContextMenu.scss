@@ -104,7 +104,7 @@
   }
 }
 
-.nav-button-wrapper.focused {
+.nav-button-wrapper:focus-within {
   .nav-button {
     border: .25em solid #70b0ff;
   }
