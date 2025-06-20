@@ -98,17 +98,15 @@
 
 .nav-button-wrapper {
   &.nav-btn-hotspot {
-    .context-menu button {
-      font-size: 1.8em;
+    .context-menu {
+      button {
+        font-size: 1.8em;
+      }
     }
   }
 }
 
 .nav-button-wrapper.focused {
-  .nav-button {
-    border: .25em solid #70b0ff;
-  }
-
   .context-menu {
     display: block;
   }

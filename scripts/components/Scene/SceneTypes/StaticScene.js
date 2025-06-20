@@ -264,16 +264,25 @@ export default class StaticScene extends React.Component {
     position = this.removePercentageDenotationFromPosition(position);
     const movedTo = position - mouseMovedWhenZoomed;
 
-    if (movedTo < 0) {
-      return 0;
-    }
+    const interactionParams = this.getDraggingInteraction();
 
+    if (interactionParams.showAsHotspot) {
+      const sizeValues = interactionParams.hotspotSettings.hotSpotSizeValues.split(',');
+      const elementSizePercentage = isVertical ? sizeValues[1] : sizeValues[0];
+
+      const posMin = elementSizePercentage / 2;
+      const posMax = 100 - elementSizePercentage / 2;
+
+      return Math.max(posMin, Math.min(movedTo, posMax));
+    }
     const elementBounds = element.getBoundingClientRect();
     const elementSize = isVertical ? elementBounds.height : elementBounds.width;
-    const elementSizePercentage = (elementSize / wrapperSize) * 100;
-    const positionThreshold = 100 - elementSizePercentage;
+    let elementSizePercentage = (elementSize / wrapperSize) * 100;
 
-    return Math.min(movedTo, positionThreshold);
+    const posMin = elementSizePercentage / 2;
+    const posMax = 100 - elementSizePercentage / 2;
+
+    return Math.max(posMin, Math.min(movedTo, posMax));
   }
 
   /**
@@ -895,6 +904,10 @@ export default class StaticScene extends React.Component {
     };
   }
 
+  onNavigationButtonGeometryChanged() {
+    this.forceUpdate();
+  }
+
   /**
    * React render function.
    * @returns {object} JSX element.
@@ -1068,6 +1081,7 @@ export default class StaticScene extends React.Component {
                     isHotspotTabbable={interaction.hotspotSettings?.isHotspotTabbable}
                     showHotspotOnHover={interaction.hotspotSettings?.showHotspotOnHover}
                     zoomScale={this.props.zoomScale}
+                    onGeometryChanged={this.onNavigationButtonGeometryChanged.bind(this)}
                   >
                     {
                       this.context.extras.isEditor &&

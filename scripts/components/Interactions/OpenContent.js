@@ -224,12 +224,12 @@ export default class OpenContent extends React.Component {
       this.state.startMousePos,
       this.state.startMidPoint
     );
-  
+
     let sizeMax = OpenContent.SIZE_MAX;
-    
+
     if (this.props.is3DScene) {
       sizeMax = OpenContent.SIZE_MAX_360;
-    } 
+    }
     if (this.props.isPanorama) {
       sizeMax = OpenContent.SIZE_MAX_PANORAMA;
     }

@@ -1,0 +1,61 @@
+.hotspot-nav-button-resizer-knob {
+  background-color: #fff;
+  border: 1px solid var(--resizer-color);
+  display: block;
+  height: var(--knob-size);
+  padding: 0;
+  position: absolute;
+  width: var(--knob-size);
+
+  &.top-left {
+    cursor: nwse-resize;
+    left: calc(-1 * var(--knob-size) / 2);
+    top: calc(-1 * var(--knob-size) / 2);
+  }
+
+  &.top-center {
+    cursor: ns-resize;
+    left: 50%;
+    top: calc(-1 * var(--knob-size) / 2);
+    transform: translateX(-50%);
+  }
+
+  &.top-right {
+    cursor: nesw-resize;
+    right: calc(-1 * var(--knob-size) / 2);
+    top: calc(-1 * var(--knob-size) / 2);
+  }
+
+  &.middle-left {
+    cursor: ew-resize;
+    left: calc(-1 * var(--knob-size) / 2);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &.middle-right {
+    cursor: ew-resize;
+    right: calc(-1 * var(--knob-size) / 2);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &.bottom-left {
+    bottom: calc(-1 * var(--knob-size) / 2);
+    cursor: nesw-resize;
+    left: calc(-1 * var(--knob-size) / 2);
+  }
+
+  &.bottom-center {
+    bottom: calc(-1 * var(--knob-size) / 2);
+    cursor: ns-resize;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &.bottom-right {
+    bottom: calc(-1 * var(--knob-size) / 2);
+    cursor: nwse-resize;
+    right: calc(-1 * var(--knob-size) / 2);
+  }
+}

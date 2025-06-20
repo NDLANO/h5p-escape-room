@@ -580,6 +580,7 @@ export default class ThreeSixtyScene extends React.Component {
           sceneId = {this.props.sceneId}
           interactionIndex = {index}
           is3d={is3d}
+          onGeometryChanged={() => {}}
         >
           {
             this.context.extras.isEditor &&

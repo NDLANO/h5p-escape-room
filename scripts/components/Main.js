@@ -53,7 +53,6 @@ export default class Main extends React.Component {
       maxZoomedIn: false,
       maxZoomedOut: true,
       zoomScale: 1,
-      zoomPercentage: 0,
       labelBehavior: {
         showLabel: true,
         labelPosition: 'right'
@@ -61,8 +60,6 @@ export default class Main extends React.Component {
     };
 
     this.isVeryFirstRenderDone = this.props.isVeryFirstRenderDone ?? false;
-    this.show360Affordance = true; // No need to use state for this
-
     this.documentID = `document-dom-${H5P.createUUID()}`;
   }
 
@@ -70,6 +67,8 @@ export default class Main extends React.Component {
    * React life-cycle handler: component did mount.
    */
   componentDidMount() {
+    this.show360Affordance = !this.context.extras.isEditor;
+
     // Listen for focus to interaction
     this.context.on('focusInteraction', (e) => {
       this.setState({

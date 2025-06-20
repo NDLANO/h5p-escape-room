@@ -2,7 +2,7 @@ import React from 'react';
 import './NavigationButton.scss';
 import { H5PContext } from '../../context/H5PContext';
 import NavigationButtonLabel, { getLabelPos, getLabelText, isHoverLabel } from './NavigationButtonLabel';
-import HotspotNavButton from './HotspotNavButton';
+import HotspotNavButtonResizer from './HotspotNavButtonResizer.js';
 
 export const Icons = {
   INFO: 'h5p-info-button h5p-interaction-button',
@@ -129,11 +129,10 @@ export default class NavigationButton extends React.Component {
 
   /**
    * Resize on drag.
-   * @param {number} width Width.
-   * @param {number} height Height.
+   * @param {object} geometry Geometry.
    */
-  resizeOnDrag(width, height) {
-    this.setHotspotValues(width, height);
+  resizeOnDrag(geometry) {
+    this.setHotspotGeometry(geometry);
 
     if (this.context.extras.isEditor) {
       this.forceUpdate();
@@ -381,26 +380,56 @@ export default class NavigationButton extends React.Component {
   }
 
   /**
-   * Set hotspot size.
-   * @param {number} widthX Width.
-   * @param {number} heightY Height.
+   * Set hotspot geometry.
+   * @param {object} geometry Geometry.
    */
-  setHotspotValues(widthX, heightY) {
+  setHotspotGeometry(geometry) {
     const scene = this.context.params.scenes.find(
       (scene) => scene.sceneId === this.props.sceneId,
     );
     const interaction = scene.interactions[this.props.interactionIndex];
-    interaction.hotspotSettings.hotSpotSizeValues = `${widthX},${heightY}`;
+    if (!interaction) {
+      return;
+    }
+
+    const newGeometry = this.getHotspotGeometry();
+    if (geometry.x !== undefined) {
+      newGeometry.x = geometry.x;
+    }
+    if (geometry.y !== undefined) {
+      newGeometry.y = geometry.y;
+    }
+    if (geometry.width !== undefined) {
+      newGeometry.width = geometry.width;
+    }
+    if (geometry.height !== undefined) {
+      newGeometry.height = geometry.height;
+    }
+    if (geometry.unit !== undefined) {
+      newGeometry.unit = geometry.unit;
+    }
+
+    interaction.interactionpos = `${newGeometry.x}${newGeometry.unit},${newGeometry.y}${newGeometry.unit}`;
+    interaction.hotspotSettings.hotSpotSizeValues = `${newGeometry.width},${newGeometry.height}`;
+
+    this.props.onGeometryChanged(this.props.interactionIndex, newGeometry);
   }
 
   /**
-   * Get hotspot size.
-   * @returns {number[]} Width, height.
+   * Get hotspot geometry.
+   * Adding the unit is odd, but the original code did NOT distinguish between percantage and pixels. God knows why.
+   * @returns {object} Hotspot geometry.
    */
-  getHotspotValues() {
+  getHotspotGeometry() {
     const interaction = this.getCurrentInteraction();
 
-    return interaction.hotspotSettings.hotSpotSizeValues.split(',');
+    return {
+      x: parseFloat(interaction.interactionpos.split(',')[0]),
+      y: parseFloat(interaction.interactionpos.split(',')[1]),
+      width: parseFloat(interaction.hotspotSettings.hotSpotSizeValues.split(',')[0]),
+      height: parseFloat(interaction.hotspotSettings.hotSpotSizeValues.split(',')[1]),
+      unit: interaction.interactionpos.includes('%') ? '%' : 'px'
+    };
   }
 
   /**
@@ -476,14 +505,25 @@ export default class NavigationButton extends React.Component {
     let height;
 
     if (this.props.label && this.props.staticScene && this.props.showAsHotspot) {
-      width = parseFloat(this.getHotspotValues()[0].toString());
-      height = parseFloat(this.getHotspotValues()[1].toString());
+      width = parseFloat(this.getHotspotGeometry().width);
+      height = parseFloat(this.getHotspotGeometry().height);
 
       if (this.props.zoomScale) {
         width *= this.props.zoomScale;
         height *= this.props.zoomScale;
       }
     }
+
+    const hotspotButtonProps = {
+      ariaLabel: getLabelText(label) || this.context.l10n.untitled,
+      tabIndexValue: isInnerButtonTabbable ? undefined : -1,
+      onDoubleClickEvent: this.onDoubleClick.bind(this),
+      onFocusEvent: (() => this.setState({ innerButtonFocused: true })),
+      onBlurEvent: (() => this.setState({ innerButtonFocused: false })),
+      staticScene: this.props.staticScene,
+      showHotspotOnHover: this.props.showHotspotOnHover,
+      isHotspotTabbable: this.props.isHotspotTabbable
+    };
 
     return (
       <div
@@ -498,22 +538,17 @@ export default class NavigationButton extends React.Component {
       >
         {
           this.props.showAsHotspot ?
-            <HotspotNavButton
-              reference={this.navButton}
-              style={{ height:'100%', width:'100%' }}
-              ariaLabel={getLabelText(label) || this.context.l10n.untitled}
-              tabIndexValue={isInnerButtonTabbable ? undefined : -1}
-              onDoubleClickEvent={this.onDoubleClick.bind(this)}
+            <HotspotNavButtonResizer
+              isEditor={this.context.extras.isEditor}
+              hotspotButtonProps={hotspotButtonProps}
+              sizeWidth={this.getHotspotGeometry().width}
+              sizeHeight={this.getHotspotGeometry().height}
               onMouseDownEvent={this.onMouseDown.bind(this)}
-              onFocusEvent={() => this.setState({ innerButtonFocused: true })}
-              onBlurEvent={() => this.setState({ innerButtonFocused: false })}
+              getHotspotGeometry={this.getHotspotGeometry.bind(this)}
               resizeOnDrag={this.resizeOnDrag}
-              setHotspotValues={this.setHotspotValues.bind(this)}
-              getHotspotValues={this.getHotspotValues.bind(this)}
-              staticScene={this.props.staticScene}
-              isPanorama={this.context.extras.isPanorama}
-              showHotspotOnHover={this.props.showHotspotOnHover}
-              isHotspotTabbable={this.props.isHotspotTabbable}
+              reference={this.navButton}
+              isStaticScene={this.props.staticScene}
+              isPanoramaScene={this.context.extras.isPanorama}
             />
             :
             <button
