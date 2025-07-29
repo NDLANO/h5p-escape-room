@@ -4,6 +4,9 @@
       "label": "세 이미지 편집기",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "장면",
           "entity": "장면",
           "field": {

@@ -4,6 +4,9 @@
       "label": "Editor de Imágenes del Cuarto de Escape",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Escenas",
           "entity": "Escena",
           "field": {

@@ -4,6 +4,9 @@
       "label": "Three Image pildiredaktor",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Stseenid",
           "entity": "Stseen",
           "field": {

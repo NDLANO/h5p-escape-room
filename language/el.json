@@ -4,6 +4,9 @@
       "label": "Επεξεργαστής Three Image",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Σκηνές",
           "entity": "Σκηνή",
           "field": {

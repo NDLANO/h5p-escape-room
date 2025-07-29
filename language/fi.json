@@ -4,6 +4,9 @@
       "label": "Virtuaalikierrosten editori",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Dioraamat",
           "entity": "Dioraama",
           "field": {

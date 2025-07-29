@@ -4,6 +4,9 @@
       "label": "Escape Room Editor",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Scenes",
           "entity": "Scene",
           "field": {

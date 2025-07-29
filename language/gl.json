@@ -4,6 +4,9 @@
       "label": "Editor da sala de escape",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Escenas",
           "entity": "Escena",
           "field": {

@@ -4,6 +4,9 @@
       "label": "Éditeur de salle d'évasion",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Scènes",
           "entity": "Scène",
           "field": {

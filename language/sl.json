@@ -4,6 +4,9 @@
       "label": "Urejevalnik",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Prizori",
           "entity": "Prizor",
           "field": {

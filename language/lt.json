@@ -4,6 +4,9 @@
       "label": "Trijų vaizdų rengyklė",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Vaizdai",
           "entity": "Vaizdas",
           "field": {

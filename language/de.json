@@ -4,6 +4,9 @@
       "label": "Editor für Escape Room",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Szenen",
           "entity": "Szene",
           "field": {

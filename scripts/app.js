@@ -115,6 +115,7 @@ export default class Wrapper extends H5P.EventDispatcher {
     this.root.render(
       <H5PContext.Provider value={this}>
         <Main
+          wasConvertedFromVirtualTour={this.params.wasConvertedFromVirtualTour}
           forceStartScreen={this.enforcedStartSceneId}
           forceStartCamera={this.forceStartCamera}
           currentScene={this.currentSceneId}

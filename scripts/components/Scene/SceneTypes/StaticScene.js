@@ -1049,6 +1049,7 @@ export default class StaticScene extends React.Component {
                   </OpenContent>
                   :
                   <NavigationButton
+                    wasConvertedFromVirtualTour={this.props.wasConvertedFromVirtualTour}
                     key={key}
                     title={title}
                     icon={getIconFromInteraction(interaction, this.context.params.scenes)}

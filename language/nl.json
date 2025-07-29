@@ -4,6 +4,9 @@
       "label": "3-Afbeeldingseditor",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Scènes",
           "entity": "Scène",
           "field": {

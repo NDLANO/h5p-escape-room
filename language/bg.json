@@ -4,6 +4,9 @@
       "label": "Редактор на 3D изображения",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Сцени",
           "entity": "Сцена",
           "field": {

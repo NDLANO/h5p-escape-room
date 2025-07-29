@@ -7,6 +7,14 @@
     "importance": "high",
     "fields": [
       {
+        "name": "wasConvertedFromVirtualTour",
+        "label": "Was converted from Virtual Tour",
+        "type": "boolean",
+        "widget": "none",
+        "default": false,
+        "optional": true
+      },
+      {
         "name": "scenes",
         "type": "list",
         "label": "Scenes",

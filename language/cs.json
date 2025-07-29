@@ -4,6 +4,9 @@
       "label": "Editor 3D obrázků",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Scény",
           "entity": "Scéna",
           "field": {

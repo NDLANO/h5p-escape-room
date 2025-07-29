@@ -4,6 +4,9 @@
       "label": "Editor di Three Image",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Scene",
           "entity": "Scena",
           "field": {

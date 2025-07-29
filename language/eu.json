@@ -4,6 +4,9 @@
       "label": "Hiru Irudiak Editorea",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Eszenak",
           "entity": "Eszena",
           "field": {

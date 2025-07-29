@@ -4,6 +4,9 @@
       "label": "Editor de Three Image",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Escenes",
           "entity": "Escena",
           "field": {

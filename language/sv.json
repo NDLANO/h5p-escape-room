@@ -4,6 +4,9 @@
       "label": "Redigerare för Three Image",
       "fields": [
         {
+          "label": "Was converted from Virtual Tour"
+        },
+        {
           "label": "Scener",
           "entity": "Scen",
           "field": {

@@ -947,6 +947,7 @@ export default class Main extends React.Component {
           this.context.params.scenes.map((sceneParams) => {
             return (
               <Scene
+                wasConvertedFromVirtualTour={this.props.wasConvertedFromVirtualTour}
                 zoomPercentage={this.state.zoomPercentage}
                 key={sceneParams.sceneId}
                 threeSixty={this.state.threeSixty}

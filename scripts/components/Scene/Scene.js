@@ -69,6 +69,7 @@ export default class Scene extends React.Component {
     if (this.props.sceneParams.sceneType === SceneTypes.STATIC_SCENE) {
       return (
         <StaticScene
+          wasConvertedFromVirtualTour={this.props.wasConvertedFromVirtualTour}
           zoomPercentage={this.props.zoomPercentage}
           isActive={this.props.isActive}
           isHiddenBehindOverlay={ this.props.isHiddenBehindOverlay }

@@ -261,12 +261,22 @@ export default class NavigationButton extends React.Component {
   getStyle(width, height) {
     const style = {};
 
+    /*
+     * This is a hack. The way that the position gets interpreted was changed in Escape Room,
+     * but since it's based on rendered sizes (using translation by -50%), we cannot use an upgrade script
+     * to fix it. Instead, we compute the offset to make it look like it did before.
+     */
+    const buttonFontSize = 0.92;
+    const buttonHeightWidth = 2.5;
+    const buttonSizeHalfed = buttonFontSize * buttonHeightWidth / 2;
+    const offset = this.props.wasConvertedFromVirtualTour ? buttonSizeHalfed : 0;
+
     if (this.props.topPosition !== undefined) {
-      style.top = `${this.props.topPosition}%`;
+      style.top = `calc(${this.props.topPosition}% + ${offset}em)`;
     }
 
     if (this.props.leftPosition !== undefined) {
-      style.left = `${this.props.leftPosition}%`;
+      style.left = `calc(${this.props.leftPosition}% + ${offset}em)`;
     }
 
     if (this.props.staticScene) {
@@ -427,6 +437,10 @@ export default class NavigationButton extends React.Component {
     const machineName = interaction ? H5P.libraryFromString(interaction?.action?.library ?? '').machineName : '';
     const libraryName = machineName.replace('.', '-').toLowerCase();
     let wrapperClasses = interaction ? ['nav-button-wrapper', libraryName] : ['nav-button-wrapper'];
+
+    if (this.props.wasConvertedFromVirtualTour) {
+      wrapperClasses = wrapperClasses.concat('was-converted-from-virtual-tour');
+    }
 
     if (this.props.buttonClasses) {
       wrapperClasses = wrapperClasses.concat(this.props.buttonClasses);
