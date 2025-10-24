@@ -6,7 +6,7 @@
   "author": "Joubel AS",
   "majorVersion": 0,
   "minorVersion": 7,
-  "patchVersion": 1,
+  "patchVersion": 2,
   "runnable": 1,
   "embedTypes": [
     "iframe"
