@@ -48,7 +48,10 @@ export default class FocusTrap {
 
     callback(() => {
       this.observer = this.observer || new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
+        // Custom NDLA workaround for Brightcove videos in fullscreen
+        const isBrightcove = !!entries[0].target.querySelector('.h5p-brightcove');
+
+        if (entries[0].isIntersecting || isBrightcove && H5P.isFullscreen) {
           this.observer.unobserve(this.params.trapElement);
 
           this.handleVisible();
