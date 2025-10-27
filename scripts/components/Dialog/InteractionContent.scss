@@ -1,3 +1,8 @@
+.h5p-text-content:has(.h5p-image) {
+  overflow: hidden;
+  padding: 0;
+}
+
 .h5p-text-content > .h5p-image {
   height: 100%;
   width: 100%;
