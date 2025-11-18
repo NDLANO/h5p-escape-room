@@ -31,7 +31,6 @@ export default class Main extends React.Component {
     this.sceneAudioPlayers = {};
 
     this.state = {
-      zoomPercentage: 0,
       threeSixty: null,
       showingTextDialog: false,
       currentText: null,
