@@ -1,6 +1,7 @@
 import React from 'react';
-import { H5PContext } from '../../context/H5PContext';
+import { H5PContext } from '../../context/H5PContext.js';
 import './ZoomButtons.scss';
+import PropTypes from 'prop-types';
 
 export default class ZoomButtons extends React.Component {
   /**
@@ -225,5 +226,15 @@ export default class ZoomButtons extends React.Component {
     );
   }
 }
+
+ZoomButtons.propTypes = {
+  onZoomIn: PropTypes.func.isRequired,
+  onZoomOut: PropTypes.func.isRequired,
+  isZoomInDisabled: PropTypes.bool.isRequired,
+  isZoomOutDisabled: PropTypes.bool.isRequired,
+  isHiddenBehindOverlay: PropTypes.bool.isRequired,
+  zoomPercentage: PropTypes.number.isRequired,
+  ariaControls: PropTypes.string.isRequired
+};
 
 ZoomButtons.contextType = H5PContext;

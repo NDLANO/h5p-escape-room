@@ -1,10 +1,14 @@
 import React from 'react';
 import './StaticScene.scss';
-import NavigationButton, { getIconFromInteraction, getLabelFromInteraction, Icons } from '../../Interactions/NavigationButton';
-import { H5PContext } from '../../../context/H5PContext';
-import { SceneTypes } from '../Scene';
-import ContextMenu from '../../Shared/ContextMenu';
-import OpenContent from '../../Interactions/OpenContent';
+import NavigationButton, {
+  getIconFromInteraction, getLabelFromInteraction, Icons
+} from '../../Interactions/NavigationButton.js';
+import { H5PContext } from '../../../context/H5PContext.js';
+import { SceneTypes } from '../Scene.js';
+import ContextMenu from '../../Shared/ContextMenu.js';
+import OpenContent from '../../Interactions/OpenContent.js';
+import PropTypes from 'prop-types';
+
 export let staticSceneWidth, staticSceneHeight;
 
 export default class StaticScene extends React.Component {
@@ -1113,3 +1117,30 @@ StaticScene.FONT_SIZE_MIN_PX = 14;
 
 /** @constant {number} FONT_INCREMENT_THRESHOLD Factor used to increase font size based on scene width. */
 StaticScene.FONT_INCREMENT_THRESHOLD = 55;
+
+StaticScene.propTypes = {
+  sceneParams: PropTypes.object.isRequired,
+  sceneId: PropTypes.number.isRequired,
+  sceneHistory: PropTypes.array.isRequired,
+  imageSrc: PropTypes.object,
+  isActive: PropTypes.bool.isRequired,
+  isHiddenBehindOverlay: PropTypes.bool.isRequired,
+  takeFocus: PropTypes.bool.isRequired,
+  zoomScale: PropTypes.number.isRequired,
+  zoomPercentage: PropTypes.string.isRequired,
+  enableZoom: PropTypes.bool.isRequired,
+  maxZoomedIn: PropTypes.bool.isRequired,
+  maxZoomedOut: PropTypes.bool.isRequired,
+  audioIsPlaying: PropTypes.string,
+  sceneWaitingForLoad: PropTypes.number,
+  navigateToScene: PropTypes.func.isRequired,
+  zoomIn: PropTypes.func.isRequired,
+  zoomOut: PropTypes.func.isRequired,
+  doneLoadingNextScene: PropTypes.func.isRequired,
+  showInteraction: PropTypes.func.isRequired,
+  getInteractionTitle: PropTypes.func.isRequired,
+  focusedInteraction: PropTypes.number,
+  onBlurInteraction: PropTypes.func.isRequired,
+  nextFocus: PropTypes.string,
+  wasConvertedFromVirtualTour: PropTypes.bool.isRequired,
+};

@@ -1,13 +1,14 @@
 import React from 'react';
 
-import { H5PContext } from '../../../context/H5PContext';
+import { H5PContext } from '../../../context/H5PContext.js';
 import {
   createAudioPlayer,
   getAudioPlayerType,
   AUDIO_PLAYER_TYPES,
   fadeAudioInAndOut,
-} from '../../../utils/audio-utils';
-import Button from './Button/Button';
+} from '../../../utils/audio-utils.js';
+import Button from './Button/Button.js';
+import PropTypes from 'prop-types';
 
 export default class AudioButton extends React.Component {
   /**
@@ -315,3 +316,34 @@ export default class AudioButton extends React.Component {
 }
 
 AudioButton.contextType = H5PContext;
+
+AudioButton.propTypes = {
+  sceneId: PropTypes.number,
+  sceneAudioTrack: PropTypes.array,
+  playlistId: PropTypes.number,
+  playerId: PropTypes.string,
+  isPlaying: PropTypes.string,
+  interactionAudioPlayers: PropTypes.object.isRequired,
+  updateSceneAudioPlayers: PropTypes.func.isRequired,
+  onIsPlaying: PropTypes.func.isRequired,
+  onSceneWasPlaying: PropTypes.func.isRequired,
+  restartAudioOnSceneStart: PropTypes.bool,
+  isHiddenBehindOverlay: PropTypes.bool.isRequired,
+  tabIndex: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  focus: PropTypes.bool,
+  sceneWasPlaying: PropTypes.string
+};
+
+AudioButton.defaultProps = {
+  sceneId: undefined,
+  sceneAudioTrack: [],
+  playlistId: undefined,
+  playerId: undefined,
+  isPlaying: null,
+  restartAudioOnSceneStart: false,
+  tabIndex: 0,
+  focus: false
+};

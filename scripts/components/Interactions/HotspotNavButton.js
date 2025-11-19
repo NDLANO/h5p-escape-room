@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import './NavigationButton.scss';
-import { H5PContext } from '../../context/H5PContext';
-import { scaleOpenContentElement } from '../../utils/open-content-utils';
-import { staticSceneWidth, staticSceneHeight } from '../Scene/SceneTypes/StaticScene';
-import { clamp } from '../../utils/utils';
+import { H5PContext } from '../../context/H5PContext.js';
+import { scaleOpenContentElement } from '../../utils/open-content-utils.js';
+import { staticSceneWidth, staticSceneHeight } from '../Scene/SceneTypes/StaticScene.js';
+import { clamp } from '../../utils/utils.js';
+import PropTypes from 'prop-types';
 
 export default class HotspotNavButton extends React.Component {
   /**
@@ -236,7 +237,11 @@ export default class HotspotNavButton extends React.Component {
 
     return (
       <div
-        className={`nav-button-hotspot-wrapper ${this.props.staticScene ? 'nav-button-hotspot-wrapper--is-static' : ''} `}
+        className={
+          `nav-button-hotspot-wrapper ${
+            this.props.staticScene ? 'nav-button-hotspot-wrapper--is-static' : ''
+          } `
+        }
         style={this.props.staticScene ? { height:'100%', width:'100%' } : {}}>
         <button
           ref={this.props.reference}
@@ -245,7 +250,11 @@ export default class HotspotNavButton extends React.Component {
             { width: '100%', height: '100%', fontSize: iconSize } :
             { width: `${this.state.sizeWidth}px`, height: `${this.state.sizeHeight}px`, fontSize: iconSize }
           }
-          className={ `nav-button nav-button-hotspot ${this.props.showHotspotOnHover ? 'nav-button-hotspot--show-hotspot-on-hover' : ''} ${this.context.extras.isEditor ? 'nav-button-hotspot--editor' : ''} `}
+          className={
+            'nav-button nav-button-hotspot ' +
+            `${this.props.showHotspotOnHover ? 'nav-button-hotspot--show-hotspot-on-hover' : ''} ` +
+            `${this.context.extras.isEditor ? 'nav-button-hotspot--editor' : ''}`
+          }
           tabIndex={this.determineTabIndex()}
           onClick={this.props.onClickEvent}
           onDoubleClick={this.props.onDoubleClickEvent}
@@ -275,3 +284,22 @@ HotspotNavButton.SIZE_MAX = 2000;
 
 /** @constant {number} MAX_HEIGHT_PANORAMA Maximum hotspot height in Panorama */
 HotspotNavButton.MAX_HEIGHT_PANORAMA = 800;
+
+HotspotNavButton.propTypes = {
+  getHotspotValues: PropTypes.func.isRequired,
+  setHotspotValues: PropTypes.func.isRequired,
+  resizeOnDrag: PropTypes.func.isRequired,
+  staticScene: PropTypes.bool.isRequired,
+  isPanorama: PropTypes.bool.isRequired,
+  reference: PropTypes.object.isRequired,
+  ariaLabel: PropTypes.string.isRequired,
+  showHotspotOnHover: PropTypes.bool.isRequired,
+  tabIndexValue: PropTypes.number.isRequired,
+  onClickEvent: PropTypes.func,
+  onDoubleClickEvent: PropTypes.func,
+  onMouseDownEvent: PropTypes.func,
+  onMouseUpEvent: PropTypes.func,
+  onFocusEvent: PropTypes.func,
+  onBlurEvent: PropTypes.func,
+  isHotspotTabbable: PropTypes.bool.isRequired
+};

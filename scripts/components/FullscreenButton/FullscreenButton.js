@@ -1,5 +1,6 @@
 import React from 'react';
 import './FullscreenButton.scss';
+import PropTypes from 'prop-types';
 
 export default class FullscreenButton extends React.Component {
   /**
@@ -26,3 +27,16 @@ export default class FullscreenButton extends React.Component {
     );
   }
 }
+
+FullscreenButton.propTypes = {
+  ariaLabel: PropTypes.string.isRequired,
+  onClicked: PropTypes.func.isRequired,
+  tabIndex: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired,
+};
+
+FullscreenButton.defaultProps = {
+  tabIndex: 0
+};

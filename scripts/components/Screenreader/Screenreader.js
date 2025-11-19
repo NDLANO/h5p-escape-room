@@ -1,5 +1,6 @@
 import React from 'react';
 import './Screenreader.scss';
+import PropTypes from 'prop-types';
 
 /**
  * @class
@@ -25,3 +26,7 @@ export default class Screenreader extends React.Component {
     );
   }
 }
+
+Screenreader.propTypes = {
+  readText: PropTypes.string.isRequired,
+};

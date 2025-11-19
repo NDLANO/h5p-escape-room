@@ -1,10 +1,10 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import Main from './components/Main';
-import { H5PContext } from './context/H5PContext';
-import { sceneRenderingQualityMapping } from './components/Scene/SceneTypes/ThreeSixtyScene';
+import Main from './components/Main.js';
+import { H5PContext } from './context/H5PContext.js';
+import { sceneRenderingQualityMapping } from './components/Scene/SceneTypes/ThreeSixtyScene.js';
 import { sanitizeContentTypeParameters } from './utils/sanitization.js';
-import MessageBox from './components/MessageBox/MessageBox';
+import MessageBox from './components/MessageBox/MessageBox.js';
 
 export default class Wrapper extends H5P.EventDispatcher {
   /**

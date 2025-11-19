@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './ContextMenu.scss';
-import { H5PContext } from '../../context/H5PContext';
+import { H5PContext } from '../../context/H5PContext.js';
+import PropTypes from 'prop-types';
 
 export default class ContextMenu extends Component {
 
@@ -39,7 +40,14 @@ export default class ContextMenu extends Component {
             onClick={this.goToScene.bind(this)}
             tabIndex="-1"
           >
-            {this.context.extras.l10n && <div className='tooltip' dangerouslySetInnerHTML={{ __html: this.context.extras.l10n.goToScene }}></div>}
+            {this.context.extras.l10n && (
+              <div
+                className='tooltip'
+                dangerouslySetInnerHTML={{
+                  __html: this.context.extras.l10n.goToScene
+                }}
+              />
+            )}
           </button>
         }
         <button
@@ -47,18 +55,33 @@ export default class ContextMenu extends Component {
           onClick={this.handlEdit.bind(this)}
           tabIndex="-1"
         >
-          {this.context.extras.l10n && <div className='tooltip' dangerouslySetInnerHTML={{ __html: this.context.extras.l10n.edit }} />}
+          {this.context.extras.l10n && (
+            <div
+              className='tooltip'
+              dangerouslySetInnerHTML={{ __html: this.context.extras.l10n.edit }}
+            />
+          )}
         </button>
         <button
           className='delete'
           onClick={this.handleDelete.bind(this)}
           tabIndex="-1"
         >
-          {this.context.extras.l10n && <div className='tooltip' dangerouslySetInnerHTML={{ __html: this.context.extras.l10n.delete }}/>}
+          {this.context.extras.l10n && (
+            <div
+              className='tooltip'
+              dangerouslySetInnerHTML={{ __html: this.context.extras.l10n.delete }}
+            />
+          )}
         </button>
       </div>
     );
   }
 }
+
+ContextMenu.propTypes = {
+  interactionIndex: PropTypes.number.isRequired,
+  isGoToScene: PropTypes.bool.isRequired,
+};
 
 ContextMenu.contextType = H5PContext;

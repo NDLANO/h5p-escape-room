@@ -1,7 +1,8 @@
 import React from 'react';
-import Dialog from './Dialog';
-import SceneScores from './SceneScores';
-import { H5PContext } from '../../context/H5PContext';
+import Dialog from './Dialog.js';
+import SceneScores from './SceneScores.js';
+import { H5PContext } from '../../context/H5PContext.js';
+import PropTypes from 'prop-types';
 import './ScoreSummary.scss';
 
 export default class ScoreSummary extends React.Component {
@@ -108,3 +109,11 @@ export default class ScoreSummary extends React.Component {
 }
 
 ScoreSummary.contextType = H5PContext;
+
+ScoreSummary.propTypes = {
+  title: PropTypes.string.isRequired,
+  onHideTextDialog: PropTypes.func.isRequired,
+  scores: PropTypes.shape({
+    sceneScoreCards: PropTypes.object.isRequired
+  }).isRequired
+};

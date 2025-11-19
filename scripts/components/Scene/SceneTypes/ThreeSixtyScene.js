@@ -1,11 +1,15 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import NavigationButton, { getIconFromInteraction, getLabelFromInteraction } from '../../Interactions/NavigationButton';
-import { H5PContext } from '../../../context/H5PContext';
-import ContextMenu from '../../Shared/ContextMenu';
+import NavigationButton, {
+  getIconFromInteraction,
+  getLabelFromInteraction
+} from '../../Interactions/NavigationButton.js';
+import { H5PContext } from '../../../context/H5PContext.js';
+import ContextMenu from '../../Shared/ContextMenu.js';
 import './ThreeSixtyScene.scss';
-import OpenContent from '../../Interactions/OpenContent';
-import { renderIn3d } from '../../../utils/utils';
+import OpenContent from '../../Interactions/OpenContent.js';
+import { renderIn3d } from '../../../utils/utils.js';
+import PropTypes from 'prop-types';
 
 export const sceneRenderingQualityMapping = {
   high: 128,
@@ -810,3 +814,33 @@ ThreeSixtyScene.MAX_YAW_DELTA = 0.005;
 
 /** @constant {number} MAX_PITCH_DELTA Maximum pitch delta allowed to distinguish click from drag. */
 ThreeSixtyScene.MAX_PITCH_DELTA = 0.01;
+
+ThreeSixtyScene.propTypes = {
+  isActive: PropTypes.bool.isRequired,
+  imageSrc: PropTypes.object,
+  isPanorama: PropTypes.bool.isRequired,
+  enableZoom: PropTypes.bool.isRequired,
+  sceneParams: PropTypes.object.isRequired,
+  sceneId: PropTypes.number.isRequired,
+  addThreeSixty: PropTypes.func.isRequired,
+  threeSixty: PropTypes.object,
+  updateThreeSixty: PropTypes.bool.isRequired,
+  getReactRoots: PropTypes.func.isRequired,
+  setReactRoots: PropTypes.func.isRequired,
+  getInteractionTitle: PropTypes.func.isRequired,
+  showInteraction: PropTypes.func.isRequired,
+  onSetCameraPos: PropTypes.func.isRequired,
+  takeFocus: PropTypes.bool.isRequired,
+  startBtnClicked: PropTypes.bool.isRequired,
+  audioIsPlaying: PropTypes.string,
+  focusedInteraction: PropTypes.number,
+  onFocusedInteraction: PropTypes.func.isRequired,
+  onBlurInteraction: PropTypes.func.isRequired,
+  isHiddenBehindOverlay: PropTypes.bool.isRequired,
+  nextFocus: PropTypes.string,
+  isEditingInteraction: PropTypes.bool.isRequired,
+  sceneIcons: PropTypes.array.isRequired,
+  show360Affordance: PropTypes.bool.isRequired,
+  on360AffordanceDone: PropTypes.func,
+  zoomPercentage: PropTypes.number.isRequired,
+};

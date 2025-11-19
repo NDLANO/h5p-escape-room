@@ -1,5 +1,6 @@
 import React from 'react';
-import { H5PContext } from '../../context/H5PContext';
+import { H5PContext } from '../../context/H5PContext.js';
+import PropTypes from 'prop-types';
 import './PasswordContent.scss';
 
 /**
@@ -185,3 +186,17 @@ export default class PasswordContent extends React.Component {
 }
 
 PasswordContent.contextType = H5PContext;
+
+PasswordContent.propTypes = {
+  currentInteraction: PropTypes.shape({
+    unlocked: PropTypes.bool.isRequired,
+    passwordSettings: PropTypes.shape({
+      interactionPassword: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  currentInteractionIndex: PropTypes.number.isRequired,
+  showInteraction: PropTypes.func.isRequired,
+  updateEscapeScoreCard: PropTypes.func.isRequired,
+  hint: PropTypes.string,
+  read: PropTypes.func.isRequired,
+};

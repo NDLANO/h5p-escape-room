@@ -1,5 +1,6 @@
 import React from 'react';
 import './Button.scss';
+import PropTypes from 'prop-types';
 
 export default class Button extends React.Component {
   /**
@@ -60,3 +61,24 @@ export default class Button extends React.Component {
     );
   }
 }
+
+Button.propTypes = {
+  type: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  focus: PropTypes.bool,
+  nextFocus: PropTypes.string,
+  isHiddenBehindOverlay: PropTypes.bool.isRequired,
+  tabIndex: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ])
+};
+
+Button.defaultProps = {
+  disabled: false,
+  focus: false,
+  nextFocus: null,
+  tabIndex: 0
+};

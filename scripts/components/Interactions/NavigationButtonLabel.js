@@ -1,8 +1,9 @@
 import React from 'react';
 import './NavigationButton.scss';
 import './NavigationButtonLabel.scss';
-import { H5PContext } from '../../context/H5PContext';
-import { willOverflow } from '../Shared/OverflowHelpers';
+import { H5PContext } from '../../context/H5PContext.js';
+import { willOverflow } from '../Shared/OverflowHelpers.js';
+import PropTypes from 'prop-types';
 
 /**
  * Get label position.
@@ -215,7 +216,7 @@ export default class NavigationButtonLabel extends React.Component {
    */
   setExpandProperties() {
     /*
-     * Only set expand properties when not zoomed in to avoid 
+     * Only set expand properties when not zoomed in to avoid
      * labels toggling when moving image within the wrapper.
      */
     if (this.props.zoomScale !== 1) {
@@ -383,3 +384,22 @@ export default class NavigationButtonLabel extends React.Component {
 }
 
 NavigationButtonLabel.contextType = H5PContext;
+
+NavigationButtonLabel.propTypes = {
+  labelText: PropTypes.string.isRequired,
+  labelPos: PropTypes.string.isRequired,
+  topPosition: PropTypes.number.isRequired,
+  leftPosition: PropTypes.number.isRequired,
+  wrapperHeight: PropTypes.number.isRequired,
+  navButtonHeight: PropTypes.string.isRequired,
+  hoverOnly: PropTypes.bool.isRequired,
+  navButtonFocused: PropTypes.bool.isRequired,
+  staticScene: PropTypes.bool.isRequired,
+  zoomScale: PropTypes.number.isRequired,
+  rendered: PropTypes.bool.isRequired,
+  isHiddenBehindOverlay: PropTypes.bool.isRequired,
+  forwardRef: PropTypes.object.isRequired,
+  onDoubleClick: PropTypes.func.isRequired,
+  onFocus: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
+};

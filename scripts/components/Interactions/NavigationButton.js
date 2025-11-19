@@ -1,8 +1,9 @@
 import React from 'react';
 import './NavigationButton.scss';
-import { H5PContext } from '../../context/H5PContext';
-import NavigationButtonLabel, { getLabelPos, getLabelText, isHoverLabel } from './NavigationButtonLabel';
-import HotspotNavButton from './HotspotNavButton';
+import { H5PContext } from '../../context/H5PContext.js';
+import NavigationButtonLabel, { getLabelPos, getLabelText, isHoverLabel } from './NavigationButtonLabel.js';
+import HotspotNavButton from './HotspotNavButton.js';
+import PropTypes from 'prop-types';
 
 export const Icons = {
   INFO: 'h5p-info-button h5p-interaction-button',
@@ -567,3 +568,40 @@ export default class NavigationButton extends React.Component {
   }
 }
 NavigationButton.contextType = H5PContext;
+
+NavigationButton.propTypes = {
+  sceneId: PropTypes.string.isRequired,
+  interactionIndex: PropTypes.number.isRequired,
+  topPosition: PropTypes.number.isRequired,
+  leftPosition: PropTypes.number.isRequired,
+  icon: PropTypes.string,
+  label: PropTypes.object,
+  buttonClasses: PropTypes.array,
+  clickHandler: PropTypes.func.isRequired,
+  doubleClickHandler: PropTypes.func,
+  mouseDownHandler: PropTypes.func,
+  onMount: PropTypes.func,
+  onUpdate: PropTypes.func,
+  onUnmount: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  isFocused: PropTypes.bool,
+  nextFocus: PropTypes.string,
+  staticScene: PropTypes.bool,
+  showAsHotspot: PropTypes.bool,
+  showHotspotOnHover: PropTypes.bool,
+  isHotspotTabbable: PropTypes.bool,
+  forceClickHandler: PropTypes.bool,
+  sceneIsDragging: PropTypes.bool,
+  children: PropTypes.node,
+  wrapperHeight: PropTypes.number.isRequired,
+  rendered: PropTypes.bool.isRequired,
+  wasConvertedFromVirtualTour: PropTypes.bool.isRequired,
+  zoomScale: PropTypes.number,
+  onFocusedInteraction: PropTypes.func,
+  onBlurInteraction: PropTypes.func,
+  type: PropTypes.string,
+  is3d: PropTypes.bool,
+  title: PropTypes.string,
+  isHiddenBehindOverlay: PropTypes.bool,
+};

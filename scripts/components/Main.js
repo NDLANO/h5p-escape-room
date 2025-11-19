@@ -1,22 +1,23 @@
 import React from 'react';
-import Scene, { SceneTypes } from './Scene/Scene';
-import Dialog from './Dialog/Dialog';
-import Screenreader from './Screenreader/Screenreader';
-import InteractionContent from './Dialog/InteractionContent';
-import { H5PContext } from '../context/H5PContext';
+import Scene, { SceneTypes } from './Scene/Scene.js';
+import Dialog from './Dialog/Dialog.js';
+import Screenreader from './Screenreader/Screenreader.js';
+import InteractionContent from './Dialog/InteractionContent.js';
+import { H5PContext } from '../context/H5PContext.js';
 import './Main.scss';
-import HUD from './HUD/HUD';
+import HUD from './HUD/HUD.js';
 import FullscreenButton from './FullscreenButton/FullscreenButton.js';
-import NoScene from './Scene/NoScene';
-import PasswordContent from './Dialog/PasswordContent';
-import ScoreSummary from './Dialog/ScoreSummary';
+import NoScene from './Scene/NoScene.js';
+import PasswordContent from './Dialog/PasswordContent.js';
+import ScoreSummary from './Dialog/ScoreSummary.js';
 import ZoomButtons from './ZoomButtons/ZoomButtons.js';
 import {
   createAudioPlayer,
   fadeAudioInAndOut,
   getAudioPlayerType,
   AUDIO_PLAYER_TYPES
-} from '../utils/audio-utils';
+} from '../utils/audio-utils.js';
+import PropTypes from 'prop-types';
 
 export default class Main extends React.Component {
   /**
@@ -1044,3 +1045,16 @@ Main.MAX_ZOOM = 4;
 
 /** @constant {number} MIN_ZOOM Minimum zoom level for static scene */
 Main.MIN_ZOOM = 1;
+
+Main.propTypes = {
+  fullScreenSupported: PropTypes.bool.isRequired,
+  fullscreenButtonAriaLabel: PropTypes.string.isRequired,
+  onFullscreenClicked: PropTypes.func.isRequired,
+  currentScene: PropTypes.number,
+  setCurrentSceneId: PropTypes.func.isRequired,
+  addThreeSixty: PropTypes.func.isRequired,
+  onSetCameraPos: PropTypes.func.isRequired,
+  forceStartCamera: PropTypes.bool,
+  wasConvertedFromVirtualTour: PropTypes.bool,
+  isVeryFirstRenderDone: PropTypes.bool
+};

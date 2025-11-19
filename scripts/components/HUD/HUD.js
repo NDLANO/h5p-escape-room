@@ -1,9 +1,10 @@
 import React from 'react';
 import './HUD.scss';
-import { H5PContext } from '../../context/H5PContext';
-import AudioButton from './Buttons/AudioButton';
-import Button from './Buttons/Button/Button';
-import { SceneTypes } from '../Scene/Scene';
+import { H5PContext } from '../../context/H5PContext.js';
+import AudioButton from './Buttons/AudioButton.js';
+import Button from './Buttons/Button/Button.js';
+import { SceneTypes } from '../Scene/Scene.js';
+import PropTypes from 'prop-types';
 
 export default class HUD extends React.Component {
   /**
@@ -349,3 +350,23 @@ export default class HUD extends React.Component {
 }
 
 HUD.contextType = H5PContext;
+
+HUD.propTypes = {
+  scene: PropTypes.object.isRequired,
+  audioIsPlaying: PropTypes.bool.isRequired,
+  onAudioIsPlaying: PropTypes.func.isRequired,
+  sceneAudioWasPlaying: PropTypes.bool.isRequired,
+  onSceneAudioWasPlaying: PropTypes.func.isRequired,
+  isHiddenBehindOverlay: PropTypes.bool.isRequired,
+  nextFocus: PropTypes.string,
+  updateSceneAudioPlayers: PropTypes.func.isRequired,
+  interactionAudioPlayers: PropTypes.object.isRequired,
+  showHomeButton: PropTypes.bool.isRequired,
+  isStartScene: PropTypes.bool.isRequired,
+  onGoToStartScene: PropTypes.func.isRequired,
+  showScoresButton: PropTypes.bool.isRequired,
+  onShowingScoreSummary: PropTypes.func.isRequired,
+  onSceneDescription: PropTypes.func.isRequired,
+  onCenterScene: PropTypes.func.isRequired,
+  ariaControls: PropTypes.string.isRequired
+};

@@ -1,5 +1,6 @@
 import React from 'react';
-import { H5PContext } from '../../context/H5PContext';
+import { H5PContext } from '../../context/H5PContext.js';
+import PropTypes from 'prop-types';
 
 export default class SceneTotalScores extends React.Component {
 
@@ -72,3 +73,17 @@ export default class SceneTotalScores extends React.Component {
 }
 
 SceneTotalScores.contextType = H5PContext;
+
+SceneTotalScores.propTypes = {
+  sceneId: PropTypes.string.isRequired,
+  sceneScores: PropTypes.shape({
+    title: PropTypes.string,
+    scores: PropTypes.objectOf(
+      PropTypes.shape({
+        title: PropTypes.string,
+        raw: PropTypes.number.isRequired,
+        max: PropTypes.number.isRequired
+      })
+    ).isRequired
+  }).isRequired
+};

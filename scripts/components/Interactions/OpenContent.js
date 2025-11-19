@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import './OpenContent.scss';
-import { H5PContext } from '../../context/H5PContext';
-import { scaleOpenContentElement } from '../../utils/open-content-utils';
+import { H5PContext } from '../../context/H5PContext.js';
+import { scaleOpenContentElement } from '../../utils/open-content-utils.js';
+import PropTypes from 'prop-types';
 
 export default class OpenContent extends React.Component {
   /**
@@ -224,12 +225,12 @@ export default class OpenContent extends React.Component {
       this.state.startMousePos,
       this.state.startMidPoint
     );
-  
+
     let sizeMax = OpenContent.SIZE_MAX;
-    
+
     if (this.props.is3DScene) {
       sizeMax = OpenContent.SIZE_MAX_360;
-    } 
+    }
     if (this.props.isPanorama) {
       sizeMax = OpenContent.SIZE_MAX_PANORAMA;
     }
@@ -415,8 +416,10 @@ export default class OpenContent extends React.Component {
       }, []);
 
       useEffect(() => {
-        /*In order to take control of the mousedown listener, we have to it when the component mount,
-       the reason for this is that we have to stop the propagation early on, since mousedown is already listened to by threesixty */
+        /*
+         * In order to take control of the mousedown listener, we have to it when the component mount,
+         * the reason for this is that we have to stop the propagation early on, since mousedown is already listened to
+         * by threesixty */
         hotspotBtnRef.current.addEventListener('mousedown', (e) => {
           e.stopPropagation();
           handleMouseDown(e);
@@ -500,3 +503,25 @@ OpenContent.SIZE_MAX_360 = 1024;
 
 /** @constant {number} SIZE_MAX_PANORAMA Maximum size for Panorama content */
 OpenContent.SIZE_MAX_PANORAMA = 720;
+
+OpenContent.propTypes = {
+  sceneId: PropTypes.number.isRequired,
+  interactionIndex: PropTypes.number.isRequired,
+  topPosition: PropTypes.number,
+  leftPosition: PropTypes.number,
+  is3d: PropTypes.bool,
+  is3DScene: PropTypes.bool,
+  isPanorama: PropTypes.bool,
+  isFocused: PropTypes.bool,
+  staticScene: PropTypes.bool,
+  zoomScale: PropTypes.number,
+  ariaLabel: PropTypes.string.isRequired,
+  onMount: PropTypes.func,
+  onUnmount: PropTypes.func,
+  onUpdate: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  doubleClickHandler: PropTypes.func,
+  mouseDownHandler: PropTypes.func,
+  children: PropTypes.node,
+};

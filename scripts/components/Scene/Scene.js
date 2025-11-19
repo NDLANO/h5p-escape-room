@@ -1,7 +1,8 @@
 import React from 'react';
-import { H5PContext } from '../../context/H5PContext';
-import ThreeSixtyScene from './SceneTypes/ThreeSixtyScene';
-import StaticScene from './SceneTypes/StaticScene';
+import { H5PContext } from '../../context/H5PContext.js';
+import ThreeSixtyScene from './SceneTypes/ThreeSixtyScene.js';
+import StaticScene from './SceneTypes/StaticScene.js';
+import PropTypes from 'prop-types';
 
 export const SceneTypes = {
   THREE_SIXTY_SCENE: '360',
@@ -139,3 +140,45 @@ export default class Scene extends React.Component {
 }
 
 Scene.contextType = H5PContext;
+
+Scene.propTypes = {
+  wasConvertedFromVirtualTour: PropTypes.bool.isRequired,
+  zoomPercentage: PropTypes.number.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  isHiddenBehindOverlay: PropTypes.bool.isRequired,
+  nextFocus: PropTypes.string,
+  takeFocus: PropTypes.bool.isRequired,
+  sceneParams: PropTypes.object.isRequired,
+  imageSrc: PropTypes.string.isRequired,
+  navigateToScene: PropTypes.func.isRequired,
+  showInteraction: PropTypes.func.isRequired,
+  sceneHistory: PropTypes.array.isRequired,
+  audioIsPlaying: PropTypes.bool.isRequired,
+  sceneId: PropTypes.number.isRequired,
+  onBlurInteraction: PropTypes.func.isRequired,
+  onFocusedInteraction: PropTypes.func.isRequired,
+  focusedInteraction: PropTypes.string,
+  sceneWaitingForLoad: PropTypes.bool.isRequired,
+  doneLoadingNextScene: PropTypes.func.isRequired,
+  threeSixty: PropTypes.object,
+  updateThreeSixty: PropTypes.func.isRequired,
+  addThreeSixty: PropTypes.func.isRequired,
+  setReactRoots: PropTypes.func.isRequired,
+  getReactRoots: PropTypes.func.isRequired,
+  reactRoots: PropTypes.object.isRequired,
+  forceStartCamera: PropTypes.bool.isRequired,
+  toggleCenterScene: PropTypes.func.isRequired,
+  onSetCameraPos: PropTypes.func.isRequired,
+  show360Affordance: PropTypes.bool.isRequired,
+  on360AffordanceDone: PropTypes.func,
+  sceneIcons: PropTypes.array.isRequired,
+  startBtnClicked: PropTypes.bool.isRequired,
+  isEditingInteraction: PropTypes.bool.isRequired,
+  zoomScale: PropTypes.number.isRequired,
+  zoomIn: PropTypes.func.isRequired,
+  zoomOut: PropTypes.func.isRequired,
+  maxZoomedIn: PropTypes.bool.isRequired,
+  maxZoomedOut: PropTypes.bool.isRequired,
+  sceneDescriptionARIA: PropTypes.string,
+  read: PropTypes.func.isRequired,
+};

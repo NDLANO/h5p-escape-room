@@ -1,7 +1,8 @@
 import React from 'react';
 import './InteractionContent.scss';
-import { H5PContext } from '../../context/H5PContext';
-import { isVideoAudio } from '../../utils/audio-utils';
+import { H5PContext } from '../../context/H5PContext.js';
+import { isVideoAudio } from '../../utils/audio-utils.js';
+import PropTypes from 'prop-types';
 
 export default class InteractionContent extends React.Component {
   /**
@@ -168,3 +169,11 @@ export default class InteractionContent extends React.Component {
 }
 
 InteractionContent.contextType = H5PContext;
+
+InteractionContent.propTypes = {
+  currentScene: PropTypes.number.isRequired,
+  currentInteraction: PropTypes.number.isRequired,
+  onAudioIsPlaying: PropTypes.func.isRequired,
+  updateScoreCard: PropTypes.func.isRequired,
+  audioIsPlaying: PropTypes.string.isRequired
+};
