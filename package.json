@@ -23,9 +23,9 @@
   },
   "homepage": "https://github.com/ndlano/h5p-escape-room#readme",
   "devDependencies": {
-    "@babel/core": "^7.28.6",
+    "@babel/core": "^7.29.0",
     "@babel/eslint-parser": "^7.28.6",
-    "@babel/preset-env": "^7.28.6",
+    "@babel/preset-env": "^7.29.0",
     "@babel/preset-react": "^7.28.5",
     "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
