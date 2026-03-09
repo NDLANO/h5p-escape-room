@@ -20,6 +20,10 @@
   height: 100%;
   padding: 0;
 
+  > video::-webkit-media-controls-fullscreen-button {
+    display: none;
+  }
+
   &.h5p-youtube {
     background-color: #000;
     &> div {
