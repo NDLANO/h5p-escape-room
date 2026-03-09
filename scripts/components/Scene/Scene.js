@@ -95,6 +95,7 @@ export default class Scene extends React.Component {
           enableZoom={this.props.sceneParams.enableZoom}
           maxZoomedIn={ this.props.maxZoomedIn }
           maxZoomedOut={ this.props.maxZoomedOut }
+          tabIndexOffset={ 2 } // Fullscreen button has tabIndex 1, scene has no tanIndex
         />
       );
     }
@@ -134,6 +135,7 @@ export default class Scene extends React.Component {
         getInteractionTitle={this.getInteractionTitle.bind(this)}
         show360Affordance={ this.props.show360Affordance }
         on360AffordanceDone={ this.props.on360AffordanceDone }
+        tabIndexOffset={ 3 } // Fullscreen button has tabIndex 1, scene has tabIndex 2
       />
     );
   }

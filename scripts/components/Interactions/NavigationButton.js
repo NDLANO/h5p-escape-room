@@ -505,7 +505,7 @@ export default class NavigationButton extends React.Component {
         ref={this.navButtonWrapper}
         className={wrapperClasses.join(' ')}
         style={this.getStyle(width, height)}
-        tabIndex={isWrapperTabbable ? 0 : undefined}
+        tabIndex={isWrapperTabbable ? this.props.tabIndex ?? 0 : undefined}
         onFocus={this.handleFocus.bind(this)}
         onClick={this.onClick.bind(this)}
         onKeyDown={this.handleKeyDown.bind(this)}
@@ -517,7 +517,7 @@ export default class NavigationButton extends React.Component {
               reference={this.navButton}
               style={{ height:'100%', width:'100%' }}
               ariaLabel={getLabelText(label) || this.context.l10n.untitled}
-              tabIndexValue={isInnerButtonTabbable ? undefined : -1}
+              tabIndexValue={isInnerButtonTabbable ? this.props.tabIndex : -1}
               onDoubleClickEvent={this.onDoubleClick.bind(this)}
               onMouseDownEvent={this.onMouseDown.bind(this)}
               onFocusEvent={() => this.setState({ innerButtonFocused: true })}
@@ -535,7 +535,7 @@ export default class NavigationButton extends React.Component {
               ref={this.navButton}
               aria-label={ getLabelText(label) || this.props.title }
               className='nav-button'
-              tabIndex={isInnerButtonTabbable ? undefined : -1}
+              tabIndex={isInnerButtonTabbable ? this.props.tabIndex : -1}
               onDoubleClick={this.onDoubleClick.bind(this)}
               onMouseDown={this.onMouseDown.bind(this)}
               onFocus={() => this.setState({ innerButtonFocused: true })}
@@ -604,4 +604,5 @@ NavigationButton.propTypes = {
   is3d: PropTypes.bool,
   title: PropTypes.string,
   isHiddenBehindOverlay: PropTypes.bool,
+  tabIndex: PropTypes.number,
 };
