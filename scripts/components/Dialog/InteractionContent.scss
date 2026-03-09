@@ -33,12 +33,6 @@
 
       &.h5p-youtube {
         background-color: #000;
-        &> div {
-          left: 50%;
-          position: absolute;
-          top: 50%;
-          transform: translate(-50%, -50%);
-        }
       }
     }
   }
