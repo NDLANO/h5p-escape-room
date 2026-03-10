@@ -398,6 +398,14 @@ export default class NavigationButton extends React.Component {
       (scene) => scene.sceneId === this.props.sceneId,
     );
     const interaction = scene.interactions[this.props.interactionIndex];
+
+    // Prevent hotspot from being resized outside of the scene in static scenes.
+    if (scene.sceneType === 'static') {
+      const [positionX, positionY] = interaction.interactionpos.split(',').map(parseFloat);
+      widthX = Math.min(widthX, 100 - positionX, 100);
+      heightY = Math.min(heightY, 100 - positionY, 100);
+    }
+
     interaction.hotspotSettings.hotSpotSizeValues = `${widthX},${heightY}`;
   }
 
