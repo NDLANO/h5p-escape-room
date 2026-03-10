@@ -267,17 +267,14 @@ export default class NavigationButton extends React.Component {
      * but since it's based on rendered sizes (using translation by -50%), we cannot use an upgrade script
      * to fix it. Instead, we compute the offset to make it look like it did before.
      */
-    const buttonFontSize = 0.92;
-    const buttonHeightWidth = 2.5;
-    const buttonSizeHalfed = buttonFontSize * buttonHeightWidth / 2;
-    const offset = this.props.wasConvertedFromVirtualTour ? buttonSizeHalfed : 0;
+    const offset = this.props.wasConvertedFromVirtualTour ? (this.props.wasConvertedFromVirtualTourOffsetBase ?? 0) : 0;
 
     if (this.props.topPosition !== undefined) {
-      style.top = `calc(${this.props.topPosition}% + ${offset}em)`;
+      style.top = `max(0%, calc(${this.props.topPosition}% + ${offset}em))`;
     }
 
     if (this.props.leftPosition !== undefined) {
-      style.left = `calc(${this.props.leftPosition}% + ${offset}em)`;
+      style.left = `max(0%, calc(${this.props.leftPosition}% + ${offset}em))`;
     }
 
     if (this.props.staticScene) {
@@ -597,6 +594,7 @@ NavigationButton.propTypes = {
   wrapperHeight: PropTypes.number.isRequired,
   rendered: PropTypes.bool.isRequired,
   wasConvertedFromVirtualTour: PropTypes.bool.isRequired,
+  wasConvertedFromVirtualTourOffsetBase: PropTypes.number,
   zoomScale: PropTypes.number,
   onFocusedInteraction: PropTypes.func,
   onBlurInteraction: PropTypes.func,

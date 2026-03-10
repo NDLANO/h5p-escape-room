@@ -9,6 +9,21 @@ import ContextMenu from '../../Shared/ContextMenu.js';
 import OpenContent from '../../Interactions/OpenContent.js';
 import PropTypes from 'prop-types';
 
+/*
+  * This is a hack. The way that the position gets interpreted was changed in Escape Room,
+  * but since it's based on rendered sizes (using translation by -50%), we cannot use an upgrade script
+  * to fix it. Instead, we compute the offset to make it look like it did before.
+  */
+
+/** @constant {number} BUTTON_FONT_SIZE_EM De facto button font size in Virtual Tour. */
+const BUTTON_FONT_SIZE_EM = 0.92;
+
+/** @constant {number} BUTTON_HEIGHT_WIDTH De facto button height/width in Virtual Tour. */
+const BUTTON_HEIGHT_WIDTH = 2.5;
+
+/** @constant {number} BUTTON_SIZE_HALFED_EM Half of the button size in em. */
+const BUTTON_SIZE_HALFED_EM = BUTTON_FONT_SIZE_EM * BUTTON_HEIGHT_WIDTH / 2;
+
 export let staticSceneWidth, staticSceneHeight;
 
 export default class StaticScene extends React.Component {
@@ -274,8 +289,21 @@ export default class StaticScene extends React.Component {
       const sizeValues = interactionParams.hotspotSettings.hotSpotSizeValues.split(',');
       const elementSizePercentage = isVertical ? sizeValues[1] : sizeValues[0];
 
-      const posMin = elementSizePercentage / 2;
-      const posMax = 100 - elementSizePercentage / 2;
+      let posMin;
+      let posMax;
+
+      // This is a hack for contents that were converted from Virtual Tour.
+      if (this.props.wasConvertedFromVirtualTour) {
+        const offsetEm = this.props.wasConvertedFromVirtualTour ? BUTTON_SIZE_HALFED_EM : 0;
+        const offsetPercentage = offsetEm * 16 / wrapperSize * 100;
+
+        posMin = 0 - offsetPercentage;
+        posMax = 100 - elementSizePercentage - offsetPercentage;
+      }
+      else {
+        posMin = elementSizePercentage / 2;
+        posMax = 100 - elementSizePercentage / 2;
+      }
 
       return Math.max(posMin, Math.min(movedTo, posMax));
     }
@@ -1054,6 +1082,7 @@ export default class StaticScene extends React.Component {
                   :
                   <NavigationButton
                     wasConvertedFromVirtualTour={this.props.wasConvertedFromVirtualTour}
+                    wasConvertedFromVirtualTourOffsetBase={BUTTON_SIZE_HALFED_EM}
                     key={key}
                     title={title}
                     icon={getIconFromInteraction(interaction, this.context.params.scenes)}
