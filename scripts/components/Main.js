@@ -859,7 +859,7 @@ export default class Main extends React.Component {
       dialogClasses.push(interactionClass);
     }
 
-    const showZoomButtons = scene.enableZoom;
+    const showZoomButtons = scene.enableZoom && !window.H5PEditor;
     const showInteractionDialog = this.state.showingInteraction &&
       this.state.currentInteraction !== null;
     const showPasswordDialog = this.state.showingPassword &&
