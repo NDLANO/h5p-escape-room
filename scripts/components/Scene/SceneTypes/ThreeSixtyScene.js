@@ -334,6 +334,7 @@ export default class ThreeSixtyScene extends React.Component {
 
     threeSixty.setAriaLabel(this.props.sceneParams.scenename);
     this.sceneRef.current.appendChild(threeSixty.getElement());
+
     threeSixty.resize(this.context.getRatio());
 
     // Show loading screen until first render has been drawn
@@ -411,20 +412,21 @@ export default class ThreeSixtyScene extends React.Component {
    * @param {object[]} interactions Interactions.
    */
   addInteractionHotspots(threeSixty, interactions) {
-    const list = interactions ?
-      interactions.map((interaction, index) => this.createInteraction(interaction, index))
-      : [];
-    const components2d = [];
-    const components3d = [];
+    const list = (interactions ?? [])
+      .sort((a, b) => {
+        const positionA = ThreeSixtyScene.getPositionFromString(a.interactionpos);
+        const positionB = ThreeSixtyScene.getPositionFromString(b.interactionpos);
 
-    for (const interaction of list) {
-      if (interaction.is3d) {
-        components3d.push(interaction.component);
-      }
-      else {
-        components2d.push(interaction.component);
-      }
-    }
+        // Sort by pitch (highest to lowest), then by yaw (lowest to highest)
+        if (positionA.pitch === positionB.pitch) {
+          return positionA.yaw - positionB.yaw;
+        }
+        return positionB.pitch - positionA.pitch;
+      })
+      .map((interaction, index) => this.createInteraction(interaction, index));
+
+    const components2d = list.filter((interaction) => !interaction.is3d).map((interaction) => interaction.component);
+    const components3d = list.filter((interaction) => interaction.is3d).map((interaction) => interaction.component);
 
     this.renderedInteractions = list.length;
 
@@ -546,6 +548,7 @@ export default class ThreeSixtyScene extends React.Component {
         </OpenContent>
         :
         <NavigationButton
+          tabIndex={index + (this.props.tabIndexOffset ?? 0)}
           key={key}
           sceneIsDragging={this.state.sceneIsDragging}
           staticScene={false}
@@ -598,6 +601,7 @@ export default class ThreeSixtyScene extends React.Component {
     return {
       component,
       is3d,
+      index,
     };
   }
 
@@ -843,4 +847,5 @@ ThreeSixtyScene.propTypes = {
   show360Affordance: PropTypes.bool.isRequired,
   on360AffordanceDone: PropTypes.func,
   zoomPercentage: PropTypes.number.isRequired,
+  tabIndexOffset: PropTypes.number,
 };

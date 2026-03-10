@@ -887,7 +887,7 @@ export default class Main extends React.Component {
           <FullscreenButton
             ariaLabel={this.props.fullscreenButtonAriaLabel}
             onClicked={this.props.onFullscreenClicked}
-            tabIndex={isHiddenBehindOverlay ? '-1' : undefined}
+            tabIndex={isHiddenBehindOverlay ? '-1' : '1'}
           />
         }
         { showInteractionDialog && !showPasswordDialog &&

@@ -916,7 +916,18 @@ export default class StaticScene extends React.Component {
       return null;
     }
 
-    const interactions = this.props.sceneParams.interactions || [];
+    const interactions = (this.props.sceneParams.interactions || [])
+      .sort((a, b, index) => {
+        const positionA = this.getPositions(a.interactionpos);
+        const positionB = this.getPositions(b.interactionpos);
+
+        if (positionA.y === positionB.y) {
+          return parseFloat(positionB.x) - parseFloat(positionA.x);
+        }
+
+        return parseFloat(positionA.y) - parseFloat(positionB.y);
+      })
+    ;
 
     const hasPreviousScene = this.props.sceneHistory.length > 0;
     const isShowingBackButton = this.props.sceneParams.showBackButton
@@ -1081,6 +1092,7 @@ export default class StaticScene extends React.Component {
                     isHotspotTabbable={interaction.hotspotSettings?.isHotspotTabbable}
                     showHotspotOnHover={interaction.hotspotSettings?.showHotspotOnHover}
                     zoomScale={this.props.zoomScale}
+                    tabIndex={index + (this.props.tabIndexOffset ?? 0)}
                   >
                     {
                       this.context.extras.isEditor &&
@@ -1143,4 +1155,5 @@ StaticScene.propTypes = {
   onBlurInteraction: PropTypes.func.isRequired,
   nextFocus: PropTypes.string,
   wasConvertedFromVirtualTour: PropTypes.bool.isRequired,
+  tabIndexOffset: PropTypes.number,
 };
