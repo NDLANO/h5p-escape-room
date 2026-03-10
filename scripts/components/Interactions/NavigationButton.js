@@ -288,6 +288,10 @@ export default class NavigationButton extends React.Component {
       style.height = height;
     }
 
+    if (style.top) {
+      console.log(style.top);
+    }
+
     return style;
   }
 

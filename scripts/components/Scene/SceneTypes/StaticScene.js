@@ -313,7 +313,7 @@ export default class StaticScene extends React.Component {
     const elementSizePercentage = (elementSize / wrapperSize) * 100;
     const positionThreshold = 100 - elementSizePercentage;
 
-    return Math.min(movedTo, positionThreshold);
+    return Math.max(0, Math.min(movedTo, positionThreshold));
   }
 
   /**
@@ -841,39 +841,6 @@ export default class StaticScene extends React.Component {
   }
 
   /**
-   * Get adjusted position depending on font size (?).
-   * @param {number} posX X-coordinate.
-   * @param {number} posY Y-coordinate.
-   * @returns {object} Position with x and y.
-   */
-  getAdjustedInteractionPositions(posX, posY) {
-    const interactionEm = 2.5;
-    const wrapper = this.sceneWrapperRef.current;
-    const wrapperSize = wrapper.getBoundingClientRect();
-
-    if (!wrapperSize.width || !wrapperSize.height) {
-      return false;
-    }
-
-    const fontSize = parseFloat(wrapper.style.fontSize);
-    const interactionSize = interactionEm * fontSize;
-    const height = interactionSize / wrapperSize.height * 100;
-    if (posY + height > 100) {
-      posY = 100 - height;
-    }
-
-    const width = interactionSize / wrapperSize.width * 100;
-    if (posX + width > 100) {
-      posX = 100 - width;
-    }
-
-    return {
-      posX: posX,
-      posY: posY,
-    };
-  }
-
-  /**
    * Get adjusted position after image move or zoom.
    * @param {number} posX X-coordinate.
    * @param {number} posY Y-coordinate.
@@ -1023,15 +990,8 @@ export default class StaticScene extends React.Component {
               }
 
               if (this.sceneWrapperRef && this.sceneWrapperRef.current) {
-                // Adjust interaction position if overflowing
-                const pos = this.getAdjustedInteractionPositions(
-                  parseFloat(posX),
-                  parseFloat(posY)
-                );
-                if (pos) {
-                  posX = pos.posX;
-                  posY = pos.posY;
-                }
+                posX = parseFloat(posX);
+                posY = parseFloat(posY);
               }
 
               if (this.imageElementRef?.current) {
