@@ -267,17 +267,14 @@ export default class NavigationButton extends React.Component {
      * but since it's based on rendered sizes (using translation by -50%), we cannot use an upgrade script
      * to fix it. Instead, we compute the offset to make it look like it did before.
      */
-    const buttonFontSize = 0.92;
-    const buttonHeightWidth = 2.5;
-    const buttonSizeHalfed = buttonFontSize * buttonHeightWidth / 2;
-    const offset = this.props.wasConvertedFromVirtualTour ? buttonSizeHalfed : 0;
+    const offset = this.props.wasConvertedFromVirtualTour ? (this.props.wasConvertedFromVirtualTourOffsetBase ?? 0) : 0;
 
     if (this.props.topPosition !== undefined) {
-      style.top = `calc(${this.props.topPosition}% + ${offset}em)`;
+      style.top = `max(0%, calc(${this.props.topPosition}% + ${offset}em))`;
     }
 
     if (this.props.leftPosition !== undefined) {
-      style.left = `calc(${this.props.leftPosition}% + ${offset}em)`;
+      style.left = `max(0%, calc(${this.props.leftPosition}% + ${offset}em))`;
     }
 
     if (this.props.staticScene) {
@@ -289,6 +286,10 @@ export default class NavigationButton extends React.Component {
       // set width and height for 360 scene
       style.width = width;
       style.height = height;
+    }
+
+    if (style.top) {
+      console.log(style.top);
     }
 
     return style;
@@ -401,6 +402,14 @@ export default class NavigationButton extends React.Component {
       (scene) => scene.sceneId === this.props.sceneId,
     );
     const interaction = scene.interactions[this.props.interactionIndex];
+
+    // Prevent hotspot from being resized outside of the scene in static scenes.
+    if (scene.sceneType === 'static') {
+      const [positionX, positionY] = interaction.interactionpos.split(',').map(parseFloat);
+      widthX = Math.min(widthX, 100 - positionX, 100);
+      heightY = Math.min(heightY, 100 - positionY, 100);
+    }
+
     interaction.hotspotSettings.hotSpotSizeValues = `${widthX},${heightY}`;
   }
 
@@ -597,6 +606,7 @@ NavigationButton.propTypes = {
   wrapperHeight: PropTypes.number.isRequired,
   rendered: PropTypes.bool.isRequired,
   wasConvertedFromVirtualTour: PropTypes.bool.isRequired,
+  wasConvertedFromVirtualTourOffsetBase: PropTypes.number,
   zoomScale: PropTypes.number,
   onFocusedInteraction: PropTypes.func,
   onBlurInteraction: PropTypes.func,

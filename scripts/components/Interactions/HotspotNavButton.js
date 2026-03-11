@@ -126,28 +126,30 @@ export default class HotspotNavButton extends React.Component {
     );
 
     if (
-      newSize > HotspotNavButton.SIZE_MIN && newSize < HotspotNavButton.SIZE_MAX
+      newSize <= HotspotNavButton.SIZE_MIN || newSize >= HotspotNavButton.SIZE_MAX
     ) {
-      /*
-       * These values are used for inline styling in div in render loop,
-       * updating div dimensions when mousemove event fires
-       */
-      if (this.props.staticScene) {
-        isHorizontalDrag ?
-          this.setState({ sizeWidth: (newSize / staticSceneWidth) * 100 }) :
-          this.setState({ sizeHeight: (newSize / staticSceneHeight) * 100 });
-      }
-      else {
-        const isPanorma = this.props.isPanorama;
-        const newSizePanorama = Math.min(newSize, HotspotNavButton.MAX_HEIGHT_PANORAMA);
-
-        isHorizontalDrag ?
-          this.setState({ sizeWidth: newSize }) :
-          this.setState({ sizeHeight: isPanorma ? newSizePanorama : newSize });
-      }
-
-      this.props.resizeOnDrag(this.state.sizeWidth, this.state.sizeHeight);
+      return;
     }
+
+    /*
+      * These values are used for inline styling in div in render loop,
+      * updating div dimensions when mousemove event fires
+      */
+    if (this.props.staticScene) {
+      isHorizontalDrag ?
+        this.setState({ sizeWidth: (newSize / staticSceneWidth) * 100 }) :
+        this.setState({ sizeHeight: (newSize / staticSceneHeight) * 100 });
+    }
+    else {
+      const isPanorma = this.props.isPanorama;
+      const newSizePanorama = Math.min(newSize, HotspotNavButton.MAX_HEIGHT_PANORAMA);
+
+      isHorizontalDrag ?
+        this.setState({ sizeWidth: newSize }) :
+        this.setState({ sizeHeight: isPanorma ? newSizePanorama : newSize });
+    }
+
+    this.props.resizeOnDrag(this.state.sizeWidth, this.state.sizeHeight);
   }
 
   /**

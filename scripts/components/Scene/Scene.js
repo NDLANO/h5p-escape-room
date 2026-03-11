@@ -92,7 +92,7 @@ export default class Scene extends React.Component {
           zoomScale={this.props.zoomScale}
           zoomIn={this.props.zoomIn}
           zoomOut={this.props.zoomOut}
-          enableZoom={this.props.sceneParams.enableZoom}
+          enableZoom={this.props.sceneParams.enableZoom && window.H5PEditor}
           maxZoomedIn={ this.props.maxZoomedIn }
           maxZoomedOut={ this.props.maxZoomedOut }
           tabIndexOffset={ 2 } // Fullscreen button has tabIndex 1, scene has no tanIndex
@@ -131,7 +131,7 @@ export default class Scene extends React.Component {
         doneLoadingNextScene={this.props.doneLoadingNextScene}
         startBtnClicked={this.props.startBtnClicked}
         isPanorama={this.props.sceneParams.sceneType === SceneTypes.PANORAMA}
-        enableZoom={this.props.sceneParams.enableZoom}
+        enableZoom={this.props.sceneParams.enableZoom && window.H5PEditor}
         getInteractionTitle={this.getInteractionTitle.bind(this)}
         show360Affordance={ this.props.show360Affordance }
         on360AffordanceDone={ this.props.on360AffordanceDone }
