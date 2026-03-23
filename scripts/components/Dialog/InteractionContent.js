@@ -112,7 +112,8 @@ export default class InteractionContent extends React.Component {
         interaction.action.params.sources.length && (
           interaction.action.params.sources[0].mime === 'video/mp4' ||
           interaction.action.params.sources[0].mime === 'video/webm' ||
-          interaction.action.params.sources[0].mime === 'video/ogg'
+          interaction.action.params.sources[0].mime === 'video/ogg' ||
+          interaction.action.params.sources[0].mime === 'video/Brightcove'
         )
       );
       interaction.action.params.visuals.disableFullscreen = true;
