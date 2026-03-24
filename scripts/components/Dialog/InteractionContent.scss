@@ -17,6 +17,10 @@
   padding: 0;
   width: 90%;
 
+  &:has(.h5p-brightcove) {
+    aspect-ratio: var(--brightcove-aspect-ratio);
+  }
+
   .h5p-text-content {
     height: auto;
     overflow: hidden;
@@ -36,4 +40,12 @@
       }
     }
   }
+}
+
+.h5p-container.h5p-bightcove-measurement-container-offscreen {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  transform: translateX(-110vw);
+  max-width: 1vw;
 }

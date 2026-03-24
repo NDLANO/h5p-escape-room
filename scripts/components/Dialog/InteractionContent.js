@@ -4,6 +4,9 @@ import { H5PContext } from '../../context/H5PContext.js';
 import { isVideoAudio } from '../../utils/audio-utils.js';
 import PropTypes from 'prop-types';
 
+/** @const {number} BRIGHTCOVE_MEASUREMENT_TIMEOUT_MS Timeout for measuring Brightcove video aspect ratio. */
+const BRIGHTCOVE_MEASUREMENT_TIMEOUT_MS = 5000;
+
 export default class InteractionContent extends React.Component {
   /**
    * @class
@@ -86,10 +89,67 @@ export default class InteractionContent extends React.Component {
   }
 
   /**
+   * Determine aspect ratio of Brightcove video by creating a fake instance and measuring it.
+   * @param {object} library Library params.
+   * @param {number} contentId Content id.
+   * @returns {Promise<number>} Aspect ratio of Brightcove video.
+   */
+  async getBrightcoveVideoAspectRatio(library, contentId) {
+    if (!library || !library.params || !library.params.visuals || !contentId) {
+      return 16 / 9;
+    }
+
+    const clonedLibrary = window.structuredClone(library);
+    clonedLibrary.params.visuals.fit = false; // Ensure that Brightcove allows to retrieve aspect ratio
+
+    const measurementContainer = document.createElement('div');
+    measurementContainer.classList.add('h5p-bightcove-measurement-container-offscreen');
+    this.context.container.appendChild(measurementContainer);
+
+    const measurementInstance = H5P.newRunnable(
+      clonedLibrary,
+      contentId,
+      H5P.jQuery(measurementContainer)
+    );
+
+    if (!measurementInstance) {
+      measurementContainer.remove();
+      return 16 / 9;
+    }
+
+    const aspectRatio = await new Promise((resolve) => {
+      let resolved = false;
+
+      const timeout = setTimeout(() => {
+        if (!resolved) {
+          resolved = true;
+          measurementContainer.remove();
+          resolve(16 / 9);
+        }
+      }, BRIGHTCOVE_MEASUREMENT_TIMEOUT_MS);
+
+      measurementInstance.once('loaded', () => {
+        if (resolved) {
+          return;
+        }
+
+        resolved = true;
+        clearTimeout(timeout);
+        const rect = measurementContainer.getBoundingClientRect();
+        const aspectRatio = rect.width / rect.height;
+        measurementContainer.remove();
+        resolve(aspectRatio);
+      });
+    });
+
+    return aspectRatio;
+  }
+
+  /**
    * Initialize content.
    * @param {HTMLElement} contentRef Content DOM reference.
    */
-  initializeContent(contentRef) {
+  async initializeContent(contentRef) {
     if (!contentRef || this.state.isInitialized) {
       return;
     }
@@ -117,6 +177,12 @@ export default class InteractionContent extends React.Component {
         )
       );
       interaction.action.params.visuals.disableFullscreen = true;
+    }
+
+    if (machineName === 'H5P.Video' && interaction.action.params.sources[0].mime === 'video/Brightcove') {
+      const aspectRatio = await this.getBrightcoveVideoAspectRatio(interaction.action, this.context.contentId);
+      const dialogContainer = contentRef.closest('.h5p-text-dialog.h5p-video');
+      dialogContainer?.style.setProperty('--brightcove-aspect-ratio', aspectRatio);
     }
 
     this.instance = H5P.newRunnable(
