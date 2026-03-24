@@ -1,10 +1,10 @@
 {
   "semantics": [
     {
-      "label": "Redigeringsverktøy for ... [virtuell rundtur?]",
+      "label": "Redigeringsverktøy for NDLA Escape Room 360",
       "fields": [
         {
-          "label": "Was converted from Virtual Tour"
+          "label": "Konvertert fra Virtual Tour"
         },
         {
           "label": "Scener",
@@ -34,7 +34,7 @@
                 "description": "Aktiver zooming inn og ut med zoomknapper, berøringsbevegelser og hurtigtaster."
               },
               {
-                "label": "SceneId"
+                "label": "Scene-Id"
               },
               {
                 "label": "Scenetittel",
@@ -148,7 +148,7 @@
                     },
                     {},
                     {
-                      "label": "Interaction position"
+                      "label": "Posisjon for interaksjon"
                     },
                     {
                       "label": "Knappetype",
@@ -447,24 +447,24 @@
           "default": "Låst innhold"
         },
         {
-          "label": "Back",
-          "default": "Back"
+          "label": "Tilbake",
+          "default": "Tilbake"
         },
         {
-          "label": "Text for screenreaders. Title for fullscreen button (enter)",
-          "default": "Enter fullscreen mode"
+          "label": "Tekst for skjermlesere. Tittel for fullskjermknapp (åpne)",
+          "default": "Gå til fullskjerm"
         },
         {
-          "label": "Text for screenreaders. Title for fullscreen button (exit)",
-          "default": "Exit fullscreen mode"
+          "label": "Tekst for skjermlesere. Tittel for fullskjermknapp (lukk)",
+          "default": "Avslutt fullskjerm"
         },
         {
-          "label": "Main toolbar",
-          "default": "Main toolbar"
+          "label": "Hovedverktøylinje",
+          "default": "Hovedverktøylinje"
         },
         {
-          "label": "No valid scenes set",
-          "default": "No valid scenes have been set."
+          "label": "Ingen gyldige scener",
+          "default": "Ingen gyldige scener er konfigurert."
         },
         {
           "label": "Tekst for skjermlesere. Tittel for \"zoom inn\"-knapp",
