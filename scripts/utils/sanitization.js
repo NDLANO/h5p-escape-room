@@ -84,7 +84,8 @@ export const sanitizeContentTypeParameters = (params = {}) => {
       label: {
         labelPosition: 'right',
         showLabel: true
-      }
+      },
+      tabOrderMode: 'none'
     },
     l10n: {
       title: 'Virtual Tour',

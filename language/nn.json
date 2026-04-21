@@ -240,6 +240,21 @@
       "description": "Desse vala lèt deg styre korleis verda oppfører seg.",
       "fields": [
         {
+          "label": "Tab order",
+          "description": "Set how the tab order of interactions should be determined",
+          "options": [
+            {
+              "label": "No specific order"
+            },
+            {
+              "label": "Automatically by reading order"
+            },
+            {
+              "label": "Manually by custom order"
+            }
+          ]
+        },
+        {
           "label": "Lydtype",
           "description": "Bestem kva lydtype scenen skal bruke, anten eit lydspor eller ei eksisterande spilleliste.",
           "options": [

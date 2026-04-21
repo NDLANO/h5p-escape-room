@@ -240,6 +240,21 @@
       "description": "Estas opcións permítenche controlar o comportamento da tarefa.",
       "fields": [
         {
+          "label": "Tab order",
+          "description": "Set how the tab order of interactions should be determined",
+          "options": [
+            {
+              "label": "No specific order"
+            },
+            {
+              "label": "Automatically by reading order"
+            },
+            {
+              "label": "Manually by custom order"
+            }
+          ]
+        },
+        {
           "label": "Tipo de son",
           "description": "Decide que tipo de son usará esta escena, ben utiliza unha pista de son ou escolle unha lista de reprodución existente.",
           "options": [

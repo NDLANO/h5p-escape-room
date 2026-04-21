@@ -126,6 +126,7 @@ export default class Wrapper extends H5P.EventDispatcher {
           fullScreenSupported={this.isFullScreenSupported}
           fullscreenButtonAriaLabel={this.fullscreenButtonAriaLabel}
           onFullscreenClicked={this.toggleFullscreen.bind(this)}
+
         />
       </H5PContext.Provider>
     );
@@ -142,6 +143,19 @@ export default class Wrapper extends H5P.EventDispatcher {
   setCurrentSceneId(sceneId) {
     this.currentSceneId = sceneId;
     this.trigger('changedScene', sceneId);
+    this.render();
+  }
+
+  /**
+   * Set tab order mode. Usually only used by editor.
+   * @param {string} tabOrderMode Tab order mode.
+   */
+  setTabOrderMode(tabOrderMode) {
+    if (!tabOrderMode) {
+      return;
+    }
+
+    this.behavior.tabOrderMode = tabOrderMode;
     this.render();
   }
 

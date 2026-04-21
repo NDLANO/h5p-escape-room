@@ -240,6 +240,21 @@
       "description": "Diese Optionen legen fest, wie die Tour im Detail funktioniert.",
       "fields": [
         {
+          "label": "Tab-Reihenfolge",
+          "description": "Lege fest, wie die Tab-Reihenfolge bestimmt werden soll.",
+          "options": [
+            {
+              "label": "Keine spezifische Reihenfolge"
+            },
+            {
+              "label": "Automatisch in Lesereihenfolge"
+            },
+            {
+              "label": "Manuell durch eigene Reihenfolge"
+            }
+          ]
+        },
+        {
           "label": "Tontyp",
           "description": "Entscheide, welchen Audiotyp diese Szene verwenden soll. Verwende entweder eine Tonspur oder wähle eine vorhandene Wiedergabeliste.",
           "options": [

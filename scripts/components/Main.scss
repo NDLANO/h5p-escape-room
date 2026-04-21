@@ -26,13 +26,19 @@
   outline: none;
 }
 
-.h5p-editor-escape-room-wrapper .h5p-editing-overlay {
-  z-index: 4;
+.h5p-escape-room-document {
+  position: relative;
 }
 
-/* Hide overflow of static image in scene container when zooming in */
-.h5p-editor-escape-room-wrapper .h5p-escape-room.scene-container {
-  overflow: hidden;
+.h5p-editor-escape-room-wrapper {
+  .h5p-editing-overlay {
+    z-index: 4;
+  }
+
+  /* Hide overflow of static image in scene container when zooming in */
+  .h5p-escape-room.scene-container {
+    overflow: hidden;
+  }
 }
 
 .do-not-display {

@@ -504,6 +504,27 @@
     "description": "These options will let you control how the world behaves.",
     "fields": [
       {
+        "name": "tabOrderMode",
+        "type": "select",
+        "label": "Tab order",
+        "description": "Set how the tab order of interactions should be determined",
+        "options": [
+          {
+            "label": "No specific order",
+            "value": "none"
+          },
+          {
+            "label": "Automatically by reading order",
+            "value": "readingOrder"
+          },
+          {
+            "label": "Manually by custom order",
+            "value": "custom"
+          }
+        ],
+        "default": "none"
+      },
+      {
         "name": "audioType",
         "type": "select",
         "label": "Audio type",

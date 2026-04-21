@@ -136,6 +136,8 @@ export default class StaticScene extends React.Component {
 
       this.prevZoomScale = this.props.zoomScale;
     }
+
+    this.props.onUpdated?.(this.props.sceneParams.sceneId);
   }
 
   /**
@@ -911,8 +913,9 @@ export default class StaticScene extends React.Component {
       return null;
     }
 
-    const interactions = (this.props.sceneParams.interactions || [])
-      .sort((a, b, index) => {
+    let interactions = (this.props.sceneParams.interactions || []);
+    if (this.props.tabOrderMode === 'readingOrder') {
+      interactions.sort((a, b, index) => {
         const positionA = this.getPositions(a.interactionpos);
         const positionB = this.getPositions(b.interactionpos);
 
@@ -921,8 +924,8 @@ export default class StaticScene extends React.Component {
         }
 
         return parseFloat(positionA.y) - parseFloat(positionB.y);
-      })
-    ;
+      });
+    }
 
     const hasPreviousScene = this.props.sceneHistory.length > 0;
     const isShowingBackButton = this.props.sceneParams.showBackButton
@@ -1145,4 +1148,6 @@ StaticScene.propTypes = {
   nextFocus: PropTypes.string,
   wasConvertedFromVirtualTour: PropTypes.bool.isRequired,
   tabIndexOffset: PropTypes.number,
+  tabOrderMode: PropTypes.string,
+  onUpdated: PropTypes.func,
 };

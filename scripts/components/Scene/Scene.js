@@ -47,6 +47,14 @@ export default class Scene extends React.Component {
   }
 
   /**
+   * Handle scene was updated.
+   * @param {number} sceneId SceneId.
+   */
+  handleSceneUpdated(sceneId) {
+    this.context.trigger('sceneUpdated', { sceneId });
+  }
+
+  /**
    * Get interaction title.
    * @param {object} action Action.
    * @returns {string} Title.
@@ -96,6 +104,8 @@ export default class Scene extends React.Component {
           maxZoomedIn={ this.props.maxZoomedIn }
           maxZoomedOut={ this.props.maxZoomedOut }
           tabIndexOffset={ 2 } // Fullscreen button has tabIndex 1, scene has no tanIndex
+          tabOrderMode={ this.props.tabOrderMode }
+          onUpdated={ this.handleSceneUpdated.bind(this) }
         />
       );
     }
@@ -136,6 +146,8 @@ export default class Scene extends React.Component {
         show360Affordance={ this.props.show360Affordance }
         on360AffordanceDone={ this.props.on360AffordanceDone }
         tabIndexOffset={ 3 } // Fullscreen button has tabIndex 1, scene has tabIndex 2
+        tabOrderMode={ this.props.tabOrderMode }
+        onUpdated= { this.handleSceneUpdated.bind(this) }
       />
     );
   }
@@ -183,4 +195,5 @@ Scene.propTypes = {
   maxZoomedOut: PropTypes.bool.isRequired,
   sceneDescriptionARIA: PropTypes.string,
   read: PropTypes.func.isRequired,
+  tabOrderMode: PropTypes.string
 };
