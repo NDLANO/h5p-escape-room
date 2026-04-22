@@ -412,8 +412,9 @@ export default class ThreeSixtyScene extends React.Component {
    * @param {object[]} interactions Interactions.
    */
   addInteractionHotspots(threeSixty, interactions) {
-    const list = (interactions ?? [])
-      .sort((a, b) => {
+    let list = (interactions ?? []);
+    if (this.props.tabOrderMode === 'readingOrder') {
+      list.sort((a, b) => {
         const positionA = ThreeSixtyScene.getPositionFromString(a.interactionpos);
         const positionB = ThreeSixtyScene.getPositionFromString(b.interactionpos);
 
@@ -422,8 +423,10 @@ export default class ThreeSixtyScene extends React.Component {
           return positionA.yaw - positionB.yaw;
         }
         return positionB.pitch - positionA.pitch;
-      })
-      .map((interaction, index) => this.createInteraction(interaction, index));
+      });
+    }
+
+    list = list.map((interaction, index) => this.createInteraction(interaction, index));
 
     const components2d = list.filter((interaction) => !interaction.is3d).map((interaction) => interaction.component);
     const components3d = list.filter((interaction) => interaction.is3d).map((interaction) => interaction.component);
@@ -667,6 +670,8 @@ export default class ThreeSixtyScene extends React.Component {
       this.setState({
         isUpdated: true
       });
+
+      this.props.onUpdated?.(this.props.sceneParams.sceneId);
     }
 
     // Only load scene if image exists
@@ -848,4 +853,6 @@ ThreeSixtyScene.propTypes = {
   on360AffordanceDone: PropTypes.func,
   zoomPercentage: PropTypes.number.isRequired,
   tabIndexOffset: PropTypes.number,
+  tabOrderMode: PropTypes.string,
+  onUpdated: PropTypes.func,
 };

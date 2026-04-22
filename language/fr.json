@@ -240,6 +240,21 @@
       "description": "Ces options vous permettront de contrôler comment le monde doit se comporter.",
       "fields": [
         {
+          "label": "Tab order",
+          "description": "Set how the tab order of interactions should be determined",
+          "options": [
+            {
+              "label": "No specific order"
+            },
+            {
+              "label": "Automatically by reading order"
+            },
+            {
+              "label": "Manually by custom order"
+            }
+          ]
+        },
+        {
           "label": "Type d'audio",
           "description": "Décidez du type audio que cette scène utilisera, soit utiliser une piste audio ou choisir une liste de lecture audio existante.",
           "options": [

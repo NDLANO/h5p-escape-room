@@ -879,6 +879,7 @@ export default class Main extends React.Component {
 
     return (
       <div
+        className={ 'h5p-escape-room-document' }
         role="document"
         aria-label={ this.context.l10n.title }
         id={ this.documentID }
@@ -989,6 +990,7 @@ export default class Main extends React.Component {
                 on360AffordanceDone={ () => {
                   this.show360Affordance = false;
                 } }
+                tabOrderMode={ this.context.behavior.tabOrderMode }
               />
             );
           })

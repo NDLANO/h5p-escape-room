@@ -240,6 +240,21 @@
       "description": "Dessa inställningar avgör hur världen beter sig.",
       "fields": [
         {
+          "label": "Tab order",
+          "description": "Set how the tab order of interactions should be determined",
+          "options": [
+            {
+              "label": "No specific order"
+            },
+            {
+              "label": "Automatically by reading order"
+            },
+            {
+              "label": "Manually by custom order"
+            }
+          ]
+        },
+        {
           "label": "Audio type",
           "description": "Ställ in vilken ljudtyp denna scen ska använda, använd antingen ett ljudspår eller välj en befintlig spellista.",
           "options": [

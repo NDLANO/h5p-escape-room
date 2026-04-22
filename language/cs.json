@@ -240,6 +240,21 @@
       "description": "Tyto možnosti vám umožní řídit, jak se budou scény chovat.",
       "fields": [
         {
+          "label": "Tab order",
+          "description": "Set how the tab order of interactions should be determined",
+          "options": [
+            {
+              "label": "No specific order"
+            },
+            {
+              "label": "Automatically by reading order"
+            },
+            {
+              "label": "Manually by custom order"
+            }
+          ]
+        },
+        {
           "label": "Typ zvuku",
           "description": "Rozhodněte, jaký typ zvuku bude tato scéna používat, buď použijte zvukovou stopu, nebo vyberte existující seznam zvukových stop.",
           "options": [

@@ -240,6 +240,21 @@
       "description": "Disse valga lar deg bestemme hvordan den virtuelle turen skal fungere.",
       "fields": [
         {
+          "label": "Tab order",
+          "description": "Set how the tab order of interactions should be determined",
+          "options": [
+            {
+              "label": "No specific order"
+            },
+            {
+              "label": "Automatically by reading order"
+            },
+            {
+              "label": "Manually by custom order"
+            }
+          ]
+        },
+        {
           "label": "Lydtype",
           "description": "Bestem hvilken lydtype scenen skal ha, enten et lydspor eller ei eksisterende spilleliste.",
           "options": [
