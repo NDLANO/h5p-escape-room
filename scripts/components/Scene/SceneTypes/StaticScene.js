@@ -124,9 +124,11 @@ export default class StaticScene extends React.Component {
     if (this.props.zoomScale !== this.prevZoomScale) {
       this.updateWrapperSize();
 
+      let positionCorrected = false;
       if (this.imageElementRef.current) {
         if (this.props.zoomScale < this.prevZoomScale) {
           this.moveScene(0, 0, true);
+          positionCorrected = true;
         }
       }
       else {
@@ -135,6 +137,12 @@ export default class StaticScene extends React.Component {
       }
 
       this.prevZoomScale = this.props.zoomScale;
+
+      if (positionCorrected) {
+        // moveScene updates this.moveX/moveY but doesn't trigger a re-render;
+        // force one so the corrected position is applied to the image.
+        this.forceUpdate();
+      }
     }
 
     this.props.onUpdated?.(this.props.sceneParams.sceneId);
