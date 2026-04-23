@@ -270,11 +270,13 @@ export default class NavigationButton extends React.Component {
     const offset = this.props.wasConvertedFromVirtualTour ? (this.props.wasConvertedFromVirtualTourOffsetBase ?? 0) : 0;
 
     if (this.props.topPosition !== undefined) {
-      style.top = `max(0%, calc(${this.props.topPosition}% + ${offset}em))`;
+      const topCalc = `calc(${this.props.topPosition}% + ${offset}em)`;
+      style.top = (this.props.zoomScale > 1) ? topCalc : `max(0%, ${topCalc})`;
     }
 
     if (this.props.leftPosition !== undefined) {
-      style.left = `max(0%, calc(${this.props.leftPosition}% + ${offset}em))`;
+      const leftCalc = `calc(${this.props.leftPosition}% + ${offset}em)`;
+      style.left = (this.props.zoomScale > 1) ? leftCalc : `max(0%, ${leftCalc})`;
     }
 
     if (this.props.staticScene) {
