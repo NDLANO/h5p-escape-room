@@ -343,7 +343,7 @@ export default class Main extends React.Component {
       zoomScale: 1,
     });
 
-    let nextSceneId = null;
+    let nextSceneId;
 
     if (sceneId === SceneTypes.PREVIOUS_SCENE) {
       const history = [...this.state.sceneHistory];
@@ -800,7 +800,7 @@ export default class Main extends React.Component {
    * @param {string} text Text to read.
    */
   read(text) {
-    let newText = null;
+    let newText;
 
     // Concatenate if there's text already
     if (this.state.readingText) {

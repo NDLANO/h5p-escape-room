@@ -258,8 +258,8 @@ export default class ThreeSixtyScene extends React.Component {
     // Consider to be dragging after moving beyond maximum slack.
     const endPosition = this.props.threeSixty.getCurrentPosition();
     const sceneIsDragging =
-      Math.abs(endPosition.yaw - this.startPosition?.yaw ?? 0) > ThreeSixtyScene.MAX_YAW_DELTA ||
-      Math.abs(endPosition.pitch - this.startPosition?.pitch ?? 0) > ThreeSixtyScene.MAX_PITCH_DELTA;
+      Math.abs(endPosition.yaw - (this.startPosition?.yaw ?? 0)) > ThreeSixtyScene.MAX_YAW_DELTA ||
+      Math.abs(endPosition.pitch - (this.startPosition?.pitch ?? 0)) > ThreeSixtyScene.MAX_PITCH_DELTA;
 
     this.setState({ sceneIsDragging: sceneIsDragging });
   }
@@ -753,7 +753,7 @@ export default class ThreeSixtyScene extends React.Component {
       // Check if the scene that interactions point to has changed icon type
       // This is only relevant when changing the icon using the H5P editor
       else if (window.H5PEditor && this.props.sceneParams.interactions) {
-        shouldUpdateInteractionHotspots = this.props.sceneParams.interactions.some((interaction) => {
+        const iconChanged = this.props.sceneParams.interactions.some((interaction) => {
           const library = H5P.libraryFromString(interaction.action.library);
           const machineName = library.machineName;
           if (machineName === 'H5P.GoToScene') {
@@ -774,6 +774,12 @@ export default class ThreeSixtyScene extends React.Component {
           }
           return false;
         });
+
+        if (iconChanged) {
+          this.addInteractionHotspots(
+            this.props.threeSixty, this.props.sceneParams.interactions
+          );
+        }
       }
     }
   }

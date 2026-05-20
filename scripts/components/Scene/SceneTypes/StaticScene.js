@@ -923,7 +923,7 @@ export default class StaticScene extends React.Component {
 
     let interactions = (this.props.sceneParams.interactions || []);
     if (this.props.tabOrderMode === 'readingOrder') {
-      interactions.sort((a, b, index) => {
+      interactions.sort((a, b) => {
         const positionA = this.getPositions(a.interactionpos);
         const positionB = this.getPositions(b.interactionpos);
 

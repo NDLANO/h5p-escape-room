@@ -52,7 +52,7 @@ export const getIconFromInteraction = (interaction, scenes) => {
 
   const library = interaction.action.library;
   const machineName = H5P.libraryFromString(library).machineName;
-  let icon = '';
+  let icon;
   if (
     interaction.passwordSettings?.interactionPassword && !interaction.unlocked
   ) {
