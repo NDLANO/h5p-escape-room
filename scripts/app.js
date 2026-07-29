@@ -57,6 +57,14 @@ export default class Wrapper extends H5P.EventDispatcher {
   }
 
   /**
+   * Workaround for H5P core mutating prototype to inject its isRoot, but ES6 inheritance here.
+   * @returns {boolean} True, if content type is root. Else false.
+   */
+  isRoot() {
+    return !!this.extras.standalone;
+  }
+
+  /**
    * Resize app.
    */
   resize() {
