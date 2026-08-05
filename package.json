@@ -33,7 +33,7 @@
     "eslint-config-ndla-h5p": "github:NDLANO/eslint-config-ndla-h5p",
     "eslint-plugin-react": "^7.37.5",
     "mini-css-extract-plugin": "^2.10.2",
-    "sass": "^1.101.0",
+    "sass": "^1.101.3",
     "sass-loader": "^17.0.0",
     "webpack": "^5.108.4",
     "webpack-cli": "^7.2.1"
@@ -41,8 +41,8 @@
   "dependencies": {
     "he": "^1.2.0",
     "prop-types": "^15.8.1",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   },
   "browserslist": "> 0.5%, last 2 versions, Firefox ESR, not dead",
   "type": "module"
