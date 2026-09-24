@@ -26,8 +26,8 @@
     "@babel/eslint-parser": "^8.0.1",
     "@babel/preset-env": "^8.0.2",
     "@babel/preset-react": "^8.0.1",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.7",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "babel-loader": "^10.1.1",
     "css-loader": "^7.1.5",
     "eslint-config-ndla-h5p": "github:NDLANO/eslint-config-ndla-h5p",
@@ -41,8 +41,8 @@
   "dependencies": {
     "he": "^1.2.0",
     "prop-types": "^15.8.1",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "browserslist": "> 0.5%, last 2 versions, Firefox ESR, not dead",
   "type": "module"
