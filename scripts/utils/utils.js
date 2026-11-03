@@ -1,4 +1,4 @@
-import he from 'he';
+import { decode } from 'he';
 
 /**
  * Determine whether or not the interaction should be rendered in 3d
@@ -52,7 +52,7 @@ export const purifyHTML = (html) => {
     return '';
   }
 
-  let text = he.decode(html);
+  let text = decode(html);
   const div = document.createElement('div');
   div.innerHTML = text;
   text = div.textContent || div.innerText || '';
