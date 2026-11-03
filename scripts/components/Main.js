@@ -38,6 +38,7 @@ export default class Main extends React.Component {
       showingInteraction: false,
       showingPassword: false,
       showingScoreSummary: false,
+      showingOverviewMap: false,
       currentInteraction: null,
       sceneHistory: [],
       audioIsPlaying: null,
@@ -631,6 +632,15 @@ export default class Main extends React.Component {
   }
 
   /**
+   * Show overview map, or hide it if it is already shown.
+   */
+  toggleOverviewMap() {
+    this.setState((prevState) => ({
+      showingOverviewMap: !prevState.showingOverviewMap
+    }));
+  }
+
+  /**
    * Center view of current scene.
    */
   centerScene() {
@@ -1005,6 +1015,9 @@ export default class Main extends React.Component {
           onSceneAudioWasPlaying={ this.handleSceneAudioWasPlaying.bind(this) }
           onSceneDescription={ this.handleSceneDescription.bind(this) }
           onCenterScene={ this.centerScene.bind(this) }
+          isShowingOverviewMap={ this.state.showingOverviewMap }
+          onToggleOverviewMap={ this.toggleOverviewMap.bind(this) }
+          hasZoomButtons={ showZoomButtons }
           isStartScene = {isStartScene}
           onGoToStartScene={ this.goToStartScene.bind(this) }
           onShowingScoreSummary={this.handleScoreSummary.bind(this)}

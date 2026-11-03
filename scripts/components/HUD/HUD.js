@@ -4,6 +4,7 @@ import { H5PContext } from '../../context/H5PContext.js';
 import AudioButton from './Buttons/AudioButton.js';
 import Button from './Buttons/Button/Button.js';
 import { SceneTypes } from '../Scene/Scene.js';
+import OverviewMap from './Panels/OverviewMap.js';
 import PropTypes from 'prop-types';
 
 export default class HUD extends React.Component {
@@ -22,6 +23,7 @@ export default class HUD extends React.Component {
     this.audioButtonRef = React.createRef();
     this.sceneDescriptionButtonRef = React.createRef();
     this.resetButtonRef = React.createRef();
+    this.overviewMapButtonRef = React.createRef();
     this.goToStartButtonRef = React.createRef();
     this.scoreSummaryButtonRef = React.createRef();
 
@@ -49,6 +51,11 @@ export default class HUD extends React.Component {
       this.buttons['reset'] = this.resetButtonRef;
     }
 
+    // Overview map button
+    if (this.hasOverviewMap()) {
+      this.buttons['overview-map'] = this.overviewMapButtonRef;
+    }
+
     // Go to start button
     if (this.props.showHomeButton && !this.props.isStartScene) {
       this.buttons['go-to-start'] = this.goToStartButtonRef;
@@ -58,6 +65,15 @@ export default class HUD extends React.Component {
     if (this.props.showScoresButton) {
       this.buttons['score-summary'] = this.scoreSummaryButtonRef;
     }
+  }
+
+  /**
+   * Determine whether overview map is enabled and has an image.
+   * @returns {boolean} True, if overview map can be shown.
+   */
+  hasOverviewMap() {
+    const overviewMap = this.context.behavior?.overviewMap;
+    return overviewMap?.show === true && !!overviewMap.image?.path;
   }
 
   /**
@@ -150,9 +166,23 @@ export default class HUD extends React.Component {
 
   /**
    * Handle receiving focus.
+   * @param {React.FocusEvent} event Focus event.
    */
-  handleFocus() {
-    this.setState({ focusButton: this.state.currentButtonIndex });
+  handleFocus(event) {
+    // Button may have received focus directly, e.g. by click, and needs to become current button
+    const focusedIndex = Object.keys(this.buttons).findIndex((type) => {
+      const className = (type === 'audio') ? 'audio-track' : type;
+      return event.target.classList?.contains(className);
+    });
+
+    const buttonIndex = (focusedIndex !== -1) ?
+      focusedIndex :
+      this.state.currentButtonIndex;
+
+    this.setState({
+      currentButtonIndex: buttonIndex,
+      focusButton: buttonIndex
+    });
   }
 
   /**
@@ -262,6 +292,13 @@ export default class HUD extends React.Component {
     const isThreeSixty =
       this.props.scene.sceneType === SceneTypes.THREE_SIXTY_SCENE;
 
+    const overviewMap = this.context.behavior?.overviewMap;
+    const hasOverviewMap = this.hasOverviewMap();
+    const isShowingOverviewMap = hasOverviewMap && this.props.isShowingOverviewMap;
+
+    const marker = this.props.scene.overviewMapMarker;
+    const markerColor = (marker?.colorType === 'custom' && marker.color) ? marker.color : overviewMap?.markerColor;
+
     return (
       <div className="hud" aria-hidden={ this.props.isHiddenBehindOverlay ?
         true :
@@ -274,8 +311,8 @@ export default class HUD extends React.Component {
           role="toolbar"
           aria-label={ this.context.l10n.mainToolbar }
           aria-controls={ this.props.ariaControls }
-          onFocus={ () => {
-            this.handleFocus();
+          onFocus={ (event) => {
+            this.handleFocus(event);
           }}
           onBlur={ () => {
             this.handleBlur();
@@ -315,6 +352,19 @@ export default class HUD extends React.Component {
               onClick={ this.props.onCenterScene }
             />
           }{
+            hasOverviewMap &&
+            <Button
+              type={ 'overview-map' }
+              ref={ this.buttons['overview-map'] }
+              tabIndex={ this.getButtonTabIndex('overview-map') }
+              focus={ this.getButtonFocus('overview-map') }
+              label={ this.context.l10n.overviewMap }
+              isPressed={ isShowingOverviewMap }
+              isHiddenBehindOverlay={ this.props.isHiddenBehindOverlay }
+              nextFocus={ this.props.nextFocus }
+              onClick={ this.props.onToggleOverviewMap }
+            />
+          }{
             showHomeButton &&
             <Button
               type={ 'go-to-start' }
@@ -344,6 +394,16 @@ export default class HUD extends React.Component {
             />
           }
         </div>
+        {
+          isShowingOverviewMap &&
+          <OverviewMap
+            isNextToZoomButtons={ this.props.hasZoomButtons }
+            image={ overviewMap.image }
+            position={ marker?.position }
+            markerColor={ markerColor }
+            label={ this.context.l10n.overviewMap }
+          />
+        }
       </div>
     );
   }
@@ -368,5 +428,8 @@ HUD.propTypes = {
   onShowingScoreSummary: PropTypes.func.isRequired,
   onSceneDescription: PropTypes.func.isRequired,
   onCenterScene: PropTypes.func.isRequired,
+  isShowingOverviewMap: PropTypes.bool.isRequired,
+  onToggleOverviewMap: PropTypes.func.isRequired,
+  hasZoomButtons: PropTypes.bool,
   ariaControls: PropTypes.string.isRequired
 };

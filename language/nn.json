@@ -199,6 +199,37 @@
               },
               {
                 "label": "Start lyden på nytt når scenen opnast"
+              },
+              {
+                "label": "Overview map marker",
+                "fields": [
+                  {
+                    "label": "Position",
+                    "description": "Mark where this scene is located on the overview map.",
+                    "fields": [
+                      {
+                        "label": "X"
+                      },
+                      {
+                        "label": "Y"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Color",
+                    "options": [
+                      {
+                        "label": "Use default color"
+                      },
+                      {
+                        "label": "Use custom color"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Custom color"
+                  }
+                ]
               }
             ]
           }
@@ -321,6 +352,22 @@
             {
               "label": "Vis merkelappar",
               "description": "Om ukryssa - merkelappar vil berre visast ved musepeikar over"
+            }
+          ]
+        },
+        {
+          "label": "Overview map",
+          "fields": [
+            {
+              "label": "Show overview map",
+              "description": "Users can toggle an overview map that shows where the current scene is located. Set the position of each scene in the scene settings."
+            },
+            {
+              "label": "Overview map image"
+            },
+            {
+              "label": "Default marker color",
+              "description": "Color of the marker for the current scene, unless the scene uses a custom color."
             }
           ]
         }
@@ -496,6 +543,10 @@
         {
           "label": "Zoom-tekst for skjermlesarar",
           "default": ":num% zoome inn"
+        },
+        {
+          "label": "Label for button to show and hide the overview map",
+          "default": "Overview map"
         }
       ]
     }

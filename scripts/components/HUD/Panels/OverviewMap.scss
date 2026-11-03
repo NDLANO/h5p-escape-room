@@ -1,0 +1,66 @@
+@use '../../../styles/colors';
+
+.hud {
+  // Allows to size overview map relative to HUD
+  container-type: size;
+
+  .overview-map-panel {
+    --overview-map-panel-offset: 1rem;
+    --overview-map-panel-padding: 0.5rem;
+    --overview-map-panel-max-width: 20rem;
+    --overview-map-panel-max-width-share: 35cqw;
+    // Fullscreen button is 2.5rem high at 0.5rem from the top, plus 0.5rem gap
+    --overview-map-panel-space-top: 3.5rem;
+
+    background: #fff;
+    border-radius: 0.25rem;
+    bottom: var(--overview-map-panel-offset);
+    box-shadow: rgba(0, 0, 0, 0.4) 0 3px 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: var(--overview-map-panel-padding);
+    pointer-events: auto;
+    position: absolute;
+    right: var(--overview-map-panel-offset);
+
+    // Zoom buttons are 2.5rem wide at 0.5rem from the right
+    &.next-to-zoom-buttons {
+      right: 3.5rem;
+    }
+
+    .overview-map-image-wrapper {
+      --overview-map-max-width: calc(
+        min(var(--overview-map-panel-max-width-share), var(--overview-map-panel-max-width)) -
+        2 * var(--overview-map-panel-padding)
+      );
+      --overview-map-max-height: calc(
+        100cqh - var(--overview-map-panel-space-top) - var(--overview-map-panel-offset) -
+        2 * var(--overview-map-panel-padding)
+      );
+
+      position: relative;
+      // Fit map into panel without scrolling, height limit translated to width using aspect ratio of map
+      width: min(
+        var(--overview-map-max-width),
+        var(--overview-map-max-height) * var(--overview-map-aspect-ratio, 1)
+      );
+
+      .overview-map-image {
+        display: block;
+        height: auto;
+        width: 100%;
+      }
+
+      .overview-map-marker {
+        background: colors.$interactionBg;
+        border: 0.15rem solid #fff;
+        border-radius: 50%;
+        box-shadow: rgba(0, 0, 0, 0.5) 0 0 0.25rem;
+        height: 0.75rem;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        width: 0.75rem;
+      }
+    }
+  }
+}

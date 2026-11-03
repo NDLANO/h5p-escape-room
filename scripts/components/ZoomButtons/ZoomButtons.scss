@@ -104,12 +104,12 @@
       @include tooltip-styling;
     }
   
-    &:focus-within .tooltip {
+    &:has(:focus-visible) .tooltip {
       @include tooltip-styling;
     }
 
     &:hover .tooltip,
-    &:focus-within .tooltip {
+    &:has(:focus-visible) .tooltip {
       right: 140%;
     }
   }

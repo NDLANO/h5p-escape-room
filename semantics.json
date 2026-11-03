@@ -426,6 +426,78 @@
               "name": "restartAudioOnSceneStart",
               "type": "boolean",
               "default": false
+            },
+            {
+              "name": "overviewMapMarker",
+              "type": "group",
+              "label": "Overview map marker",
+              "importance": "low",
+              "expanded": true,
+              "fields": [
+                {
+                  "name": "position",
+                  "type": "group",
+                  "label": "Position",
+                  "description": "Mark where this scene is located on the overview map.",
+                  "widget": "imageCoordinateSelector",
+                  "imageFieldPath": "../../behaviour/overviewMap/image",
+                  "optional": true,
+                  "fields": [
+                    {
+                      "name": "x",
+                      "type": "number",
+                      "label": "X",
+                      "min": 0,
+                      "max": 100
+                    },
+                    {
+                      "name": "y",
+                      "type": "number",
+                      "label": "Y",
+                      "min": 0,
+                      "max": 100
+                    }
+                  ]
+                },
+                {
+                  "name": "colorType",
+                  "type": "select",
+                  "label": "Color",
+                  "default": "global",
+                  "options": [
+                    {
+                      "value": "global",
+                      "label": "Use default color"
+                    },
+                    {
+                      "value": "custom",
+                      "label": "Use custom color"
+                    }
+                  ]
+                },
+                {
+                  "name": "color",
+                  "type": "text",
+                  "label": "Custom color",
+                  "optional": true,
+                  "default": "#373e94",
+                  "widget": "showWhen",
+                  "showWhen": {
+                    "widget": "colorSelector",
+                    "rules": [
+                      {
+                        "field": "colorType",
+                        "equals": "custom"
+                      }
+                    ]
+                  },
+                  "spectrum": {
+                    "showInput": true,
+                    "showInitial": true,
+                    "preferredFormat": "hex"
+                  }
+                }
+              ]
             }
           ]
         }
@@ -651,6 +723,42 @@
             "label": "Display Labels",
             "description": "If unchecked - labels will show only on mouse over",
             "default": true
+          }
+        ]
+      },
+      {
+        "name": "overviewMap",
+        "type": "group",
+        "label": "Overview map",
+        "importance": "low",
+        "fields": [
+          {
+            "name": "show",
+            "type": "boolean",
+            "label": "Show overview map",
+            "description": "Users can toggle an overview map that shows where the current scene is located. Set the position of each scene in the scene settings.",
+            "default": false,
+            "optional": true
+          },
+          {
+            "name": "image",
+            "type": "image",
+            "label": "Overview map image",
+            "optional": true
+          },
+          {
+            "name": "markerColor",
+            "type": "text",
+            "label": "Default marker color",
+            "description": "Color of the marker for the current scene, unless the scene uses a custom color.",
+            "optional": true,
+            "default": "#373e94",
+            "widget": "colorSelector",
+            "spectrum": {
+              "showInput": true,
+              "showInitial": true,
+              "preferredFormat": "hex"
+            }
           }
         ]
       }
@@ -942,6 +1050,13 @@
         "label": "Zoom aria text for screenreaders",
         "importance": "low",
         "default": ":num% zoomed in"
+      },
+      {
+        "name": "overviewMap",
+        "type": "text",
+        "label": "Label for button to show and hide the overview map",
+        "importance": "low",
+        "default": "Overview map"
       }
     ]
   }

@@ -47,7 +47,7 @@
     @include tooltip-styling;
   }
 
-  &:focus-within .tooltip {
+  &:has(:focus-visible) .tooltip {
     @include tooltip-styling;
   }
 }
@@ -95,6 +95,10 @@
   &.score-summary:before {
     content: icons.$scoreSummary;
   }
+  &.overview-map:before {
+    font-family: "H5PFontAwesome4", sans-serif;
+    content: icons.$overviewMap;
+  }
   &.submit-dialog:before {
     content: " ";
     background-image: url('../../../../../assets/the-h5p-star.svg');
@@ -136,7 +140,7 @@
     bottom: 140%;
   }
 
-  .btn-wrap:focus-within .tooltip {
+  .btn-wrap:has(:focus-visible) .tooltip {
     bottom: 140%;
   }
 }

@@ -62,6 +62,16 @@
       "machineName": "H5PEditor.AudioRecorder",
       "majorVersion": 1,
       "minorVersion": 0
+    },
+    {
+      "machineName": "H5PEditor.ColorSelector",
+      "majorVersion": 1,
+      "minorVersion": 3
+    },
+    {
+      "machineName": "H5PEditor.ImageCoordinateSelector",
+      "majorVersion": 1,
+      "minorVersion": 2
     }
   ]
 }

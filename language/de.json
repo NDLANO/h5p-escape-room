@@ -199,6 +199,37 @@
               },
               {
                 "label": "Starte die Tonspur von vorne, wenn die Szene erneut geöffnet wird"
+              },
+              {
+                "label": "Markierung auf Überblickskarte",
+                "fields": [
+                  {
+                    "label": "Position",
+                    "description": "Lege fest, wo diese Szene auf der Überblickskarte verortet ist.",
+                    "fields": [
+                      {
+                        "label": "X"
+                      },
+                      {
+                        "label": "Y"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Farbe",
+                    "options": [
+                      {
+                        "label": "Benutze die globale Einstellung"
+                      },
+                      {
+                        "label": "Benutze eine eigene Farbe"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Eigene Farbe"
+                  }
+                ]
               }
             ]
           }
@@ -321,6 +352,22 @@
             {
               "label": "Beschriftungen anzeigen",
               "description": "Wenn nicht ausgewählt, werden Beschriftungen nur beim Darüberfahren mit der Maus angezeigt"
+            }
+          ]
+        },
+        {
+          "label": "Überblickskarte",
+          "fields": [
+            {
+              "label": "Zeige die Überblickskarte",
+              "description": "Nutzende können die Überblickskarte ein- und ausblenden um zu erfahren, wo die aktuelle Szene verortet ist. Lege die Position jeder Szene in den Szeneneinstellungen fest."
+            },
+            {
+              "label": "Bild der Überblickskarte"
+            },
+            {
+              "label": "Vorgegebene Markierungsfarbe",
+              "description": "Farbe für den Marker einer Szene, falls für eine Szene keine eigene Farbe festgelegt wird."
             }
           ]
         }
@@ -496,6 +543,10 @@
         {
           "label": "Zoom aria text for screenreaders",
           "default": ":num% zoomed in"
+        },
+        {
+          "label": "Beschriftung für den Button, um die Überblickskarte ein- und auszublenden",
+          "default": "Überblickskarte"
         }
       ]
     }
